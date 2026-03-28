@@ -26,10 +26,15 @@ class Settings(BaseSettings):
     resend_api_key: str = ""
     email_from: str = "noreply@vitalix.com"
 
-    # Withings
+    # Withings BPM Core
     withings_client_id: str = ""
     withings_client_secret: str = ""
     withings_redirect_uri: str = "http://localhost:8000/withings/callback"
+
+    # Polar Loop (AccessLink API)
+    polar_client_id: str = ""
+    polar_client_secret: str = ""
+    polar_redirect_uri: str = "http://localhost:8000/polar/callback"
 
     class Config:
         env_file = ".env"
