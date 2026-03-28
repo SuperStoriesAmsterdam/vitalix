@@ -1,0 +1,33 @@
+name: Build & Push Docker Image
+
+# Triggert automatisch wanneer je een versie-tag pusht naar GitHub
+# Gebruik: git tag v0.1.0 && git push origin v0.1.0
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: |
+            ghcr.io/superstories/vitalix:${{ github.ref_name }}
+            ghcr.io/superstories/vitalix:latest
+          build-args: |
+            SUPERSTORIES_PUBLIC_KEY=${{ secrets.SUPERSTORIES_PUBLIC_KEY }}
