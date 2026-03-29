@@ -115,7 +115,9 @@
 | health_profile | JSON | Kankerhistorie, cardiovasculair risico, cyclusinformatie (vrouwen) |
 | withings_access_token | String encrypted | OAuth token |
 | withings_refresh_token | String encrypted | OAuth refresh |
-| oura_access_token | String encrypted | Personal Access Token |
+| polar_access_token | String encrypted | OAuth token |
+| polar_refresh_token | String encrypted | OAuth refresh |
+| polar_user_id | String | Polar's eigen gebruikers-ID |
 | created_at | DateTime | |
 
 ---
@@ -284,7 +286,7 @@ Wanneer meerdere markers tegelijk afwijken, genereert de app een leesbare samenv
 ## 8. Wat Vitalix NIET doet
 
 - Vitalix stelt **geen diagnoses**. Nooit. Elke significante afwijking wordt doorverwezen naar een arts.
-- Vitalix schrijft **geen behandelingen voor**. Geen medicijnen, geen supplementdoseringen, geen therapeutische adviezen.
+- Vitalix schrijft **geen behandelingen voor**. Geen medicijnen, geen medische supplementdoseringen, geen therapeutische adviezen. Suppletierichtlijnen zijn gebaseerd op biomarkerdata en wetenschappelijke evidentie — geen medisch voorschrift.
 - Vitalix is **geen vervanger van medische zorg**. Het is aanvullend op de huisarts, niet concurrerend.
 - Vitalix maakt **geen klinische claims**. "Uw marker wijkt af van uw baseline" — niet "U heeft een ontsteking."
 - Vitalix doet **geen real-time monitoring**. Dagelijkse sync is voldoende — geen 5-minuut alerts.
@@ -300,8 +302,8 @@ Wanneer meerdere markers tegelijk afwijken, genereert de app een leesbare samenv
 [ ] FastAPI app met SuperStories standaard structuur
 [ ] Magic link auth (twee gebruikers)
 [ ] Withings BPM Core OAuth koppeling
-[ ] Oura Ring token koppeling
-[ ] Nachtelijke ARQ sync job (Withings + Oura)
+[ ] Polar Loop OAuth koppeling
+[ ] Nachtelijke ARQ sync job (Withings + Polar)
 [ ] Persoonlijke baseline calculator (rolling average + stabiliteitsstatus)
 [ ] Dashboard: laatste metingen + baseline + trend per marker
 [ ] Handmatige lab-invoer (bloed, speeksel, urine)
@@ -600,6 +602,142 @@ De condities beschreven in Sectie 12 — endometriose, PCOS, Hashimoto, ijzertek
 De reguliere geneeskunde faalt hier systematisch. Vitalix vult precies die leemte — niet als medisch apparaat, maar als het eerste platform dat vrouwen longitudinale, objectieve data geeft over hun eigen biologie.
 
 **De markt:** Elke vrouw die ooit te horen heeft gekregen "uw waarden zijn normaal" terwijl ze zich niet normaal voelde. Dat is geen niche.
+
+---
+
+---
+
+## 14. Supplementenmodule — data-gedreven suppletierichtlijnen
+
+> Geen buildtaak voor Sprint 0. Wel de architectuur waarmee de module later wordt gebouwd. De interventie-feedbackloop (Flow 4) is de technische basis.
+
+### 14.1 Kernprincipe
+
+Vitalix adviseert geen supplementen op basis van symptomen of algemene aanbevelingen. Elk suppletieadvies is gekoppeld aan drie vereisten:
+
+```
+1. Jouw biomarker wijkt af van jouw persoonlijke baseline
+   (niet van een populatiegemiddelde)
+
+2. Er is wetenschappelijk bewijs voor suppletie bij deze afwijking
+   (evidence-level gedifferentieerd: sterk / matig / opkomend)
+
+3. Er is een meetmoment gepland om te verificeren of het werkt
+   (8-12 weken — bloedwaarden of wearable-trend)
+```
+
+Zonder alle drie: geen advies.
+
+---
+
+### 14.2 De supplementenbijbel — kennisarchitectuur
+
+De module werkt met een gestructureerde kennisbasis per supplement:
+
+```
+supplement/
+├── naam: Vitamine D3
+├── biomarker_trigger: 25-OH vitamine D < 50 nmol/L
+├── evidence_level: sterk (meerdere RCTs, meta-analyses)
+├── bronnen: [PubMed IDs]
+├── richtlijn_dosering: 2000-4000 IE/dag bij deficiëntie
+├── suppletievorm: D3 (cholecalciferol) — niet D2
+├── cofactoren: magnesium, vitamine K2 (MK-7)
+├── terugmeetmarker: 25-OH vitamine D bloedwaarde
+├── terugmeetmoment: 12 weken
+└── interacties: bloedverdunners (verhoogd effect)
+```
+
+---
+
+### 14.3 Kernlijst — biomarker-gekoppelde supplementen
+
+| Supplement | Trigger | Evidence | Terugmeetmarker |
+|---|---|---|---|
+| **Vitamine D3** | 25-OH vit D < 50 nmol/L | Sterk | 25-OH vit D bloedwaarde |
+| **Magnesium bisglycinaat** | Mg < 0.80 mmol/L + slechte slaap | Matig-sterk | Mg bloedwaarde + slaapscore Polar |
+| **Omega-3 (EPA/DHA)** | hsCRP verhoogd + lage inname | Sterk | hsCRP na 12 weken |
+| **Vitamine B12** | B12 < 300 pmol/L | Sterk | B12 bloedwaarde |
+| **IJzer (bisglycinaat)** | Ferritine < 30 µg/L | Sterk | Ferritine + Hb |
+| **Zink** | Zn laag + immuunsignalen | Matig | Zn bloedwaarde |
+| **CoQ10** | Ouder > 50 + vermoeidheid + statinegebruik | Matig | HRV-trend Polar |
+| **Probiotica** | Microbioom deficiëntie specifieke stam | Opkomend | Microbioomtest herhalen |
+| **Indool-3-carbinol** | Oestrogeendominantie (vrouwen) | Opkomend | Oestradiol:progesteron ratio |
+| **Ashwagandha** | Cortisol dagcurve verstoord + HRV laag | Matig | Cortisol herhaling + HRV-trend |
+
+---
+
+### 14.4 Wat Vitalix anders doet dan de supplementenmarkt
+
+```
+Supplementenmarkt:          Vitalix:
+────────────────────        ──────────────────────────────
+Generiek advies             Jouw biomarker als trigger
+Symptoomgebaseerd           Datagedreven
+Commercieel belang          Geen affiliate, geen merk
+Geen follow-up              Meetmoment ingebouwd
+Vorm irrelevant             Vorm specifiek (D3 niet D2,
+                            bisglycinaat niet oxide)
+Geen interacties            Interacties gedocumenteerd
+```
+
+---
+
+### 14.5 Suppletievorm — waarom dit ertoe doet
+
+De markt verkoopt supplementen op naam. Vitalix adviseert op vorm:
+
+```
+Magnesium oxide      → slechte absorptie, laxerend effect
+Magnesium bisglycinaat → hoge biologische beschikbaarheid, slaapondersteunend
+
+Vitamine D2 (ergocalciferol) → mindere omzetting
+Vitamine D3 (cholecalciferol) → superieure opname en werkzaamheid
+
+IJzer sulfaat        → maagklachten, slechte tolerantie
+IJzer bisglycinaat   → hoge absorptie, goed verdragen
+```
+
+Dit is precies de kennis die de orthomoleculaire arts heeft — maar die de huisarts én de supplementenwinkel niet geven.
+
+---
+
+### 14.6 De feedbackloop
+
+Elk suppletieadvies activeert automatisch Flow 4 (Interventie starten):
+
+```
+Dag 0:    Vitalix signaleert afwijking
+          → Suppletieadvies gegenereerd
+          → Baseline-snapshot gemaakt van alle relevante markers
+
+Dag 28:   Tussencheck via wearable-data
+          "HRV-trend afgelopen 4 weken: +8% — positief signaal"
+
+Dag 56:   Bloedpanel-herinnering
+          "Tijd om vitamine D opnieuw te meten"
+
+Dag 84:   Volledig rapport
+          Werkte het? Ja / Nee / Gedeeltelijk
+          → Advies bijgesteld of bevestigd
+```
+
+Dit is wat de orthomoleculaire arts nooit kan bieden: objectieve, longitudinale verificatie of de interventie biologisch effect heeft gehad.
+
+---
+
+### 14.7 Vrouwen-specifieke supplementen
+
+Voor het vrouwenprofiel (cyclus, hormonen, endometriose, PCOS):
+
+| Supplement | Indicatie | Trigger |
+|---|---|---|
+| **Vitamine B6** | PMS, oestrogeenmetabolisme | Progesterondeficiëntie + PMS-klachten |
+| **Zink** | PCOS, androgeenbalans | Verhoogd testosteron + microbioom |
+| **N-acetylcysteïne (NAC)** | PCOS, insulineresistentie | HOMA-IR verhoogd |
+| **Indool-3-carbinol / DIM** | Oestrogeendominantie, endometriose | Oestradiol:progesteron ratio |
+| **Omega-3** | Endometriose, prostaglandinen | hsCRP + pijnpatroon cyclus |
+| **Magnesium** | Menstruatiepijn, slaap, PMS | Mg laag + slaapscore + cyclussignalen |
 
 ---
 
