@@ -17,6 +17,63 @@
 
 ---
 
+## 1B. De kern — positionering en narratief
+
+### Het centrale inzicht
+
+Een cardioloog kijkt naar je hart. Een endocrinoloog naar je hormonen. Een neuroloog naar je zenuwstelsel. Een orthomoleculaire arts naar je tekorten. Een oncoloog naar je tumor.
+
+Niemand kijkt naar jou als systeem.
+
+Vitalix doet precies dat.
+
+---
+
+### Wat er nieuw is
+
+De technologie bestaat al jaren. De apparaten zijn betaalbaar. De labs zijn toegankelijk. De wetenschap is publiek beschikbaar.
+
+Wat nieuw is: de samenhang.
+
+```
+Bloedwaarden + wearable-data + microbioom +
+DNA + hormonen + interventie-log
+
+→ Één coherent beeld van jouw biologie
+→ Op basis van jouw persoonlijke baseline
+→ Met de vraag die niemand anders stelt:
+  werkt het?
+```
+
+Voor een totaalbudget van ongeveer €1.000 heeft een gewone consument toegang tot wat vijf jaar geleden alleen beschikbaar was in exclusieve longevity-klinieken in Zwitserland voor €10.000 per weekend.
+
+Dat is geen incrementele verbetering. Dat is een paradigmaverschuiving.
+
+---
+
+### De twee sleutelbegrippen
+
+**Just the facts**
+Vitalix communiceert alleen wat meetbaar en aantoonbaar is. Geen aannames, geen overpresentatie van bewijs, geen speculatie. Evidence-level wordt altijd vermeld. Feiten kunnen uitermate interessant zijn — droog hoeven ze niet te zijn.
+
+**Het hele systeem**
+Vitalix kijkt niet naar één marker, één orgaan of één klacht. Het kijkt naar het geheel — en naar de verbanden tussen de delen. HRV daalt. hsCRP stijgt. Slaap verslechtert. Dat zijn drie signalen van hetzelfde onderliggende proces. Vitalix verbindt de punten.
+
+---
+
+### Wat Vitalix niet is
+
+```
+Geen medisch apparaat        → geen diagnoses
+Geen supplement-winkel       → geen commercieel belang
+Geen biohacking-tool         → geen optimalisatie-fetish
+Geen vervanging van de arts  → aanvulling op, niet vervanging van
+```
+
+Vitalix is het eerste platform dat de gewone consument behandelt als een systeem — met dezelfde objectiviteit en longitudinale blik die voorheen alleen voorbehouden was aan topsport en topgeneeskunde.
+
+---
+
 ## 2. Core User Flows
 
 ### Flow 1: Onboarding — account aanmaken en eerste hardware koppelen
@@ -738,6 +795,449 @@ Voor het vrouwenprofiel (cyclus, hormonen, endometriose, PCOS):
 | **Indool-3-carbinol / DIM** | Oestrogeendominantie, endometriose | Oestradiol:progesteron ratio |
 | **Omega-3** | Endometriose, prostaglandinen | hsCRP + pijnpatroon cyclus |
 | **Magnesium** | Menstruatiepijn, slaap, PMS | Mg laag + slaapscore + cyclussignalen |
+
+---
+
+## 15. De Vitalix Concierge — architectuur en twee modi
+
+### 15.1 Wat de concierge is
+
+De Vitalix concierge is een AI-assistent die gezondheids- vragen beantwoordt op basis van twee bronnen: een wetenschappelijke kennisbank én de persoonlijke biomarkerdata van de gebruiker. Hij is geen chatbot. Hij is een redenerende laag bovenop gevalideerde wetenschap en persoonlijke data.
+
+De concierge werkt in twee modi — afhankelijk van of de gebruiker een abonnement heeft.
+
+---
+
+### 15.2 Vrije modus (geen abonnement vereist)
+
+```
+Gebruiker stelt vraag
+→ Concierge zoekt relevante passages in kennisbank
+→ Beantwoordt op basis van wetenschap
+→ Geen persoonlijke data beschikbaar
+→ Natuurlijke CTA aan het einde:
+  "Wil je weten of dit bij jou speelt?
+   Meet het. → Vitalix abonnement"
+```
+
+**Doel:** Vertrouwen opbouwen vóór de verkoopconversatie. De concierge geeft echte waarde — niet een demo, niet een sales pitch.
+
+---
+
+### 15.3 Betaalde modus (abonnement actief)
+
+```
+Gebruiker stelt vraag
+→ Concierge laadt gebruikersprofiel:
+  ├── Laatste biomarkerwaarden
+  ├── Wearable trends (Polar Loop, 30/90 dagen)
+  ├── Actieve supplementen + startdatums
+  ├── Lopende interventies
+  └── Gespreksgeschiedenis (persistent)
+→ Zoekt relevante passages in kennisbank
+→ Redeneert over persoonlijke data + wetenschap
+→ Geeft gepersonaliseerd antwoord met meetbaar advies
+```
+
+**Voorbeeld:**
+> "Waarom slaap ik slechter de laatste twee weken?"
+>
+> "Je diepe slaap is gedaald van gemiddeld 94 naar 67 minuten sinds 14 maart. Dit correleerde met een HRV-daling van 12% op dezelfde datum. Jouw laatste magnesiumwaarde was 0.74 mmol/L — aan de lage kant van jouw persoonlijke baseline van 0.81. Overweeg de dosering te verhogen naar magnesiumbisglycinaat 400mg voor het slapen en meet over 8 weken opnieuw."
+
+---
+
+### 15.4 Geheugen per gebruiker
+
+De concierge heeft geen sessiegeheugen — hij heeft permanent geheugen per gebruiker.
+
+```
+Opgeslagen in PostgreSQL per gebruiker:
+├── Volledige gespreksgeschiedenis
+├── Actueel biomarkerprofiel
+├── Supplement- en interventie-log
+└── Wearable trends (rolling)
+
+Bij elke nieuwe vraag laadt de concierge:
+├── Laatste 10 berichten van die gebruiker
+├── Actueel gezondheidsoverzicht
+└── Relevante passages uit de wetenschappelijke bijbel
+    (via pgvector similarity search)
+```
+
+Elke keer dat een gebruiker de concierge opent, kent hij de volledige context — zonder dat de gebruiker opnieuw hoeft uit te leggen wie hij is of wat zijn situatie is.
+
+---
+
+### 15.5 De wetenschappelijke bijbel
+
+De kennisbank is geen LLM-geheugen. Het is een gecureerde database van wetenschappelijk onderbouwde informatie per conditie, per biomarker en per supplement — met evidence-levels gedifferentieerd:
+
+```
+Niveau 1: Sterke consensus
+          Meerdere gerandomiseerde studies, meta-analyses
+Niveau 2: Goed onderbouwd, emerging
+          Kleinere studies, mechanistisch plausibel
+Niveau 3: Practitioner signal
+          Klinische observaties, expert input
+          (zoals: partner ziet verband chlamydia-endometriose)
+```
+
+De concierge communiceert altijd het evidence-level van zijn antwoord. Geen aannames, geen overpresentatie van bewijs.
+
+---
+
+### 15.6 Technische implementatie
+
+```
+app/ai.py               → LLM abstractielaag (al aanwezig)
+app/routers/
+  concierge.py          → gratis endpoint (geen auth vereist)
+  chat.py               → betaald endpoint (auth + biomarkerdata)
+PostgreSQL + pgvector   → kennisbank + gespreksgeschiedenis
+app/jobs/
+  knowledge_sync.py     → kennisbank bijwerken (nieuw bewijs)
+```
+
+---
+
+## 16. Redactionele filosofie — Just the Facts
+
+### 16.1 De kern
+
+Vitalix communiceert op één manier: feitelijk, helder, zonder aannames. Feiten kunnen uitermate interessant zijn — droog hoeft dat niet te betekenen. Maar speculatie, overpresentatie van bewijs en conspiracy-denken hebben geen plaats.
+
+> **"Just the facts"** — dit is zowel een payoff als een werkprincipe voor alle informatie die Vitalix verstrekt.
+
+---
+
+### 16.2 De EU supplementen-paradox
+
+Een voorbeeld van waarom feitelijke informatie krachtig is — en waarom Vitalix een unieke positie inneemt.
+
+**De regelgeving:**
+EU-verordening EC 1924/2006 bepaalt dat supplementfabrikanten alleen gezondheidsclaims mogen maken die zijn goedgekeurd in de Europese gezondheidsclaimsdatabase. Claims gebaseerd op wetenschappelijk onderzoek dat niet aan de EU is voorgelegd voor goedkeuring — mogen niet op een verpakking staan.
+
+**Het gevolg:**
+Een probiotica-fabrikant mag niet schrijven "helpt bij candida overgroei" — ook al bestaat daarvoor wetenschappelijk bewijs. Een magnesiumfabrikant mag niet schrijven "ondersteunt diepe slaap bij tekort" — ook al laten meerdere studies dat zien.
+
+**Waarom dit bestaat:**
+De EU wil consumenten beschermen tegen misleidende gezondheidsclaims. De goedkeuringsprocedure is bedoeld als kwaliteitsfilter. Dat is een legitiem doel.
+
+**Wat het onbedoeld veroorzaakt:**
+Het goedkeuringsproces is duur en traag. Kleine fabrikanten en academische onderzoekers kunnen het proces niet altijd doorlopen. Het resultaat: wetenschappelijk gevalideerde informatie bereikt de consument niet via het productlabel.
+
+**Wat Vitalix anders doet:**
+Vitalix verkoopt geen supplementen. Vitalix analyseert data en verstrekt persoonlijke inzichten op basis van biomarkers. Dat valt in een fundamenteel andere juridische categorie — geen gezondheidsclaim op een product, maar een persoonlijk data-inzicht.
+
+```
+Supplementlabel (verboden):
+"Dit product helpt bij candida overgroei"
+
+Vitalix (toegestaan):
+"Jouw microbioomtest toont een candida-overgroei.
+ Wetenschappelijk onderzoek (niveau 2) suggereert
+ dat Lactobacillus rhamnosus GG hier effectief bij
+ kan zijn. Na 8 weken meten we opnieuw."
+```
+
+Vitalix kan zeggen wat het etiket niet mag zeggen — niet omdat we regels omzeilen, maar omdat we in een andere categorie opereren.
+
+---
+
+### 16.3 Just the Facts — werkprincipes voor de concierge
+
+```
+✅ Altijd evidence-level vermelden
+✅ Onderscheid maken tussen bewezen en plausibel
+✅ Persoonlijke data als vertrekpunt, niet als conclusie
+✅ Tijdlijn communiceren (vitamine D werkt na 8-12 weken,
+   niet na 3 dagen)
+✅ Zeggen wat we niet weten
+✅ Doorverwijzen naar arts waar relevant
+
+❌ Geen diagnoses
+❌ Geen claims zonder databasis
+❌ Geen aannames over oorzaak-gevolg zonder bewijs
+❌ Geen conspiracy-narratieven over regulering
+❌ Geen supplement-aanbevelingen zonder tekort aangetoond
+```
+
+---
+
+## 17. DNA-onderzoek — disclaimer en ethisch kader
+
+### 17.1 Waarom een disclaimer verplicht is
+
+DNA-onderzoek onderscheidt zich fundamenteel van andere data in Vitalix. Bloedwaarden veranderen. Wearable-data is van gisteren. DNA is permanent — en de informatie erin kan confronterend, onomkeerbaar en verreikend zijn.
+
+Vitalix vereist actieve informed consent voordat een gebruiker DNA-data koppelt of uploadt. Geen opt-out checkbox. Een bewust doorlopen stap.
+
+---
+
+### 17.2 Wat DNA-onderzoek kan onthullen
+
+```
+Erfelijke kankerrisico's
+├── BRCA1/BRCA2 → sterk verhoogd risico op borst- en
+│                  eierstokkanker
+├── Lynch syndroom → verhoogd risico darmkanker
+└── Andere tumorsuprressor-varianten
+
+Neurologische risico's
+├── APOE4 → verhoogd risico op Alzheimer
+│            homozygoot APOE4/APOE4: significant verhoogd
+└── Nog geen behandeling beschikbaar
+
+Cardiovasculaire risico's
+├── Familiaire hypercholesterolemie
+└── Hartritme-gerelateerde varianten
+
+Farmacogenetica
+├── Hoe je lichaam medicijnen metaboliseert
+├── Relevant bij kankerbehandeling, antidepressiva,
+│   bloedverdunners
+└── Kan behandeladvies van arts veranderen
+```
+
+---
+
+### 17.3 Wat de gebruiker moet begrijpen vóór DNA-koppeling
+
+**1. DNA-informatie raakt ook je familie**
+Een genetische variant die jij ontdekt, geldt mogelijk ook voor je ouders, broers, zussen en kinderen. Je neemt niet alleen een beslissing voor jezelf.
+
+**2. Weten is niet hetzelfde als lotsbestemming**
+Een verhoogd genetisch risico betekent niet dat je de ziekte krijgt. Het betekent dat je risicoprofiel anders is dan gemiddeld. Leefstijl, omgeving en toeval spelen een grote rol.
+
+**3. Sommige informatie heeft geen behandeling**
+APOE4 en Alzheimer is het meest bekende voorbeeld. Je kunt de informatie krijgen — maar er is op dit moment geen bewezen interventie die het risico elimineert. Wil je dat weten?
+
+**4. Psychologische impact**
+Onderzoek toont aan dat confronterende genetische uitslagen significante psychologische impact kunnen hebben — angst, rouw, veranderd zelfbeeld. Dit is niet iets om licht over te gaan.
+
+---
+
+### 17.4 Hoe Vitalix hiermee omgaat
+
+**Gefaseerde onthulling:**
+Vitalix toont standaard alleen de DNA-markers die direct relevant zijn voor de biomarkers die al gemeten worden — vitamine D-metabolisme, omega-3 verwerking, ontstekingsrespons, schildklierfunctie.
+
+Hoog-impact genetische informatie (BRCA, APOE4, Lynch) wordt niet automatisch getoond. De gebruiker kiest actief of hij deze informatie wil zien.
+
+```
+Standaard zichtbaar:     Nutriëntenmetabolisme (MTHFR,
+                         VDR, FADS1/2, COMT)
+                         Farmacogenetica (CYP450-varianten)
+                         Inflammatierespons (IL-6, TNF-α)
+
+Actieve keuze vereist:   Erfelijke kankerrisico's
+                         APOE4 / Alzheimer-risico
+                         Andere hoog-impact varianten
+```
+
+**Aanbeveling genetisch counselor:**
+Bij hoog-impact bevindingen raadt Vitalix altijd aan een gecertificeerd genetisch counselor te raadplegen vóór verdere actie. Vitalix interpreteert geen klinische genetische diagnoses.
+
+**Data-soevereiniteit:**
+DNA-data wordt nooit gedeeld, nooit gebruikt voor onderzoek zonder expliciete toestemming, en kan op elk moment volledig verwijderd worden uit het systeem.
+
+---
+
+### 17.5 De disclaimer — tekst voor gebruikersinterface
+
+> **Voordat je doorgaat**
+>
+> DNA-onderzoek kan informatie onthullen die confronterend is — over erfelijke ziekterisico's, neurologische aandoeningen of informatie die ook relevant is voor je familieleden.
+>
+> Vitalix toont standaard alleen DNA-markers die direct verband houden met je gemeten biomarkers. Hoog-impact informatie (zoals erfelijke kankerrisico's of Alzheimer-risico) toon je alleen als je daar bewust voor kiest.
+>
+> Weten is niet hetzelfde als lotsbestemming. Maar sommige informatie kan niet worden "ont-weten." Neem de tijd voor deze keuze.
+>
+> Bij confronterende bevindingen raden wij altijd aan een gecertificeerd genetisch counselor te raadplegen.
+>
+> [Ik begrijp dit en wil doorgaan] [Ik sla DNA-koppeling voor nu over]
+
+---
+
+## 18. UX-principe — Zero Friction
+
+> Dit is geen feature. Het is een ontwerpfilosofie die elk scherm, elke interactie en elke databron bepaalt.
+
+### 18.1 De kern
+
+De gebruiker wil niet nadenken over het platform. De gebruiker wil leven — en achteraf begrijpen wat zijn biologie deed.
+
+```
+Goed:    Data komt vanzelf binnen
+         Inzicht verschijnt wanneer het relevant is
+         Vragen stellen via gesprek, niet via formulieren
+
+Fout:    Dagelijkse invoerschermen
+         Herinneringen om data in te voeren
+         Formulieren met velden
+         Dashboards die aandacht eisen
+```
+
+### 18.2 Wat automatisch binnenkomt
+
+```
+Polar Loop           → HRV, slaap, hartslag, activiteit,
+                       SpO2 — nachtelijke sync
+                       Gebruiker doet niets
+
+Withings BPM Core    → Bloeddruk + ECG
+                       Automatisch gesync'd na elke meting
+                       Gebruiker doet niets
+```
+
+### 18.3 Wat via de concierge binnenkomt
+
+Alles wat niet automatisch meetbaar is, gaat via gesprek. Geen formulieren.
+
+```
+Bloedtest ontvangen:
+Gebruiker:  "Bloedtest binnen. Vitamine D 38,
+             hsCRP 2.1, ferritine 67"
+Concierge:  Parseert automatisch, logt waarden,
+            koppelt aan persoonlijke baseline
+
+Supplement gestart:
+Gebruiker:  "Ben begonnen met Omega-3 vandaag,
+             2 gram per dag"
+Concierge:  Logt interventie met startdatum,
+            zet automatisch herinnering voor
+            follow-up meting over 12 weken
+
+Interventie gestart:
+Gebruiker:  "Begin vandaag met Systema
+             breath hold training"
+Concierge:  Logt startdatum, koppelt aan
+            HRV-trend in Polar Loop data
+```
+
+### 18.4 Wat nooit handmatig ingevoerd hoeft te worden
+
+```
+Ademfrequentie       → Skip — HRV vertelt hetzelfde verhaal
+Dagelijks humeur     → Skip — HRV + slaap zijn objectiever
+Activiteiten-log     → Skip — Polar Loop detecteert automatisch
+Stressscore          → Skip — pseudowetenschap, zie Section 16
+```
+
+### 18.5 De ontwerpregels
+
+```
+Regel 1:  Als iets automatisch kan — dan automatisch.
+          Geen handmatige invoer als er een API bestaat.
+
+Regel 2:  Als iets handmatig moet — dan via gesprek.
+          Geen formulieren. Geen velden. Gewoon zeggen wat er is.
+
+Regel 3:  Het platform spreekt de gebruiker aan.
+          Niet andersom. Vitalix signaleert wanneer er
+          iets te zien is. De gebruiker hoeft niet
+          dagelijks in te loggen.
+
+Regel 4:  Één apparaat, altijd om.
+          Polar Loop werkt dag én nacht, op pols of biceps.
+          Geen ring die je afzet tijdens training.
+          Geen horloge dat je oplaadt terwijl je slaapt.
+
+Regel 5:  Minder data, beter geselecteerd is meer waard
+          dan veel data die niemand leest.
+```
+
+### 18.6 De belofte aan de gebruiker
+
+```
+"Draag de Loop. Meet bloeddruk eens per week.
+ Doe eens per kwartaal een bloedpanel.
+ Vertel de concierge wat je start of stopt.
+
+ Vitalix doet de rest."
+```
+
+---
+
+## 19. Zeldzame aandoeningen en kanker — aanvullende waarde
+
+> Geen buildtaak voor Sprint 0. Wel een strategische richting voor fase 2+.
+
+### 19.1 Het probleem bij zeldzame kanker
+
+```
+Oncoloog bij zeldzame tumor:
+→ Ziet misschien 2-3 gevallen per jaar
+→ Behandelrichtlijnen gebaseerd op kleine studies
+→ Kwartaalcontrole: bloed eens per 3 maanden
+→ Scan eens per 6 maanden
+→ Patiënt staat er grotendeels alleen voor
+   tussen de controles in
+```
+
+Standaard oncologie werkt met populatiegemiddelden. Bij zeldzame kanker is er nauwelijks een populatie om van te middelen.
+
+### 19.2 Wat Vitalix biedt dat de oncologie niet heeft
+
+```
+Continue biomarkermonitoring:
+├── Tumormarkers (CEA, PSA, CA-125 afhankelijk
+│   van kankertype) — kwartaalbloedpanel
+├── Inflammatiepanel (hsCRP, NLR, IL-6)
+│   — proxy voor tumoractiviteit
+├── HRV als systemische gezondheidsindex
+│   — daalt bij onderliggende ziekte
+├── Slaapkwaliteit — daalt vroeg bij recidief
+└── Vermoeidheidspatroon — Polar Loop registreert
+    afwijkingen van persoonlijke baseline
+
+Interventie-tracking:
+→ Reageert immunotherapie op inflammatiemarkers?
+→ Daalt hsCRP na chemokuur?
+→ Herstelt HRV na behandeling?
+→ Wanneer is de persoonlijke baseline hersteld?
+
+Longitudinale data voor de arts:
+→ 6 maanden continu data die de oncoloog
+   normaal nooit heeft
+→ Patronen zichtbaar die in kwartaalcontroles
+   onzichtbaar blijven
+→ Patiënt komt met feiten, niet met gevoel
+```
+
+### 19.3 Waarom dit voor artsen waardevol is
+
+Een oncoloog die een patiënt met een zeldzame tumor ziet, heeft normaal:
+- Bloed eens per 3 maanden
+- Scan eens per 6 maanden
+- Wat de patiënt zichzelf herinnert
+
+Een Vitalix-gebruiker brengt mee:
+- Dagelijkse HRV afgelopen 6 maanden
+- Wekelijkse bloeddruk
+- Slaapkwaliteit gecorreleerd aan behandelperiodes
+- Eigen interventie-log met meetbare uitkomsten
+- Tijdlijn van wanneer de biologie veranderde
+
+Dat is informatie die de arts nergens anders vandaan krijgt. En bij zeldzame kanker — waar de arts net zo weinig weet als de patiënt — is elke objectieve datapunt waardevol.
+
+### 19.4 Wat Vitalix niet doet
+
+```
+Vitalix diagnosticeert niet.
+Vitalix vervangt geen oncoloog.
+Vitalix geeft geen behandeladvies.
+
+Vitalix meet. En bij kanker is meten —
+zelfs zonder de perfecte interpretatie —
+fundamenteel beter dan niet meten.
+```
+
+### 19.5 De research-dimensie
+
+Geanonimiseerde, longitudinale data van zeldzame kankerpatiënten die continu monitoren is wetenschappelijk waardevol. Niet als diagnostisch instrument — maar als observationele dataset die onderzoekers patronen laat zien die in kleine klinische studies onzichtbaar blijven.
+
+Dit is ook WBSO-grondslag: technische onzekerheid in het detecteren van biomarkerpatronen bij zeldzame aandoeningen via multi-modale data-integratie.
 
 ---
 
