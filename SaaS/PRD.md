@@ -1241,5 +1241,147 @@ Dit is ook WBSO-grondslag: technische onzekerheid in het detecteren van biomarke
 
 ---
 
+## 20. Vitalix als intelligente trainingscoach
+
+> Geen buildtaak voor Sprint 0. Wel een kernpropositie die het platform onderscheidt van elke wearable-app, personal trainer-app en supplement-tool op de markt.
+
+### 20.1 De coach die jou 24/7 kent
+
+Een personal trainer ziet je 1 tot 3 uur per week. Hij raadt wat je nodig hebt. Hij geeft generiek advies op basis van gemiddelden.
+
+Vitalix ziet je 24/7. Het meet wat je nodig hebt. Het geeft advies op basis van jouw biologie op dit specifieke moment.
+
+```
+Menselijke coach:
+→ 3 uur per week observatie
+→ Advies op basis van indruk
+→ Geen objectieve data tussen sessies
+
+Vitalix:
+→ 24/7 continue monitoring
+→ Advies op basis van gemeten waarden
+→ Persoonlijke baseline als referentie
+→ Crosskoppeling tussen training,
+   herstel, voeding, supplementen en slaap
+```
+
+### 20.2 Trainingsprogramma als context
+
+Een gebruiker voert eenmalig in:
+- Type training (kracht, martial arts, cardio, mobilitiet)
+- Weekschema (wanneer, hoe lang, welke intensiteit)
+- Trainingszones (op basis van hartslagdrempels)
+- Doelen (herstel, prestatie, gezondheid, afvallen)
+
+Vanaf dat moment weet Vitalix altijd:
+- Wat je vandaag hebt gedaan
+- Wat er morgen gepland staat
+- Wat je biologie zegt over de combinatie van die twee
+
+### 20.3 Contextuele coaching — voorbeelden
+
+```
+Voorbeeld 1 — hersteladvies:
+"Je bent gisteren 47 minuten in zone 4
+ geweest terwijl je HRV 18% onder je
+ persoonlijke baseline lag.
+ Dat verklaart je vermoeidheid vandaag.
+ Morgen staat krachttraining gepland —
+ overweeg dat te verschuiven naar
+ overmorgen."
+
+Voorbeeld 2 — fascia en herstel:
+"Na Systema-training duurt jouw
+ fascia-herstel gemiddeld 38 uur.
+ Dat zie ik aan je HRV-patroon de dag
+ erna. Anderen hebben 24 uur nodig.
+ Jij niet. Jouw schema houdt hier
+ geen rekening mee."
+
+Voorbeeld 3 — circadiaan ritme:
+"Je cortisol-piek zit consistent om
+ 07:30. Je traint nu om 19:00.
+ Jouw HRV-data suggereert dat
+ ochtendtraining voor jou 23% meer
+ herstelcapaciteit oplevert."
+
+Voorbeeld 4 — supplement-koppeling:
+"Je Omega-3 index is 4.8% — optimaal
+ is 8%+. Je traint 4x per week.
+ Lage Omega-3 remt spierherstel en
+ verhoogt inflammatie na inspanning.
+ Je hsCRP bevestigt dit patroon."
+
+Voorbeeld 5 — ademhaling en zones:
+"Je gemiddelde ademfrequentie in rust
+ is 14/min. Bij zone 3+ training switch
+ je naar mondademhaling — dat zie ik
+ aan je HRV-fluctuatie. Overweeg
+ Oxygen Advantage neusademhaling
+ protocol te introduceren."
+```
+
+### 20.4 Kennisgebieden van de coach
+
+De concierge heeft diepgaande wetenschappelijke kennis over:
+
+```
+Trainingszones
+├── Zone 1-5 definities en fysiologie
+├── Persoonlijke drempelberekening
+├── Wanneer welke zone — op basis van
+│   HRV, doelen en hersteltoestand
+└── MAF-methode (Phil Maffetone)
+
+Fascia
+├── Herstelprotocollen na verschillende
+│   trainingstypes
+├── Mobiliteit vs. kracht timing
+└── Hydratatie en fasciagezondheid
+
+Ademhaling
+├── Oxygen Advantage protocol
+├── CO2-tolerantie opbouwen
+├── Neusademhaling tijdens training
+├── Buteyko-methode basis
+└── Ademhaling en HRV-connectie
+
+Voedingssupplementen
+├── Alleen aanbevolen bij gemeten tekort
+├── Timing van supplementen rondom training
+├── Interacties tussen supplementen
+└── Doseringen op basis van bloedwaarden
+
+Herstel
+├── Actief vs. passief herstel
+├── Slaap als primaire herstelinterventie
+├── Koudeblootstelling en HRV
+└── Stressmanagement en cortisol
+```
+
+### 20.5 Wat de coach niet doet
+
+```
+Geen generieke trainingsschema's geven
+Geen advies zonder data-onderbouwing
+Geen claims over prestatieverbetering
+Geen vervanging van medische begeleiding
+bij blessures of aandoeningen
+```
+
+### 20.6 De personal trainer als partner
+
+De intelligente coach maakt personal trainers niet overbodig — het maakt hen beter.
+
+Een personal trainer die Vitalix gebruikt voor zijn klanten heeft toegang tot:
+- Hoe de klant herstelt tussen sessies
+- Of de intensiteit aansluit bij de biologische capaciteit
+- Of supplementen en voeding het trainingseffect ondersteunen
+- Objectieve data om het programma op aan te passen
+
+Dit is de ambassadeursrol van de personal trainer: niet vervangen door Vitalix, maar versterkt door Vitalix.
+
+---
+
 *SuperStories BV — Vitalix PRD — v0.1 — 28 maart 2026*
 *Sprint 0: persoonlijk tool voor twee pilotgebruikers. Bouw alleen wat hier staat.*
