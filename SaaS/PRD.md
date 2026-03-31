@@ -1867,5 +1867,30 @@ Patagonia begon als gewoon bedrijf. De structuurwijziging kwam decennia later. E
 
 ---
 
+---
+
+## 26. Encryptie en data-soevereiniteit
+
+### 26.1 Principe
+
+Vitalix draait op eigen infrastructuur (Hetzner/Coolify). Geen gratis SaaS-database met derde-partij-eigendomsclausules. Jij beheert de server — dat is de kern van data-soevereiniteit.
+
+### 26.2 Wat relevant is vanaf dag 1
+
+- **Eigen server**: data staat nooit bij een partij met eigen commerciële belangen (geen Firebase, geen Supabase cloud free tier)
+- **Toegangsbeveiliging**: magic link auth — geen wachtwoord opgeslagen, geen sessietokens in logs
+- **Clean data model**: elke meting als aparte rij met `(user_id, measured_at, marker_name, value)` — querybaar, exporteerbaar, verwijderbaar per gebruiker. Geen blobs, geen gemixte datatypes. Dit maakt een toekomstige deletion workflow triviaal.
+
+### 26.3 Wat kan wachten tot externe gebruikers
+
+- Encryptie at rest (database-niveau)
+- GDPR deletion flows + audit logs
+- Data processing agreements met labs
+- Gebruikersfacing privacy-dashboard
+
+> **Praktische richtlijn:** zolang de enige gebruikers Peter en zijn partner zijn, is een password-protected server met eigen database voldoende. De investering in zware encryptie-infrastructuur doe je op het moment dat je de eerste externe gebruiker toevoegt — niet eerder.
+
+---
+
 *SuperStories BV — Vitalix PRD — v0.1 — 28 maart 2026*
 *Sprint 0: persoonlijk tool voor twee pilotgebruikers. Bouw alleen wat hier staat.*
