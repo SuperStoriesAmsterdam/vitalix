@@ -12,8 +12,35 @@
 | Product name | Vitalix |
 | Product ID | `vitalix` |
 | One-line description | Persoonlijk preventief gezondheidssysteem dat wearable-data, bloedwaarden en biometrie combineert tot één coherent beeld — en meet of interventies werken. |
-| Target user | Gezondheidsbewuste volwassenen (45+, kankerhistorie, cardiovasculair risico) én vrouwen 20-35 die door de reguliere zorg niet serieus worden genomen. Begint als persoonlijk tool voor twee pilotgebruikers: Peter (59, man) en zijn partner (vrouw, 20-35). |
+| Target user | Gezondheidsbewuste volwassenen (45+, kankerhistorie, cardiovasculair risico) én vrouwen 20-35 die door de reguliere zorg niet serieus worden genomen. Begint als persoonlijk tool voor twee pilotgebruikers: Peter (59, man) en zijn partner (vrouw, 20-35). Derde sleutelsegment: mensen zonder medische familiegeschiedenis (zie 1C). |
 | Core problem | Gezondheidsdata bestaat versnipperd: wearable bij de ene app, bloed bij het lab, DNA ergens in een PDF. Niemand verbindt de punten. Huisarts vergelijkt met populatiegemiddelden, niet met jouw persoonlijke baseline. En als je een interventie start (probiotica, supplement, slaapprotocol) meet niemand ooit objectief of het heeft gewerkt. |
+
+---
+
+## 1C. Doelgroep — mensen zonder medische familiegeschiedenis
+
+De standaard preventieve geneeskunde vertrouwt zwaar op familiegeschiedenis: "Loopt hart- en vaatziekten in de familie?" Voor een substantiële groep is dit antwoord structureel onbekend.
+
+**De groep:**
+- Geadopteerden (één of beide biologische ouders onbekend)
+- Mensen met een onbekende vader
+- Donorkinderen
+- Emigranten zonder toegang tot medische dossiers van de familie
+- Mensen wiens ouders vroeg zijn gestorven zonder diagnose
+
+**Waarom Vitalix voor hen anders is:**
+Voor deze gebruikers is longitudinale persoonlijke data niet aanvullend op familiegeschiedenis — het *is* hun enige referentie. De vraag "is dit normaal voor mij?" kan niet worden beantwoord met "loopt dit in de familie." De persoonlijke baseline die Vitalix opbouwt is voor hen des te belangrijker: het is de enige historische context die ze hebben.
+
+**Relevante pilots:**
+- Peter (59): geen DNA-informatie van vaderszijde
+- Partners dochter: geen DNA-informatie van moeder- of vaderszijde
+
+**Productimplicaties:**
+- Intakeprofiel: vraag naar beschikbaarheid familiegeschiedenis — als onbekend, markeer dit als context voor de baseline-interpretatie
+- Dashboard: geen familierisicokleur, wel extra nadruk op persoonlijke trendlijn
+- Messaging: niet "vergelijk met je familie" maar "bouw je eigen referentie op"
+
+> **PR/marketing haakje (niet voor Sprint 0):** "Voor mensen zonder familiegeschiedenis is je eigen biometrie de enige baseline die je hebt." Grotere groep dan aangenomen — en een emotioneel resonant verhaal.
 
 ---
 
@@ -81,7 +108,7 @@ Vitalix is het eerste platform dat de gewone consument behandelt als een systeem
 **Steps:**
 1. Gebruiker maakt account aan via magic link (email)
 2. Gebruiker vult profiel in: naam, geboortedatum, geslacht, relevante geschiedenis (kanker, cardiovasculair, hormoonproblemen)
-3. Gebruiker kiest welke hardware te koppelen — Polar Loop en/of Withings BPM Core
+3. Gebruiker kiest welke hardware te koppelen — Polar Loop en/of Withings BPM Vision
 4. Per hardware: OAuth 2.0 flow voor beide apparaten
 5. Systeem haalt historische data op (laatste 30 dagen) als background job
 6. Dashboard toont eerste data + baseline-opbouwstatus per marker
@@ -179,7 +206,7 @@ Vitalix is het eerste platform dat de gewone consument behandelt als een systeem
 
 ---
 
-### BloodPressureMeasurement (Withings BPM Core)
+### BloodPressureMeasurement (Withings BPM Vision)
 | Field | Type | Notes |
 |-------|------|-------|
 | id | Integer PK | |
@@ -192,7 +219,7 @@ Vitalix is het eerste platform dat de gewone consument behandelt als een systeem
 
 ---
 
-### HRVReading (Oura Ring)
+### HRVReading (Polar Loop)
 | Field | Type | Notes |
 |-------|------|-------|
 | id | Integer PK | |
@@ -204,9 +231,21 @@ Vitalix is het eerste platform dat de gewone consument behandelt als een systeem
 | light_sleep_minutes | Integer | Minuten lichte slaap |
 | sleep_efficiency | Float | 0-100% |
 | sleep_latency_minutes | Integer | Inslaapduur in minuten |
-| temperature_delta | Float | Afwijking van persoonlijke temp-baseline (°C) |
-| readiness_score | Integer | Oura readiness score 0-100 |
-| source | String | `oura` |
+| readiness_score | Integer | Polar recovery score 0-100 |
+| source | String | `polar` |
+
+---
+
+### TemperatureReading (Braun ThermoScan 7)
+| Field | Type | Notes |
+|-------|------|-------|
+| id | Integer PK | |
+| user_id | Integer FK → User | |
+| measured_at | DateTime | Tijdstip van meting |
+| temperature_celsius | Float | Lichaamstemperatuur in °C (tympanisch) |
+| source | String | `manual` |
+
+> **Hardware:** Braun ThermoScan 7 IRT6520 (~€45) — tympanische meting (trommelvlies), ±0.1°C klinische nauwkeurigheid. Geen API — gebruiker voert waarde handmatig in via Vitalix UI. Aanbevolen meetfrequentie: dagelijks ochtend, zelfde tijdstip, dezelfde persoon doet de meting.
 
 ---
 
@@ -217,7 +256,7 @@ Vitalix is het eerste platform dat de gewone consument behandelt als een systeem
 | user_id | Integer FK → User | |
 | measured_at | DateTime | Datum van bloedafname of testdatum |
 | test_type | String | `blood` / `saliva` / `urine` / `stool` |
-| marker_name | String | e.g. `hscrp`, `tsh`, `cortisol_morning` |
+| marker_name | String | e.g. `hscrp`, `tsh`, `cortisol_morning`, `glucose_fasting`, `hba1c` |
 | value | Float | Numerieke waarde |
 | unit | String | e.g. `mg/L`, `mIU/L`, `nmol/L` |
 | source | String | `manual` / `pdf_ocr` (toekomstig) |
@@ -281,14 +320,15 @@ Vitalix is het eerste platform dat de gewone consument behandelt als een systeem
 
 | Service | What for | Sync or background job? |
 |---------|----------|------------------------|
-| **Withings Health API** | Bloeddruk + hartslag van BPM Core ophalen | ARQ background job (nachtelijk) + directe sync na OAuth |
-| **Oura API v2** | HRV, slaap, temperatuur, activiteit, readiness ophalen | ARQ background job (nachtelijk) + directe sync na token invoer |
+| **Withings Health API** | Bloeddruk + hartslag (BPM Vision) — OAuth koppeling | ARQ background job (nachtelijk) + directe sync na OAuth |
+| **Polar AccessLink API** | HRV, slaap, activiteit, readiness ophalen | ARQ background job (nachtelijk) + directe sync na OAuth |
 | **Resend** | Magic link emails + alert notificaties + interventie-checkpoints | Background job |
 
 **Toekomstige integraties (niet in Sprint 0):**
 - PDF OCR voor labresultaten (Google Document AI of AWS Textract)
 - Cyclus-tracker koppeling (Natural Cycles, Clue — voor vrouwenprofiel)
 - DNA-data parsing (23andMe / MyHeritage raw export)
+- **CGM integratie (Sprint 2+):** Abbott FreeStyle Libre via LibreView API — continue glucosemeting, 2-weeks sensor (~€50-70). Glucose is de meest actionable biomarker voor metabole gezondheid en insulineresistentie. HbA1c dekt het 3-maands gemiddelde (Sprint 0); CGM voegt real-time pieken toe. Levels.health heeft bewezen dat dit ook voor niet-diabeten relevant is.
 
 ---
 
@@ -303,7 +343,7 @@ Vitalix is het eerste platform dat de gewone consument behandelt als een systeem
 | Employer | PM | Multi-user, team dashboard, anonieme aggregatie, white-label |
 
 **Feature flags:**
-- `wearable_sync` — automatische Withings + Oura synchronisatie
+- `wearable_sync` — automatische Withings + Polar synchronisatie
 - `intervention_tracker` — interventie-feedbackloop met checkpoints
 - `lab_ocr` — PDF-upload en automatisch uitlezen labresultaten (toekomstig)
 - `dna_integration` — DNA-data interpretatie en baseline-kalibratie (toekomstig)
@@ -358,9 +398,9 @@ Wanneer meerdere markers tegelijk afwijken, genereert de app een leesbare samenv
 ```
 [ ] FastAPI app met SuperStories standaard structuur
 [ ] Magic link auth (twee gebruikers)
-[ ] Withings BPM Core OAuth koppeling
+[ ] Withings OAuth koppeling (BPM Vision)
 [ ] Polar Loop OAuth koppeling
-[ ] Nachtelijke ARQ sync job (Withings + Polar)
+[ ] Nachtelijke ARQ sync job (Withings BPM Vision + Polar)
 [ ] Persoonlijke baseline calculator (rolling average + stabiliteitsstatus)
 [ ] Dashboard: laatste metingen + baseline + trend per marker
 [ ] Handmatige lab-invoer (bloed, speeksel, urine)
@@ -382,7 +422,8 @@ Wanneer meerdere markers tegelijk afwijken, genereert de app een leesbare samenv
 [ ] PDF-upload labresultaten (OCR)
 [ ] Multi-modale correlatie (HRV + bloeddruk + bloedmarker tegelijk)
 [ ] Stressas: speeksel cortisol dagcurve invoer + patroon visualisatie
-[ ] Microbioom invoer (Biomesight export)
+[ ] Microbioom invoer — Medivere Darm Microbioom Zelftest Plus (16S NGS, calprotectine, zonuline, Candida, secretorisch IgA). Handmatige invoer Sprint 2; PDF OCR optioneel later.
+[ ] CGM integratie: Abbott FreeStyle Libre via LibreView API
 ```
 
 ### Sprint 3 — platform
@@ -399,7 +440,7 @@ Wanneer meerdere markers tegelijk afwijken, genereert de app een leesbare samenv
 
 ```
 [ ] Withings OAuth flow werkt end-to-end op lokale omgeving
-[ ] Oura token sync haalt echte data op
+[ ] Polar OAuth koppeling haalt echte data op
 [ ] Nachtelijke sync job draait zonder fouten
 [ ] Baseline calculator levert stabiele waarde na voldoende datapunten
 [ ] Dashboard toont correcte data voor Peter én partner (multi-user isolatie getest)
@@ -421,7 +462,7 @@ WITHINGS_CLIENT_ID=
 WITHINGS_CLIENT_SECRET=
 WITHINGS_REDIRECT_URI=http://localhost:8000/withings/callback
 
-# Oura API
+# Polar API
 # Geen client credentials nodig — Personal Access Token per gebruiker
 # Token wordt encrypted opgeslagen in de database
 
@@ -450,7 +491,7 @@ Endometriose is een oestrogeenafhankelijke ontstekingsziekte waarbij endometrium
 **Wat Vitalix kan meten:**
 - hsCRP, IL-6 → chronische systemische ontsteking zichtbaar
 - Oestradiol:progesteron ratio → hormonale onevenwichtigheid
-- HRV (Oura) → chronische pijn onderdrukt het autonome zenuwstelsel
+- HRV (Polar Loop) → chronische pijn onderdrukt het autonome zenuwstelsel
 - Cortisol dagcurve (speeksel) → stress-pijn wisselwerking
 - Microbioom → verlaagde *Lactobacillus*, verhoogde pathogene anaeroben (Lancet Microbe 2023)
 
@@ -1085,7 +1126,7 @@ Polar Loop           → HRV, slaap, hartslag, activiteit,
                        SpO2 — nachtelijke sync
                        Gebruiker doet niets
 
-Withings BPM Core    → Bloeddruk + ECG
+Withings BPM Vision    → Bloeddruk + ECG
                        Automatisch gesync'd na elke meting
                        Gebruiker doet niets
 ```
