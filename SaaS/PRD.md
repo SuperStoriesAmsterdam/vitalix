@@ -1383,5 +1383,448 @@ Dit is de ambassadeursrol van de personal trainer: niet vervangen door Vitalix, 
 
 ---
 
+## 21. PT-validatielaag — menselijke controle op AI-aanbevelingen
+
+> Geen buildtaak voor Sprint 0. Architectuur voor fase 1 (3-5 PT-piloten).
+
+### 21.1 Het principe
+
+Vitalix genereert aanbevelingen op basis van data en wetenschappelijke kennisbank. Maar een algoritme mist context die een ervaren personal trainer wél heeft: hoe beweegt deze persoon, wat is zijn mentale staat, wat zegt zijn lichaamstaal tijdens training?
+
+De PT-validatielaag voegt die menselijke laag toe.
+
+### 21.2 Hoe het werkt
+
+```
+Vitalix genereert aanbeveling
+→ "Jouw HRV is 18% onder baseline.
+   Overweeg lichte training vandaag."
+
+PT ziet de aanbeveling in zijn dashboard
+→ Opties: Goedkeuren / Aanpassen / Verwerpen
+→ Bij aanpassing of verwerping: korte toelichting
+   "Klant heeft gisteren goed geslapen, mentaal
+    fit, ik ga voor matige intensiteit"
+
+Systeem logt de feedback:
+→ Welke aanbevelingen worden consistent
+  goedgekeurd bij welk profiel?
+→ Welke worden aangepast? Waarom?
+→ Het systeem leert — elke PT-validatie
+  is trainingsdata
+```
+
+### 21.3 Wat dit oplevert
+
+```
+Voor de gebruiker:
+→ AI-advies met menselijke controlelaag
+→ Vertrouwen: een expert heeft meegekeken
+
+Voor de PT:
+→ Objectieve data over herstel en biologische
+  capaciteit van de klant
+→ Betere sessies, minder blessures
+→ Differentiatie: "ik werk met data"
+
+Voor het platform:
+→ Kwaliteitscontrole op aanbevelingen
+→ Lerende dataset: wat werkt bij welk profiel?
+→ Vertrouwenssignaal voor nieuwe gebruikers
+```
+
+### 21.4 PT-onboarding model
+
+```
+Fase 0:  3-5 PT's gratis toegang
+         In ruil voor: aanbevelingen beoordelen
+         + eerlijke feedback
+
+Fase 1:  €29/maand per PT (tool access)
+         + €15/maand per gekoppelde klant
+
+Fase 2:  White label optie
+         PT biedt "DataTraining by [naam]" aan
+         Vitalix draait op de achtergrond
+```
+
+---
+
+## 22. Swarm intelligence — het lerende platform
+
+> Geen buildtaak voor Sprint 0. Strategische architectuur voor fase 2+ (100+ gebruikers).
+
+### 22.1 De drie niveaus van intelligentie
+
+```
+Niveau 1: Persoonlijke intelligentie (Sprint 0)
+→ Jouw data vs jouw eigen baseline
+→ Jij bent de enige referentie
+→ "Jouw hsCRP is 40% boven jouw norm"
+
+Niveau 2: Expert intelligentie (fase 1)
+→ Wetenschappelijke bijbel (PubMed, Cochrane)
+→ PT-validatielaag
+→ Menselijke kennis als kalibratie
+
+Niveau 3: Swarm intelligentie (fase 2+)
+→ Geanonimiseerde patronen over alle gebruikers
+→ "Vrouwen 35-45 met dit cortisol-patroon die
+   trainingsbelasting verminderden zagen HRV
+   verbeteren binnen 3 weken"
+→ Het platform wordt slimmer met elke gebruiker
+```
+
+### 22.2 Het vliegwiel
+
+```
+Meer gebruikers
+→ meer interventie-data
+→ betere patroonherkenning
+→ betere aanbevelingen
+→ meer gebruikers
+```
+
+Elke nieuwe gebruiker maakt het platform beter voor alle gebruikers. Dit is een moat die geen concurrent eenvoudig kan kopiëren.
+
+### 22.3 Zeldzame aandoeningen — hier wordt swarm intelligence goud
+
+```
+Normale situatie:
+Arts ziet 2 patiënten per jaar
+met zeldzame tumor →
+onvoldoende data om patronen te zien
+
+Vitalix met 50 gebruikers
+met dezelfde zeldzame aandoening:
+→ Patronen zichtbaar die nergens
+  anders bestaan
+→ Wetenschappelijk waardevolle dataset
+→ Research partnerships mogelijk met
+  UMC's, RIVM, zeldzame ziekten fondsen
+```
+
+### 22.4 Privacy-oplossing: federated learning
+
+```
+Probleem:  GDPR — gezondheidsdata mag niet
+           gebruikt worden zonder expliciete
+           toestemming
+
+Oplossing: Federated learning
+→ Het model leert van patronen zonder
+  individuele data te zien
+→ Gebruiker deelt "wat werkte"
+  niet "wie ik ben"
+→ Opt-in met expliciete consent
+→ Europese privacy by design
+```
+
+### 22.5 WBSO-grondslag
+
+De technische onzekerheid van het bouwen van een multi-modaal swarm intelligence systeem dat:
+1. Privacy preserveert via federated learning
+2. Leert van heterogene data (verschillende wearables, labs, DNA)
+3. Omgaat met zeldzame aandoeningen (kleine n, grote impact)
+4. Kalibreert voor genetische variatie
+
+Dit is echte technische onzekerheid. Dit is de kern van de WBSO-aanvraag.
+
+---
+
+## 23. Klachtendagboek en inzicht-protocol
+
+> Geen buildtaak voor Sprint 0. Architectuur voor fase 1.
+
+### 23.1 Het principe
+
+Vitalix diagnosticeert niet. Vitalix correleert. Het verschil is fundamenteel — juridisch, ethisch, en praktisch.
+
+```
+Diagnose     → "Jij hebt endometriose"
+               Dat doet Vitalix NIET
+
+Correlatie   → "Jouw klacht correleert met
+               deze data — dit is het patroon"
+               Dat doet Vitalix WEL
+```
+
+### 23.2 Frictionloze klachteninvoer
+
+```
+Via concierge: "Ik voel me moe en heb hoofdpijn"
+→ Één zin, geen formulier
+→ Timestamp automatisch
+→ Gekoppeld aan wearable-data van dat moment
+   en de voorliggende 72 uur
+```
+
+### 23.3 Het inzicht-spectrum
+
+```
+Niveau 1 — Altijd veilig:
+"Jouw hsCRP is 3.2 — 40% boven
+ jouw persoonlijke baseline"
+→ Pure data, geen interpretatie
+
+Niveau 2 — Veilig met context:
+"Dit patroon — verhoogde hsCRP + HRV-daling
+ + vermoeidheidsmelding — is in meerdere studies
+ geassocieerd met laaggradige chronische ontsteking"
+→ Correlatie + wetenschappelijke bron
+
+Niveau 3 — Probabilistisch maar haalbaar:
+"Dit patroon is consistent met wat we zien bij
+ schildklierdisfunctie. Niet bewezen — maar het
+ patroon rechtvaardigt een TSH-test"
+→ Actiegericht, niet alarmerend
+
+Niveau 4 — Nooit:
+"Jij hebt hypothyreoïdie"
+→ Diagnose → verboden terrein
+```
+
+### 23.4 De taalregel
+
+```
+❌ "Jouw vermoeidheid wordt veroorzaakt door
+    lage vitamine D"
+
+✅ "Op dagen dat jij vermoeidheid meldt,
+    is jouw HRV gemiddeld 22% lager dan
+    jouw persoonlijke baseline. Jouw laatste
+    vitamine D was 38 nmol/L — onder jouw
+    streefwaarde. Verband niet bewezen,
+    patroon wel zichtbaar."
+```
+
+Just the facts — ook in de klachtentaal.
+
+### 23.5 Export voor arts of PT
+
+Elke gebruiker kan een klachtenrapport exporteren:
+- Klacht + datum + bijbehorende biomarkers
+- Klacht + datum + HRV/slaap/temperatuur trend
+- Tijdlijn die de arts of PT anders nooit zou hebben
+
+Een patiënt die binnenkomt met 6 maanden longitudinale data wordt anders behandeld dan iemand die alleen klachten beschrijft.
+
+---
+
+## 24. Business model referenties
+
+> Referentieplatforms die bewijzen dat de markt bestaat en wat de bereidheid tot betalen is.
+
+### 24.1 Levels Health (VS)
+
+**Wat het is:** Metabole gezondheidsmonitoring via CGM (continue glucosemeting) + bloedpanels.
+
+**Wat ze meten:** 100+ biomarkers — metabolisme, cardiovasculair, schildklier, hormonen, immuun.
+
+**Pricing:**
+```
+Classic:   $24/maand  → glucose monitoring only
+Core:      $41/maand  → 28+ markers
+Complete:  $167/maand → 100+ markers + clinician support
+```
+
+**Regulatory positioning:** Expliciet wellness platform, niet medisch apparaat. Disclaimer: "intended only for maintaining and encouraging a healthy lifestyle." Dit ondanks het meten van klinische biomarkers als ApoB, Lp(a), TSH en cortisol.
+
+**Wat Vitalix anders doet:**
+```
+Levels heeft:               Vitalix heeft extra:
+CGM (real-time glucose) ✅  Wearable HRV/slaap ✅
+Bloedpanel ✅               Bloeddruk (Withings) ✅
+                            Microbioom ✅
+                            DNA-kalibratie ✅
+                            Speeksel/cortisol ✅
+                            Vrouwencyclus sync ✅
+                            Interventie-feedbackloop ✅
+                            Multi-modale correlatie ✅
+                            Europese privacy ✅
+```
+
+**Validatiesignaal:** Amerikaanse consument betaalt $167/maand voor uitgebreide biomarkermonitoring. Europese markt: vergelijkbare bereidheid.
+
+---
+
+### 24.2 BlueHealth (NL)
+
+**Wat het is:** Eenmalige 360-graden gezondheidsscan in Amsterdam. 60 minuten. Directe resultaten.
+
+**Wat ze meten:**
+- ECG + carotis-echo (halsslagader)
+- 3D bodyscan (32 camera's)
+- Bloedwerk + metabole screening
+- Consult met arts
+
+**Pricing:** €269 (early access)
+
+**Wat het is — en wat het niet is:**
+```
+Sterk:    3D bodyscan uniek
+          Lage instapprijs
+          Arts aanwezig = vertrouwen
+
+Beperking: Momentopname — geen baseline over tijd
+           Geen wearable-integratie
+           Geen interventie-tracking
+           Geen "meet of het werkt"
+```
+
+**Relatie met Vitalix:** Complementair, niet competitief.
+```
+BlueHealth → de diepe scan, eenmalig
+             "waar sta ik nu?"
+
+Vitalix    → continu monitoren
+             "wat doet mijn lichaam elke dag?"
+             "werkt mijn interventie?"
+```
+
+Potentiële samenwerking: BlueHealth-klant doet de 360 scan → data gaat naar Vitalix als nulmeting → Vitalix monitort de progressie continu.
+
+**Validatiesignaal:** Nederlandse consument betaalt €269 voor preventieve gezondheidsscan. Markt voor preventieve gezondheidsdata bestaat in NL.
+
+---
+
+## 25. Bedrijfsmodel en publiek belang
+
+> Strategische architectuur. Geen buildtaak. Wel de lens waarmee alle commerciële beslissingen worden genomen.
+
+### 25.1 De kernspanning
+
+Vitalix raakt de meest intieme data die mensen hebben: biologie, kankerhistorie, hormonen, DNA, mentale patronen.
+
+Een winstmaximalisatie-model creëert perverse prikkels:
+
+```
+Meer engagement → meer data → meer waarde
+→ prikkel om mensen aan het platform te houden,
+  niet om ze gezonder te maken
+
+Data verkopen aan verzekeraars of farmaceuten
+→ korte termijn winst
+→ vernietiging van vertrouwen
+
+Exit naar grote speler
+→ platform verdwijnt of wordt uitgekleed
+→ gebruikersdata in handen van onbekende partij
+```
+
+Een publiek belang-model keert dit om.
+
+### 25.2 De beschikbare structuren
+
+**B-Corp certificering**
+```
+Opereer als normale BV
+Voldoe aan meetbare impact-criteria
+Transparantieverplichtingen
+Stakeholder governance
+
+Voordeel:  Direct toepasbaar, internationaal
+           herkenbaar, geen structuurwijziging
+Nadeel:    Geen juridische bescherming
+           tegen overname of koerswijziging
+```
+
+**Steward Ownership / Doelstichting**
+```
+BV met certificaten bij STAK
+(Stichting Administratiekantoor)
+
+Economisch eigendom: investeerders/oprichter
+Zeggenschap: stichting met publiek doel
+Effect: bedrijf KAN niet verkocht worden
+        zonder toestemming van de stichting
+
+Voorbeelden: Bosch (Robert Bosch Stiftung)
+             Zeiss (Ernst Abbe Stiftung)
+             Patagonia (Holdfast Collective)
+```
+
+**Data Coöperatie**
+```
+Gebruikers zijn mede-eigenaar van hun data
+én van het platform
+
+Gebruiker betaalt lidmaatschap
+Gebruiker heeft stemrecht over datagebruik
+Winst gaat terug naar leden of naar onderzoek
+
+Voorbeeld: Midata.coop (Zwitserland)
+```
+
+### 25.3 Waarom dit voor Vitalix strategisch sterk is
+
+**Vertrouwen als architectuur:**
+
+```
+"Waarom zou ik mijn DNA-data,
+ kankerhistorie en hormoonprofiel
+ delen met een startup?"
+
+Bij steward ownership:
+→ "Omdat we juridisch niet verkocht kunnen
+    worden aan een verzekeraar.
+    Omdat onze stichting als enige zeggenschap
+    heeft. Omdat jouw data nooit een
+    commercieel product wordt."
+```
+
+Dat is geen marketingbelofte. Dat is juridische structuur.
+
+**Onderzoekspartnerships:**
+RIVM, UMC's en academische instellingen willen samenwerken met platforms met een publiek belang-structuur — niet met profit-maximizing startups.
+
+**Subsidies en fondsen:**
+```
+NWO onderzoekssubsidies
+ZonMw (gezondheidsonderzoek NL)
+EU Horizon programma's
+Gemeentelijk/provinciaal gezondheidsbeleid
+```
+
+### 25.4 Het data commons model
+
+```
+Geanonimiseerde, geconsenseerde Vitalix-data
+wordt een publiek gezondheidscommons
+
+Beschikbaar voor:
+→ Academisch onderzoek
+→ RIVM volksgezondheidsbeleid
+→ Zeldzame aandoeningen research
+→ Farmaceuten (tegen vergoeding die
+  terugvloeit naar het platform en gebruikers)
+
+Gebruiker kiest:
+→ Opt-in voor bijdrage aan commons
+→ Ontvangt korting of donatie aan
+  gezondheidsdoel als tegenprestatie
+```
+
+Niet een health app. Een publieke gezondheidsinfrastructuur met een consumenteninterface.
+
+### 25.5 De bouwvolgorde
+
+```
+Nu:         Bouw als normale BV
+            Leg intentie vast in communicatie
+            "Jouw data is nooit ons product"
+
+Bij 100+    B-Corp certificering
+gebruikers:
+
+Bij schaal: Steward ownership structuur
+            Zeggenschap naar doelstichting
+            Data commons lanceren
+```
+
+Patagonia begon als gewoon bedrijf. De structuurwijziging kwam decennia later. Eerst waarde bouwen — dan eigendom transfereren naar de structuur die de intentie juridisch borgt.
+
+---
+
 *SuperStories BV — Vitalix PRD — v0.1 — 28 maart 2026*
 *Sprint 0: persoonlijk tool voor twee pilotgebruikers. Bouw alleen wat hier staat.*
