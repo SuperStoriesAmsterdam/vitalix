@@ -1,24 +1,29 @@
 """
 Vitalix — Health router
-Endpoints voor gebruikers, dashboard, lab-invoer en interventies.
+Endpoints voor gebruikers, dashboard, lab-invoer, HRV, bloeddruk en interventies.
 """
 import logging
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from datetime import datetime
+from datetime import datetime, timedelta, date
 from typing import List, Optional
 
 from app.database import get_db
-from app.models import User, BloodPressureMeasurement, HRVReading, LabMarker, Baseline, Intervention, Alert
+from app.models import (
+    User, BloodPressureMeasurement, HRVReading, LabMarker,
+    Baseline, Intervention, Alert, DailyInput
+)
 from app.schemas import (
     UserCreate, UserResponse,
     LabMarkerCreate, LabMarkerResponse,
+    HRVReadingResponse, BloodPressureResponse,
     InterventionCreate, InterventionResponse,
     DashboardResponse, MarkerSummary, AlertResponse,
     BaselineResponse
 )
 from app.baseline import recalculate_baseline_for_user
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -44,7 +49,7 @@ def create_user(user_data: UserCreate, db: Session = Depends(get_db)):
 
 @router.get("/users", response_model=List[UserResponse])
 def get_users(db: Session = Depends(get_db)):
-    """Geeft alle gebruikers terug. Sprint 0: Peter en partner."""
+    """Geeft alle gebruikers terug."""
     return db.query(User).all()
 
 
@@ -62,11 +67,10 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
 
 # ── Dashboard ──────────────────────────────────────────────────────────────────
 
-@router.get("/dashboard/{user_id}", response_model=DashboardResponse)
+@router.get("/users/{user_id}/dashboard", response_model=DashboardResponse)
 def get_dashboard(user_id: int, db: Session = Depends(get_db)):
     """
     Persoonlijk dashboard: laatste metingen, persoonlijke baselines en trends.
-    Dit is het hoofdscherm van de app.
     """
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
@@ -91,7 +95,6 @@ def get_dashboard(user_id: int, db: Session = Depends(get_db)):
 
 
 def _build_bp_summary(db: Session, user_id: int) -> MarkerSummary:
-    """Bouwt de bloeddruksamenvatting voor het dashboard."""
     latest = db.query(BloodPressureMeasurement).filter(
         BloodPressureMeasurement.user_id == user_id
     ).order_by(BloodPressureMeasurement.measured_at.desc()).first()
@@ -112,7 +115,6 @@ def _build_bp_summary(db: Session, user_id: int) -> MarkerSummary:
 
 
 def _build_hrv_summary(db: Session, user_id: int) -> MarkerSummary:
-    """Bouwt de HRV-samenvatting voor het dashboard."""
     latest = db.query(HRVReading).filter(
         HRVReading.user_id == user_id
     ).order_by(HRVReading.date.desc()).first()
@@ -133,7 +135,6 @@ def _build_hrv_summary(db: Session, user_id: int) -> MarkerSummary:
 
 
 def _build_deep_sleep_summary(db: Session, user_id: int) -> MarkerSummary:
-    """Bouwt de diepe slaap-samenvatting voor het dashboard."""
     latest = db.query(HRVReading).filter(
         HRVReading.user_id == user_id
     ).order_by(HRVReading.date.desc()).first()
@@ -154,10 +155,6 @@ def _build_deep_sleep_summary(db: Session, user_id: int) -> MarkerSummary:
 
 
 def _calculate_trend(db: Session, user_id: int, marker_name: str) -> Optional[str]:
-    """
-    Vergelijkt het 7-daags gemiddelde met het 30-daags gemiddelde.
-    Geeft 'up', 'down' of 'stable' terug. None als onvoldoende data.
-    """
     baseline = db.query(Baseline).filter(
         Baseline.user_id == user_id,
         Baseline.marker_name == marker_name
@@ -166,18 +163,57 @@ def _calculate_trend(db: Session, user_id: int, marker_name: str) -> Optional[st
     if not baseline or not baseline.is_stable:
         return None
 
-    return "stable"  # Sprint 0: verfijnen in Sprint 1 met echte trend-berekening
+    return "stable"
+
+
+# ── HRV & Slaap ────────────────────────────────────────────────────────────────
+
+@router.get("/users/{user_id}/hrv", response_model=List[HRVReadingResponse])
+def get_hrv(user_id: int, days: int = 30, db: Session = Depends(get_db)):
+    """Geeft HRV- en slaapdata terug voor de afgelopen N dagen."""
+    since = datetime.utcnow() - timedelta(days=days)
+    return (
+        db.query(HRVReading)
+        .filter(HRVReading.user_id == user_id, HRVReading.date >= since.date())
+        .order_by(HRVReading.date.asc())
+        .all()
+    )
+
+
+# ── Bloeddruk ──────────────────────────────────────────────────────────────────
+
+@router.get("/users/{user_id}/blood-pressure", response_model=List[BloodPressureResponse])
+def get_blood_pressure(user_id: int, days: int = 30, db: Session = Depends(get_db)):
+    """Geeft bloeddrukmetingen terug voor de afgelopen N dagen."""
+    since = datetime.utcnow() - timedelta(days=days)
+    return (
+        db.query(BloodPressureMeasurement)
+        .filter(
+            BloodPressureMeasurement.user_id == user_id,
+            BloodPressureMeasurement.measured_at >= since,
+        )
+        .order_by(BloodPressureMeasurement.measured_at.asc())
+        .all()
+    )
+
+
+# ── Baselines ──────────────────────────────────────────────────────────────────
+
+@router.get("/users/{user_id}/baselines", response_model=List[BaselineResponse])
+def get_baselines(user_id: int, db: Session = Depends(get_db)):
+    """Geeft alle persoonlijke referentiewaarden terug voor deze gebruiker."""
+    return db.query(Baseline).filter(Baseline.user_id == user_id).all()
 
 
 # ── Lab markers ────────────────────────────────────────────────────────────────
 
-@router.post("/users/{user_id}/lab", response_model=LabMarkerResponse)
+@router.post("/users/{user_id}/lab-markers", response_model=LabMarkerResponse)
 def add_lab_marker(
     user_id: int,
     marker_data: LabMarkerCreate,
     db: Session = Depends(get_db)
 ):
-    """Voeg een handmatig ingevoerde labwaarde toe (bloed, speeksel, urine, ontlasting)."""
+    """Voeg een handmatig ingevoerde labwaarde toe."""
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(
@@ -195,7 +231,7 @@ def add_lab_marker(
     return marker
 
 
-@router.get("/users/{user_id}/lab", response_model=List[LabMarkerResponse])
+@router.get("/users/{user_id}/lab-markers", response_model=List[LabMarkerResponse])
 def get_lab_markers(
     user_id: int,
     test_type: Optional[str] = None,
@@ -203,19 +239,48 @@ def get_lab_markers(
     per_page: int = 20,
     db: Session = Depends(get_db)
 ):
-    """
-    Geeft ingevoerde labwaarden terug voor deze gebruiker, gepagineerd.
-
-    Args:
-        test_type: Filter op testtype ('blood', 'saliva', 'urine', 'stool'). Optioneel.
-        page: Paginanummer (standaard 1).
-        per_page: Resultaten per pagina (standaard 20).
-    """
+    """Geeft ingevoerde labwaarden terug voor deze gebruiker, gepagineerd."""
     query = db.query(LabMarker).filter(LabMarker.user_id == user_id)
     if test_type:
         query = query.filter(LabMarker.test_type == test_type)
     offset = (page - 1) * per_page
     return query.order_by(LabMarker.measured_at.desc()).offset(offset).limit(per_page).all()
+
+
+# ── Dagelijkse invoer ──────────────────────────────────────────────────────────
+
+class DailyInputCreate(BaseModel):
+    energy_level: int
+    context_flags: List[str] = []
+    note: Optional[str] = None
+    input_date: str  # YYYY-MM-DD
+
+
+@router.post("/users/{user_id}/daily-input")
+def create_daily_input(
+    user_id: int,
+    data: DailyInputCreate,
+    db: Session = Depends(get_db)
+):
+    """Sla de dagelijkse energie-invoer en context-knoppen op."""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail={"code": "USER_NOT_FOUND", "message": "Gebruiker niet gevonden."}
+        )
+
+    entry = DailyInput(
+        user_id=user_id,
+        energy_level=data.energy_level,
+        context_flags=data.context_flags,
+        note=data.note,
+        input_date=date.fromisoformat(data.input_date),
+    )
+    db.add(entry)
+    db.commit()
+    db.refresh(entry)
+    return {"status": "opgeslagen", "id": entry.id}
 
 
 # ── Interventies ───────────────────────────────────────────────────────────────
@@ -226,10 +291,7 @@ def start_intervention(
     intervention_data: InterventionCreate,
     db: Session = Depends(get_db)
 ):
-    """
-    Start een nieuwe interventie en maakt een baseline-snapshot op T=0.
-    Dit snapshot wordt na 8-12 weken vergeleken om effect te meten.
-    """
+    """Start een nieuwe interventie en maakt een baseline-snapshot op T=0."""
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(
@@ -237,7 +299,6 @@ def start_intervention(
             detail={"code": "USER_NOT_FOUND", "message": "Gebruiker niet gevonden."}
         )
 
-    # Baseline snapshot: sla alle actuele baselines op als startpunt
     baselines = db.query(Baseline).filter(Baseline.user_id == user_id).all()
     snapshot = {
         b.marker_name: {
@@ -256,7 +317,6 @@ def start_intervention(
     db.add(intervention)
     db.commit()
     db.refresh(intervention)
-
     return intervention
 
 
