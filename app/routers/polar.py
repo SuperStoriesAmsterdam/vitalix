@@ -152,10 +152,17 @@ async def polar_sync(user_id: int, days: int = 30, db: Session = Depends(get_db)
     )
 
     sleep_by_date = {entry["date"]: entry for entry in sleep_data}
+    recharge_by_date = {entry["date"]: entry for entry in recharge_data}
+
+    # Verzamel alle unieke datums uit beide datasets
+    all_dates = set(sleep_by_date.keys()) | set(recharge_by_date.keys())
 
     synced = 0
-    for recharge in recharge_data:
-        reading_date = recharge.get("date")
+
+    def to_min(s):
+        return math.floor(s / 60) if s else None
+
+    for reading_date in sorted(all_dates):
         if not reading_date:
             continue
         existing = db.query(HRVReading).filter(
@@ -166,10 +173,7 @@ async def polar_sync(user_id: int, days: int = 30, db: Session = Depends(get_db)
             continue
 
         sleep = sleep_by_date.get(reading_date, {})
-        total = sleep.get("total_sleep_seconds") or 0
-
-        def to_min(s):
-            return math.floor(s / 60) if s else None
+        recharge = recharge_by_date.get(reading_date, {})
 
         db.add(HRVReading(
             user_id=user_id,
