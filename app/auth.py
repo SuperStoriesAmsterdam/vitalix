@@ -18,6 +18,7 @@ Veiligheidsregels (per CLAUDE.md):
 import secrets
 import logging
 from datetime import datetime, timedelta
+from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -35,9 +36,70 @@ TOKEN_EXPIRY_MINUTES = 15
 router = APIRouter()
 
 
+class RegisterRequest(BaseModel):
+    """Aanmaken van een nieuw gebruikersaccount."""
+    name: str
+    email: EmailStr
+    date_of_birth: Optional[str] = None  # formaat: YYYY-MM-DD
+    sex: Optional[str] = None            # 'male' of 'female'
+
+
 class LoginRequest(BaseModel):
     """Verzoek voor een magic link login."""
     email: EmailStr
+
+
+@router.post("/register")
+def register(data: RegisterRequest, db: Session = Depends(get_db)):
+    """
+    Maakt een nieuw gebruikersaccount aan en stuurt direct een magic link.
+    Geeft een foutmelding als het e-mailadres al bestaat.
+
+    Args:
+        data: naam, email, en optioneel geboortedatum en geslacht.
+    """
+    existing = db.query(User).filter(User.email == data.email).first()
+    if existing:
+        raise HTTPException(
+            status_code=409,
+            detail={"code": "EMAIL_EXISTS", "message": "Dit e-mailadres is al geregistreerd."}
+        )
+
+    user = User(
+        name=data.name,
+        email=data.email,
+        sex=data.sex,
+    )
+
+    if data.date_of_birth:
+        from datetime import date
+        user.date_of_birth = date.fromisoformat(data.date_of_birth)
+
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    # Stuur direct een magic link zodat de gebruiker meteen kan inloggen
+    token_value = secrets.token_urlsafe(32)
+    expires_at = datetime.utcnow() + timedelta(minutes=TOKEN_EXPIRY_MINUTES)
+    token = MagicLinkToken(
+        user_id=user.id,
+        token=token_value,
+        expires_at=expires_at,
+    )
+    db.add(token)
+    db.commit()
+
+    from app.config import settings
+    login_url = f"{settings.app_base_url}/auth/verify?token={token_value}"
+    logger.info(f"Nieuw account aangemaakt voor {user.email} (ID: {user.id}). Magic link: {login_url}")
+
+    return {
+        "user_id": user.id,
+        "name": user.name,
+        "email": user.email,
+        "message": "Account aangemaakt. Controleer je e-mail voor de loginlink.",
+    }
 
 
 @router.post("/login")
