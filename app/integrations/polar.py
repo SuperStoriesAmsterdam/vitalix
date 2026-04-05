@@ -280,6 +280,9 @@ async def get_activity(
                     "Accept": "application/json",
                 },
             )
+            if response.status_code == 404:
+                logger.info(f"Polar activiteit niet beschikbaar voor gebruiker {polar_user_id}")
+                return []
             response.raise_for_status()
             data = response.json()
     except httpx.TimeoutException:

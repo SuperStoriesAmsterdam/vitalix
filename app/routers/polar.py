@@ -110,6 +110,34 @@ async def polar_callback(
     }
 
 
+@router.get("/activity/{user_id}")
+async def polar_activity(user_id: int, days: int = 30, db: Session = Depends(get_db)):
+    """
+    Haalt ruwe activiteitsdata op van Polar voor de opgegeven gebruiker.
+    Geeft stappen, calorieën en actieve tijd terug per dag.
+    """
+    from app.integrations.polar import get_activity
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Gebruiker niet gevonden.")
+    if not user.polar_access_token or not user.polar_user_id:
+        raise HTTPException(status_code=400, detail="Geen Polar-koppeling gevonden.")
+
+    activity_data = await get_activity(
+        access_token=user.polar_access_token,
+        polar_user_id=user.polar_user_id,
+        days_back=days,
+    )
+
+    return {
+        "user_id": user_id,
+        "days_checked": days,
+        "count": len(activity_data),
+        "activity": activity_data,
+    }
+
+
 @router.get("/status/{user_id}")
 def polar_status(user_id: int, db: Session = Depends(get_db)):
     """Controleer of een gebruiker een actieve Polar-koppeling heeft."""
