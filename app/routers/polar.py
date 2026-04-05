@@ -120,3 +120,76 @@ def polar_status(user_id: int, db: Session = Depends(get_db)):
         "gekoppeld": user.polar_access_token is not None,
         "polar_user_id": user.polar_user_id,
     }
+
+
+@router.post("/sync/{user_id}")
+async def polar_sync(user_id: int, days: int = 30, db: Session = Depends(get_db)):
+    """
+    Triggert een handmatige Polar-sync voor de opgegeven gebruiker.
+    Haalt HRV, slaap en activiteitsdata op voor de afgelopen N dagen (standaard 30).
+    """
+    from app.integrations.polar import get_nightly_recharge, get_sleep as polar_get_sleep
+    from app.models import HRVReading
+    from app.baseline import recalculate_baseline_for_user
+    from datetime import timedelta
+    import math
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Gebruiker niet gevonden.")
+    if not user.polar_access_token or not user.polar_user_id:
+        raise HTTPException(status_code=400, detail="Geen Polar-koppeling gevonden.")
+
+    recharge_data = await get_nightly_recharge(
+        access_token=user.polar_access_token,
+        polar_user_id=user.polar_user_id,
+        days_back=days,
+    )
+    sleep_data = await polar_get_sleep(
+        access_token=user.polar_access_token,
+        polar_user_id=user.polar_user_id,
+        days_back=days,
+    )
+
+    sleep_by_date = {entry["date"]: entry for entry in sleep_data}
+
+    synced = 0
+    for recharge in recharge_data:
+        reading_date = recharge.get("date")
+        if not reading_date:
+            continue
+        existing = db.query(HRVReading).filter(
+            HRVReading.user_id == user_id,
+            HRVReading.date == reading_date
+        ).first()
+        if existing:
+            continue
+
+        sleep = sleep_by_date.get(reading_date, {})
+        total = sleep.get("total_sleep_seconds") or 0
+
+        def to_min(s):
+            return math.floor(s / 60) if s else None
+
+        db.add(HRVReading(
+            user_id=user_id,
+            date=reading_date,
+            rmssd=recharge.get("heart_rate_variability_avg"),
+            ans_charge=recharge.get("ans_charge"),
+            deep_sleep_minutes=to_min(sleep.get("deep_sleep_seconds")),
+            rem_sleep_minutes=to_min(sleep.get("rem_sleep_seconds")),
+            light_sleep_minutes=to_min(sleep.get("light_sleep_seconds")),
+            sleep_score=sleep.get("sleep_score"),
+            source="polar",
+        ))
+        synced += 1
+
+    db.commit()
+
+    if synced > 0:
+        recalculate_baseline_for_user(db, user_id, "hrv_rmssd")
+        recalculate_baseline_for_user(db, user_id, "deep_sleep_minutes")
+        recalculate_baseline_for_user(db, user_id, "ans_charge")
+
+    logger.info(f"Handmatige Polar sync: {synced} nieuwe dagen voor gebruiker {user_id}")
+    return {"synced": synced, "days_checked": days}
