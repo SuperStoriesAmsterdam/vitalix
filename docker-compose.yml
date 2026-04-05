@@ -5,7 +5,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql://vitalix:VitalixGo2026x@db:5432/vitalix
+      DATABASE_URL: postgresql://${POSTGRES_USER:-vitalix}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-vitalix}
       REDIS_HOST: redis
       REDIS_PORT: 6379
     env_file: .env
@@ -20,7 +20,7 @@ services:
     build: .
     command: ["arq", "app.worker.WorkerSettings"]
     environment:
-      DATABASE_URL: postgresql://vitalix:VitalixGo2026x@db:5432/vitalix
+      DATABASE_URL: postgresql://${POSTGRES_USER:-vitalix}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-vitalix}
       REDIS_HOST: redis
       REDIS_PORT: 6379
     env_file: .env
@@ -36,9 +36,9 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: vitalix
-      POSTGRES_USER: vitalix
-      POSTGRES_PASSWORD: "VitalixGo2026x"
+      POSTGRES_DB: ${POSTGRES_DB:-vitalix}
+      POSTGRES_USER: ${POSTGRES_USER:-vitalix}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U vitalix -d vitalix"]
       interval: 10s
