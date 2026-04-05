@@ -17,9 +17,8 @@ def build_user_context(db: Session, user: User) -> str:
 
     lines = []
 
-    # Persoonlijk profiel
+    # Persoonlijk profiel — geen naam, geen e-mail, geen identificerende info naar Anthropic
     lines.append("## Gebruikersprofiel")
-    lines.append(f"Naam: {user.name}")
     if user.date_of_birth:
         age = (date.today() - user.date_of_birth).days // 365
         lines.append(f"Leeftijd: {age} jaar")
