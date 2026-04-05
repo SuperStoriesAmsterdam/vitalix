@@ -3,6 +3,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
+import Trends from './pages/Trends'
+import Lab from './pages/Lab'
+import Alertes from './pages/Alertes'
 import './index.css'
 
 const queryClient = new QueryClient({
@@ -24,6 +27,9 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <Layout activePage={page} onNavigate={setPage}>
         {page === 'dashboard' && <Dashboard userId={USER_ID} />}
+        {page === 'trends' && <Trends userId={USER_ID} />}
+        {page === 'lab' && <Lab userId={USER_ID} />}
+        {page === 'alerts' && <Alertes userId={USER_ID} />}
         {page === 'instellingen' && <Profile userId={USER_ID} />}
       </Layout>
     </QueryClientProvider>
