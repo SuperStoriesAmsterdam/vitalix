@@ -14,9 +14,12 @@ from app.database import Base
 
 class User(Base):
     """
-    Gebruikersprofiel. Sprint 0: twee gebruikers — Peter en partner.
+    Gebruikersprofiel.
     sex bepaalt welke markers relevant zijn (vrouwspecifieke markers bij 'female').
     health_profile bevat context: kankerhistorie, cardiovasculair risico, cyclusinformatie.
+    Wearable-tokens zijn optioneel — een gebruiker koppelt alleen de apparaten die hij heeft.
+    Ondersteunde wearables: Polar Loop, Whoop (v2 API).
+    Ondersteunde monitoren: Withings BPM Vision.
     """
     __tablename__ = "users"
 
@@ -26,9 +29,20 @@ class User(Base):
     date_of_birth = Column(Date, nullable=True)
     sex = Column(String, nullable=True)  # 'male' of 'female'
     health_profile = Column(JSON, nullable=True)  # vrije context per gebruiker
+
+    # Withings BPM Vision
     withings_access_token = Column(String, nullable=True)
     withings_refresh_token = Column(String, nullable=True)
-    oura_access_token = Column(String, nullable=True)
+
+    # Polar Loop (AccessLink API)
+    polar_access_token = Column(String, nullable=True)
+    polar_user_id = Column(String, nullable=True)
+
+    # Whoop (Developer API v1)
+    whoop_access_token = Column(String, nullable=True)
+    whoop_refresh_token = Column(String, nullable=True)
+    whoop_user_id = Column(String, nullable=True)
+
     created_at = Column(DateTime, default=datetime.utcnow)
 
     blood_pressure_measurements = relationship(
@@ -39,6 +53,7 @@ class User(Base):
     baselines = relationship("Baseline", back_populates="user")
     interventions = relationship("Intervention", back_populates="user")
     alerts = relationship("Alert", back_populates="user")
+    daily_inputs = relationship("DailyInput", back_populates="user")
 
 
 class BloodPressureMeasurement(Base):
@@ -61,23 +76,25 @@ class BloodPressureMeasurement(Base):
 
 class HRVReading(Base):
     """
-    Dagelijkse HRV en slaapdata van de Oura Ring.
+    Dagelijkse HRV en slaapdata van de Polar Loop.
     Één rij per dag per gebruiker.
+    rmssd komt uit Nightly Recharge (ans_charge/heart_rate_variability_avg).
+    sleep_score en slaapfases komen uit de Sleep API.
     """
     __tablename__ = "hrv_readings"
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
     date = Column(Date, nullable=False, index=True)
-    rmssd = Column(Float, nullable=True)                  # HRV in ms
+    rmssd = Column(Float, nullable=True)                  # HRV in ms (heart_rate_variability_avg)
+    ans_charge = Column(Float, nullable=True)             # Polar autonome herstel-score 0-100
     deep_sleep_minutes = Column(Integer, nullable=True)
     rem_sleep_minutes = Column(Integer, nullable=True)
     light_sleep_minutes = Column(Integer, nullable=True)
     sleep_efficiency = Column(Float, nullable=True)        # 0-100%
     sleep_latency_minutes = Column(Integer, nullable=True) # minuten tot inslapen
-    temperature_delta = Column(Float, nullable=True)       # afwijking van persoonlijke norm
-    readiness_score = Column(Integer, nullable=True)       # Oura score 0-100
-    source = Column(String, default="oura")
+    sleep_score = Column(Integer, nullable=True)           # Polar slaapscore 0-100
+    source = Column(String, default="polar")
 
     user = relationship("User", back_populates="hrv_readings")
 
@@ -159,3 +176,38 @@ class Alert(Base):
     is_read = Column(Boolean, default=False)
 
     user = relationship("User", back_populates="alerts")
+
+
+class DailyInput(Base):
+    """
+    Dagelijkse handmatige invoer van de gebruiker.
+    Energie-level (1-5) en context-knoppen die wearable-anomalieën verklaren.
+    Wordt gebruikt als context bij het genereren van insights.
+    """
+    __tablename__ = "daily_inputs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    energy_level = Column(Integer, nullable=True)    # 1 (uitgeput) t/m 5 (scherp)
+    context_flags = Column(JSON, nullable=True)      # bijv. ["alcohol", "late_bed", "sick"]
+    note = Column(Text, nullable=True)               # optionele vrije tekst
+    input_date = Column(Date, nullable=False, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User", back_populates="daily_inputs")
+
+
+class MagicLinkToken(Base):
+    """
+    Eenmalige inlogtoken voor magic link authenticatie.
+    Verlooopt na 15 minuten en kan maar één keer worden gebruikt.
+    Tokens worden nooit gelogd — alleen de loginlink zelf.
+    """
+    __tablename__ = "magic_link_tokens"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    token = Column(String, nullable=False, unique=True, index=True)
+    expires_at = Column(DateTime, nullable=False)
+    used = Column(Boolean, default=False, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)

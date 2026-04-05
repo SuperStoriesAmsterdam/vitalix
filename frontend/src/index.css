@@ -1,0 +1,43 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@theme {
+  --color-aqua-900: #0a3d49;
+  --color-aqua-800: #0d4f5e;
+  --color-aqua-700: #0F5F72;
+  --color-aqua-600: #1a7a90;
+  --color-aqua-500: #2496ae;
+  --color-aqua-100: #e6f4f7;
+  --color-aqua-50:  #f0f9fb;
+
+  --color-orange-600: #e5591c;
+  --color-orange-500: #FF6520;
+  --color-orange-400: #ff7d42;
+  --color-orange-100: #fff0e8;
+  --color-orange-50:  #fff7f3;
+
+  --color-vitalix-bg:     #F6F6F6;
+  --color-vitalix-card:   #FFFFFF;
+  --color-vitalix-text:   #1C1A18;
+  --color-vitalix-muted:  #7A7570;
+  --color-vitalix-border: #E8E8E8;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #F6F6F6;
+  color: #1C1A18;
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+#root { min-height: 100svh; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #E8E8E8; border-radius: 3px; }

@@ -80,19 +80,19 @@ class BloodPressureResponse(BaseModel):
         from_attributes = True
 
 
-# ── HRV / Oura ─────────────────────────────────────────────────────────────────
+# ── HRV / Polar ────────────────────────────────────────────────────────────────
 
 class HRVReadingResponse(BaseModel):
-    """HRV en slaapdata zoals teruggestuurd door de API."""
+    """HRV en slaapdata van de Polar Loop zoals teruggestuurd door de API."""
     id: int
     date: date
     rmssd: Optional[float]
+    ans_charge: Optional[float]
     deep_sleep_minutes: Optional[int]
     rem_sleep_minutes: Optional[int]
     sleep_efficiency: Optional[float]
     sleep_latency_minutes: Optional[int]
-    temperature_delta: Optional[float]
-    readiness_score: Optional[int]
+    sleep_score: Optional[int]
 
     class Config:
         from_attributes = True

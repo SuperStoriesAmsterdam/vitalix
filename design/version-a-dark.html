@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitalix — Just the Facts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #080808;
+      --bg2:      #111111;
+      --bg3:      #1a1a1a;
+      --border:   #252525;
+      --text:     #e4e4e0;
+      --muted:    #666660;
+      --subtle:   #333330;
+      --accent:   #3dffa0;
+      --accent2:  #ff5533;
+      --sans:     'Inter', system-ui, sans-serif;
+      --mono:     'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(8,8,8,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: var(--mono);
+      font-size: 17px; font-weight: 500;
+      color: var(--accent); letter-spacing: 0.06em;
+    }
+    .logo span {
+      display: block; font-size: 11px;
+      color: var(--muted); letter-spacing: 0.15em;
+      text-transform: uppercase; margin-top: 2px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 12px; letter-spacing: 0.08em;
+      text-transform: uppercase; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .btn {
+      background: var(--accent); color: #000;
+      border: none; padding: 10px 22px;
+      font-family: var(--sans); font-size: 12px;
+      font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; cursor: pointer;
+      text-decoration: none; display: inline-block;
+      transition: opacity .2s;
+    }
+    .btn:hover { opacity: .85; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 180px 48px 0;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .hero-label {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--accent); letter-spacing: 0.2em;
+      text-transform: uppercase; margin-bottom: 32px;
+    }
+    .hero h1 {
+      font-size: clamp(44px, 6.5vw, 84px);
+      font-weight: 700; line-height: 1.04;
+      letter-spacing: -0.04em; max-width: 900px;
+      margin-bottom: 28px;
+    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero-sub {
+      font-size: 19px; color: var(--muted);
+      max-width: 580px; line-height: 1.65;
+      font-weight: 300; margin-bottom: 44px;
+    }
+    .hero-cta { display: flex; align-items: center; gap: 16px; margin-bottom: 0; }
+
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 1px; background: var(--border);
+      margin-top: 80px;
+      border-top: 1px solid var(--border);
+    }
+    .stat { background: var(--bg); padding: 32px 36px; }
+    .stat-num {
+      font-family: var(--mono); font-size: 38px;
+      font-weight: 500; color: var(--accent);
+      display: block; line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 11px; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    /* ── SHARED SECTION ── */
+    .section {
+      max-width: 1200px; margin: 0 auto;
+      padding: 100px 48px;
+      border-top: 1px solid var(--border);
+    }
+    .s-label {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--muted); letter-spacing: 0.2em;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .s-title {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 16px;
+    }
+    .s-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 560px; line-height: 1.7;
+      margin-bottom: 56px; font-weight: 300;
+    }
+
+    /* ── NARRATIVE ── */
+    .narrative {
+      max-width: 1200px; margin: 0 auto;
+      padding: 100px 48px;
+      border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .narrative-quote {
+      font-size: 27px; font-weight: 500;
+      line-height: 1.45; letter-spacing: -0.02em;
+    }
+    .narrative-quote em { font-style: normal; color: var(--accent); }
+    .narrative-body {
+      font-size: 16px; color: var(--muted); line-height: 1.85;
+    }
+
+    /* ── STEPS ── */
+    .steps {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: var(--border);
+    }
+    .step { background: var(--bg2); padding: 44px 36px; }
+    .step-num {
+      font-family: var(--mono); font-size: 56px;
+      font-weight: 500; color: var(--subtle);
+      line-height: 1; margin-bottom: 24px;
+    }
+    .step h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+    .step p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+    /* ── METRICS ── */
+    .metrics-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: var(--border);
+    }
+    .metric {
+      background: var(--bg2); padding: 28px 28px 24px;
+      border-left: 2px solid transparent;
+      transition: border-color .2s, background .2s;
+    }
+    .metric:hover { border-left-color: var(--accent); background: var(--bg3); }
+    .metric-icon { font-size: 20px; margin-bottom: 14px; color: var(--muted); }
+    .metric h4 { font-size: 15px; font-weight: 600; margin-bottom: 7px; }
+    .metric p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .metric-src {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--accent); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-top: 12px;
+    }
+
+    /* ── HARDWARE ── */
+    .hardware-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+    }
+    .hw-card {
+      background: var(--bg2); border: 1px solid var(--border); padding: 36px 32px;
+    }
+    .hw-badge {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--accent); letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 18px;
+    }
+    .hw-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .hw-price {
+      font-family: var(--mono); font-size: 13px;
+      color: var(--muted); margin-bottom: 16px;
+    }
+    .hw-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .hw-list { list-style: none; margin-top: 18px; }
+    .hw-list li {
+      font-size: 12px; color: var(--muted);
+      padding: 6px 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hw-list li::before {
+      content: '→'; color: var(--accent);
+      font-family: var(--mono); font-size: 11px;
+    }
+
+    /* ── LABS ── */
+    .labs-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+    }
+    .lab-card {
+      background: var(--bg2); border: 1px solid var(--border); padding: 28px;
+    }
+    .lab-type {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--muted); letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 10px;
+    }
+    .lab-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .lab-price {
+      font-family: var(--mono); font-size: 13px;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .lab-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .disclaimer-bar {
+      margin-top: 20px; padding: 16px 20px;
+      border: 1px solid var(--border); background: var(--bg2);
+    }
+    .disclaimer-bar p {
+      font-size: 11px; color: var(--muted); line-height: 1.6;
+    }
+    .disclaimer-bar span {
+      font-family: var(--mono); color: var(--accent);
+      font-size: 10px; letter-spacing: 0.1em;
+    }
+
+    /* ── FOR WHO ── */
+    .audience-grid {
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 1px; background: var(--border);
+    }
+    .audience-card { background: var(--bg2); padding: 44px; }
+    .audience-card h3 { font-size: 19px; font-weight: 600; margin-bottom: 10px; }
+    .audience-card p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+    .about-body { font-size: 15px; color: var(--muted); line-height: 1.85; }
+    .about-body p + p { margin-top: 20px; }
+
+    /* ── PRIVACY ── */
+    .privacy-block {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent); padding: 44px;
+    }
+    .privacy-block blockquote {
+      font-size: 22px; font-weight: 500; line-height: 1.55;
+      margin-bottom: 16px; font-style: normal;
+    }
+    .privacy-block p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+    /* ── ROADMAP ── */
+    .roadmap-item {
+      display: grid; grid-template-columns: 200px 1fr;
+      gap: 48px; padding: 28px 0;
+      border-bottom: 1px solid var(--border); align-items: start;
+    }
+    .rm-period {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--accent); letter-spacing: 0.1em;
+      text-transform: uppercase; padding-top: 4px;
+    }
+    .rm-content h4 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .rm-content p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .badge {
+      display: inline-block; font-family: var(--mono);
+      font-size: 9px; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 3px 8px;
+      margin-left: 10px; vertical-align: middle;
+    }
+    .badge-active { background: rgba(61,255,160,.12); color: var(--accent); }
+    .badge-planned { background: rgba(100,100,100,.15); color: var(--muted); }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 100px 48px; text-align: center;
+    }
+    .cta-section h2 {
+      font-size: 44px; font-weight: 700;
+      letter-spacing: -0.04em; margin-bottom: 14px;
+    }
+    .cta-section p { font-size: 16px; color: var(--muted); margin-bottom: 36px; line-height: 1.6; }
+    .email-form { display: flex; gap: 10px; max-width: 480px; margin: 0 auto; }
+    .email-input {
+      flex: 1; background: var(--bg3); border: 1px solid var(--border);
+      color: var(--text); padding: 13px 18px;
+      font-family: var(--sans); font-size: 14px; outline: none;
+    }
+    .email-input:focus { border-color: var(--accent); }
+    .email-input::placeholder { color: var(--muted); }
+    .fine-print { font-size: 11px; color: var(--subtle); margin-top: 14px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-logo { font-family: var(--mono); font-size: 15px; color: var(--accent); }
+    .footer-right { text-align: right; font-size: 11px; color: var(--muted); line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div>
+    <div class="logo">VITALIX<span>// health intelligence</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#measure">Metrics</a>
+    <a href="#hardware">Hardware</a>
+    <a href="#labs">Labs</a>
+    <a href="#about">About</a>
+    <a href="#access" class="btn">Early Access</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">// preventive health intelligence</div>
+  <h1>Your body generates<br>thousands of signals.<br><em>Most go unread.</em></h1>
+  <p class="hero-sub">Vitalix connects your wearables, lab results, and DNA into one continuous picture of your health — before anything goes wrong.</p>
+  <div class="hero-cta">
+    <a href="#access" class="btn">Request Early Access</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">24/7</span><div class="stat-lbl">Continuous monitoring</div></div>
+    <div class="stat"><span class="stat-num">9+</span><div class="stat-lbl">Data streams integrated</div></div>
+    <div class="stat"><span class="stat-num">0×</span><div class="stat-lbl">Data sold or shared</div></div>
+    <div class="stat"><span class="stat-num">EU</span><div class="stat-lbl">Built &amp; hosted in Europe</div></div>
+  </div>
+</div>
+
+<!-- NARRATIVE -->
+<div class="narrative">
+  <p class="narrative-quote">A cardiologist looks at your heart. An endocrinologist looks at your hormones. Your GP has 10 minutes. <em>Nobody looks at you as a system.</em> Vitalix does exactly that.</p>
+  <p class="narrative-body">Medicine is built around specialisation. That's its strength — and its blind spot. Most chronic conditions don't start with one organ. They start with subtle imbalances across multiple systems, months or years before symptoms appear.<br><br>Vitalix reads those patterns. Continuously. Without waiting for you to feel something.</p>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section" id="how">
+  <div class="s-label">// how it works</div>
+  <h2 class="s-title">Three steps to<br>knowing your system</h2>
+  <p class="s-sub">No data science degree required. Connect your hardware, build your baseline, read your system.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Connect your hardware</h3>
+      <p>Clip on the Polar Loop. Take your blood pressure. Add lab results when you have them. Vitalix starts reading immediately — no complicated setup.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Build your baseline</h3>
+      <p>Over the first weeks, Vitalix establishes what's normal for you — not for a population average, but for your body, your rhythms, your patterns.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Read your system</h3>
+      <p>Daily insights, pattern detection, validated recommendations — reviewed by human experts before they reach you. Just the facts.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT WE MEASURE -->
+<div class="section" id="measure">
+  <div class="s-label">// what we measure</div>
+  <h2 class="s-title">Every signal.<br>In one place.</h2>
+  <p class="s-sub">Nine data streams, continuously updated, interpreted as a whole — not in isolation.</p>
+  <div class="metrics-grid">
+    <div class="metric">
+      <div class="metric-icon">♡</div>
+      <h4>Heart Rate Variability</h4>
+      <p>The most predictive marker of recovery, stress load, and autonomic balance. Tracked continuously during sleep.</p>
+      <div class="metric-src">→ Polar Loop</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">⊕</div>
+      <h4>Blood Pressure</h4>
+      <p>Triple-averaged systolic/diastolic readings. Clinical-grade accuracy, from your home, every day.</p>
+      <div class="metric-src">→ Withings BPM Vision</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">∿</div>
+      <h4>ECG + AFib Detection</h4>
+      <p>Single-lead electrocardiogram. Detects atrial fibrillation in 30 seconds.</p>
+      <div class="metric-src">→ Withings BPM Vision</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">◑</div>
+      <h4>Sleep Architecture</h4>
+      <p>Deep, light, and REM distribution. Sleep efficiency and timing tracked every night.</p>
+      <div class="metric-src">→ Polar Loop</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">↑</div>
+      <h4>Activity &amp; VO₂ Max</h4>
+      <p>Daily steps, active time, intensity distribution, and aerobic fitness estimate. Trends over weeks and months.</p>
+      <div class="metric-src">→ Polar Loop</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">≈</div>
+      <h4>Resting Heart Rate</h4>
+      <p>A rising resting HR is one of the earliest signs of overtraining, illness, or systemic stress.</p>
+      <div class="metric-src">→ Polar Loop</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">°</div>
+      <h4>Body Temperature (BBT)</h4>
+      <p>Basal body temperature. Critical for hormonal cycle tracking and metabolic baseline.</p>
+      <div class="metric-src">→ Manual entry</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">⌬</div>
+      <h4>Blood Biomarkers</h4>
+      <p>Vitamin D, hs-CRP, hormones, thyroid, metabolic panel — ordered via certified Dutch labs.</p>
+      <div class="metric-src">→ Lab integration</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">⌘</div>
+      <h4>DNA Markers</h4>
+      <p>Genetic predispositions interpreted in context of your live data — not in isolation.</p>
+      <div class="metric-src">→ Dante Labs / 23andMe</div>
+    </div>
+  </div>
+</div>
+
+<!-- HARDWARE -->
+<div class="section" id="hardware">
+  <div class="s-label">// hardware stack</div>
+  <h2 class="s-title">Chosen for accuracy.<br>Not for marketing.</h2>
+  <p class="s-sub">Two devices plus a €15 thermometer. No subscriptions. Finnish and French engineering, both European.</p>
+  <div class="hardware-grid">
+    <div class="hw-card">
+      <div class="hw-badge">// primary wearable</div>
+      <h3>Polar Loop</h3>
+      <div class="hw-price">€ 179 · no subscription</div>
+      <p>Finnish engineering. No screen, no distractions — just accurate biometric data, 24 hours a day. Works during martial arts and contact sports. No Palantir entanglement.</p>
+      <ul class="hw-list">
+        <li>HRV + resting heart rate</li>
+        <li>Sleep architecture</li>
+        <li>Activity + VO₂ Max</li>
+        <li>Polar AccessLink API</li>
+        <li>EU-based data storage</li>
+      </ul>
+    </div>
+    <div class="hw-card">
+      <div class="hw-badge">// blood pressure anchor</div>
+      <h3>Withings BPM Vision</h3>
+      <div class="hw-price">€ 179 · no subscription</div>
+      <p>Clinical-grade blood pressure with ECG. TripleTrust™ averages three readings. Validated against European Cardiology Society guidelines.</p>
+      <ul class="hw-list">
+        <li>Systolic + diastolic BP</li>
+        <li>ECG + AFib detection</li>
+        <li>Triple measurement averaging</li>
+        <li>Withings Health API</li>
+        <li>12-month battery</li>
+      </ul>
+    </div>
+    <div class="hw-card">
+      <div class="hw-badge">// hormonal baseline</div>
+      <h3>BBT Thermometer</h3>
+      <div class="hw-price">€ 15 · manual entry</div>
+      <p>Basal body temperature measured each morning. Especially relevant for hormonal cycle tracking, metabolic health, and ovulation patterns.</p>
+      <ul class="hw-list">
+        <li>2-decimal precision</li>
+        <li>Manual entry in app</li>
+        <li>Cycle pattern analysis</li>
+        <li>No subscription needed</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- LABS -->
+<div class="section" id="labs">
+  <div class="s-label">// where to test</div>
+  <h2 class="s-title">Deeper data.<br>Certified sources.</h2>
+  <p class="s-sub">Wearables tell you what's happening now. Labs and DNA tell you why — and what's coming.</p>
+  <div class="labs-grid">
+    <div class="lab-card">
+      <div class="lab-type">// blood · standard panels</div>
+      <h3>Mijnlabtest.nl</h3>
+      <div class="lab-price">Vanaf € 30</div>
+      <p>Self-directed blood testing without a GP referral. Standard panels: cholesterol, glucose, thyroid, liver, kidney, inflammatory markers.</p>
+    </div>
+    <div class="lab-card">
+      <div class="lab-type">// blood · specialty markers</div>
+      <h3>Medivere</h3>
+      <div class="lab-price">Vanaf € 60</div>
+      <p>Specialised in orthomolecular and functional medicine. Cortisol profiles, micronutrients, hs-CRP, hormonal panels, gut microbiome.</p>
+    </div>
+    <div class="lab-card">
+      <div class="lab-type">// DNA · whole genome</div>
+      <h3>Dante Labs</h3>
+      <div class="lab-price">€ 549 · one-time</div>
+      <p>Whole genome sequencing. Italian/EU company. Cardiovascular risk, cancer markers, metabolic conditions, medication response genetics.</p>
+    </div>
+  </div>
+  <div class="disclaimer-bar">
+    <p><span>// disclaimer</span> &nbsp; DNA and lab results in Vitalix are informational tools for personal insight, not medical diagnoses. Vitalix is a wellness platform. Always consult a qualified physician for medical decisions.</p>
+  </div>
+</div>
+
+<!-- FOR WHO -->
+<div class="section" id="for-who">
+  <div class="s-label">// for who</div>
+  <h2 class="s-title">Built for people who<br>don't wait for symptoms.</h2>
+  <!-- Featured: Women 25–35 -->
+  <div style="background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 44px 48px; margin-bottom: 1px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+    <div>
+      <div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px;">// key audience</div>
+      <h3 style="font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; line-height: 1.2;">Women, 25–35</h3>
+      <p style="font-size: 15px; color: var(--muted); line-height: 1.75;">You track your cycle, notice patterns in energy and mood, navigate contraception decisions, and think about your long-term health. You want data that connects these dots — not a period tracker, not a generic health app. A real picture of what's happening in your body, every day.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 1px; background: var(--border);">
+      <div style="background: var(--bg3); padding: 18px 22px;">
+        <div style="font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px;">→ cycle &amp; hormonal rhythm</div>
+        <div style="font-size: 12px; color: var(--muted);">BBT, HRV patterns, and energy mapped to your cycle phases</div>
+      </div>
+      <div style="background: var(--bg3); padding: 18px 22px;">
+        <div style="font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px;">→ stress &amp; recovery load</div>
+        <div style="font-size: 12px; color: var(--muted);">Cortisol patterns, sleep quality, and nervous system balance</div>
+      </div>
+      <div style="background: var(--bg3); padding: 18px 22px;">
+        <div style="font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px;">→ preventive markers</div>
+        <div style="font-size: 12px; color: var(--muted);">Iron, vitamin D, thyroid, and inflammation before symptoms appear</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="audience-grid" style="margin-top: 0;">
+    <div class="audience-card">
+      <h3>The preventive thinker</h3>
+      <p>You're healthy by most measures. You want to stay that way — understand your baseline, and catch deviations before they become conditions.</p>
+    </div>
+    <div class="audience-card">
+      <h3>The serious athlete</h3>
+      <p>You train hard. You need recovery data that's actually accurate. Push when the data says push. Rest when it says rest.</p>
+    </div>
+    <div class="audience-card">
+      <h3>Women navigating hormonal conditions</h3>
+      <p>Endometriosis, PCOS, perimenopause, thyroid. Vitalix tracks the full picture — not just what your GP has 10 minutes for.</p>
+    </div>
+    <div class="audience-card">
+      <h3>The 40+ health optimiser</h3>
+      <p>You've started thinking about longevity, not just fitness. You want a clear, honest picture of where you are — and what to do about it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="section" id="about">
+  <div class="about-grid">
+    <div>
+      <div class="s-label">// about vitalix</div>
+      <h2 class="s-title" style="font-size: 40px;">Built on one idea: coherence is intelligence.</h2>
+    </div>
+    <div class="about-body">
+      <p>Modern healthcare generates enormous amounts of health data — and then silos it by specialist, by appointment, by symptom. Vitalix is built on the premise that the real signal is in the relationship between data points, not in any single measurement.</p>
+      <p>We integrate wearable data, blood biomarkers, genetic predispositions, and personal history into a continuously updated model of your health. The AI learns your patterns. Human experts validate the insights. You keep full ownership of every data point.</p>
+      <p>Vitalix is built by SuperStories BV, a Dutch company operating as a public benefit entity. The long-term model is a data commons — collective intelligence that serves individual health, with no commercial exploitation of personal data.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PRIVACY -->
+<div class="section" id="privacy">
+  <div class="s-label">// data &amp; privacy</div>
+  <h2 class="s-title">Your data.<br>Full stop.</h2>
+  <div class="privacy-block">
+    <blockquote>"Your health data belongs to you. Not to advertisers, not to insurers, not to pharmaceutical companies. Vitalix will never sell, licence, or commercially exploit your personal data."</blockquote>
+    <p>Hosted on European infrastructure (Hetzner, Germany). Encrypted at rest and in transit. Export or delete all your data at any time. No dark patterns. No hidden defaults. We're building toward steward-ownership (STAK) — a legal structure that permanently removes profit motive from data decisions.</p>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<div class="section" id="roadmap">
+  <div class="s-label">// roadmap</div>
+  <h2 class="s-title">Where we are.<br>Where we're going.</h2>
+  <div style="margin-top: 48px;">
+    <div class="roadmap-item">
+      <div class="rm-period">Now — Q2 2025 <span class="badge badge-active">Active</span></div>
+      <div class="rm-content">
+        <h4>Hardware integration + personal dashboard</h4>
+        <p>Polar Loop and Withings BPM Vision fully integrated. Personal health dashboard live. Manual entry for temperature and lab values. Baseline establishment protocol.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rm-period">Q3 2025 <span class="badge badge-planned">Planned</span></div>
+      <div class="rm-content">
+        <h4>Lab &amp; DNA integration + AI insights</h4>
+        <p>Structured import of blood biomarkers and DNA markers. First AI-generated insights with scientific source citations. PT validation layer — human experts review recommendations before delivery.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rm-period">Q4 2025 <span class="badge badge-planned">Planned</span></div>
+      <div class="rm-content">
+        <h4>Collective intelligence (privacy-preserving)</h4>
+        <p>Federated learning across consenting users. Patterns that help others without exposing individual data. The more people use Vitalix, the smarter it gets — for everyone.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rm-period">2026 <span class="badge badge-planned">Planned</span></div>
+      <div class="rm-content">
+        <h4>Personal trainer network + B2B platform</h4>
+        <p>Certified PT ambassadors. White-label platform for gyms, wellness centres, and health professionals. Public benefit business model formalised.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section" id="access">
+  <div class="s-label" style="text-align:center; margin-bottom: 20px;">// early access</div>
+  <h2 style="font-size: 48px; font-weight: 700; letter-spacing: -0.04em; margin-bottom: 14px;">Be first.</h2>
+  <p style="font-size: 16px; color: var(--muted); margin-bottom: 36px; max-width: 440px; margin-left: auto; margin-right: auto; line-height: 1.65;">Vitalix is in early development. Leave your email and we'll reach out when early access opens — no spam, no obligation.</p>
+  <div class="email-form">
+    <input type="email" class="email-input" placeholder="your@email.com">
+    <button class="btn">Join Waitlist</button>
+  </div>
+  <p class="fine-print">No spam. Unsubscribe any time. Your email is not shared.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">VITALIX</div>
+      <div style="font-size: 11px; color: var(--subtle); margin-top: 6px;">Wellness platform · Not a medical device · Always consult a physician</div>
+    </div>
+    <div class="footer-right">
+      SuperStories BV · Amsterdam, Netherlands<br>
+      <span style="opacity: .6;">© 2025 · Built in Europe · EU data regulation compliant</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

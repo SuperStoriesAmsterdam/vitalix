@@ -1,7 +1,10 @@
 # Product Requirements — Vitalix
 
-> This document tells Claude Code *what* to build.
-> CLAUDE.md tells it *how*. SUPERSTORIES-PLATFORM.md tells it *with what*.
+> Dit document vertelt Claude Code *wat* te bouwen.
+> CLAUDE.md vertelt *hoe*. SUPERSTORIES-PLATFORM.md vertelt *met wat*.
+
+**Versie:** 2.0
+**Datum:** 2026-04-01
 
 ---
 
@@ -9,1888 +12,711 @@
 
 | Field | Value |
 |-------|-------|
-| Product name | Vitalix |
+| Product naam | Vitalix |
 | Product ID | `vitalix` |
-| One-line description | Persoonlijk preventief gezondheidssysteem dat wearable-data, bloedwaarden en biometrie combineert tot één coherent beeld — en meet of interventies werken. |
-| Target user | Gezondheidsbewuste volwassenen (45+, kankerhistorie, cardiovasculair risico) én vrouwen 20-35 die door de reguliere zorg niet serieus worden genomen. Begint als persoonlijk tool voor twee pilotgebruikers: Peter (59, man) en zijn partner (vrouw, 20-35). Derde sleutelsegment: mensen zonder medische familiegeschiedenis (zie 1C). |
-| Core problem | Gezondheidsdata bestaat versnipperd: wearable bij de ene app, bloed bij het lab, DNA ergens in een PDF. Niemand verbindt de punten. Huisarts vergelijkt met populatiegemiddelden, niet met jouw persoonlijke baseline. En als je een interventie start (probiotica, supplement, slaapprotocol) meet niemand ooit objectief of het heeft gewerkt. |
+| One-liner | Persoonlijk preventief gezondheidssysteem dat wearable-data, bloedwaarden en biometrie combineert tot één coherent beeld — en meet of interventies werken. |
+| Doelgroep | Gezondheidsbewuste volwassenen 40+, vrouwen 35-55 met hormonaal bewustzijn, mensen zonder medische familiegeschiedenis. Start als privétool voor twee pilotgebruikers: Peter (59) en zijn partner. |
+| Kernprobleem | Gezondheidsdata bestaat versnipperd. Niemand verbindt de punten. Huisarts vergelijkt met populatiegemiddelden, niet met jouw persoonlijke baseline. Als je een interventie start meet niemand objectief of het heeft gewerkt. |
 
 ---
 
-## 1C. Doelgroep — mensen zonder medische familiegeschiedenis
+## 1A. Doelgroep — Vrouwen 35–55
 
-De standaard preventieve geneeskunde vertrouwt zwaar op familiegeschiedenis: "Loopt hart- en vaatziekten in de familie?" Voor een substantiële groep is dit antwoord structureel onbekend.
+Vrouwen in de perimenopauze ervaren symptomen die door reguliere zorg systematisch worden onderschat: vermoeidheid, slaapproblemen, stemmingswisselingen, gewichtstoename, concentratieproblemen. De standaardreactie van de huisarts is een bloedtest met populatiewaarden die "normaal" zeggen — terwijl de vrouw zelf weet dat er iets veranderd is.
 
-**De groep:**
-- Geadopteerden (één of beide biologische ouders onbekend)
-- Mensen met een onbekende vader
-- Donorkinderen
-- Emigranten zonder toegang tot medische dossiers van de familie
-- Mensen wiens ouders vroeg zijn gestorven zonder diagnose
+Vitalix geeft hen wat de huisarts niet kan geven: een longitudinale spiegel van hun eigen biologie. Niet de norm van een gemiddelde vrouw — hun eigen baseline, over maanden opgebouwd.
 
-**Waarom Vitalix voor hen anders is:**
-Voor deze gebruikers is longitudinale persoonlijke data niet aanvullend op familiegeschiedenis — het *is* hun enige referentie. De vraag "is dit normaal voor mij?" kan niet worden beantwoord met "loopt dit in de familie." De persoonlijke baseline die Vitalix opbouwt is voor hen des te belangrijker: het is de enige historische context die ze hebben.
+**Wat Vitalix specifiek doet voor deze groep:**
+- HRV en slaapkwaliteit als objectieve maat voor hormonale schommelingen — oestrogeen en progesteron beïnvloeden direct de autonome zenuwstelselactiviteit
+- Cortisol-tracking (speekseltest ochtend/avond) om het dag-ritme te volgen — een afgevlakt cortisol-ritme is een vroeg signaal van HPA-as disregulatie
+- Cyclus als context-laag: labwaarden worden geïnterpreteerd relatief aan de cyclusfase, niet als losse getallen
+- Interventie-tracking: HRT, voeding, supplementen — objectief meten of het werkt
+- Verbinding met de estroboloom: darmmarkers (calprotectine, zonuline) beïnvloeden oestrogeenmetabolisme via β-glucuronidase. Dit verband is medisch onderbouwd maar wordt in de praktijk zelden gemeten.
 
-**Relevante pilots:**
-- Peter (59): geen DNA-informatie van vaderszijde
-- Partners dochter: geen DNA-informatie van moeder- of vaderszijde
+**Pilotgebruiker 1A:** Maya (partner van Peter) — post-oncologie ER+/PR+/HER2-, op aromatase-remmers, hersteld van leaky gut.
+**Pilotgebruiker 1D:** Maddy — perimenopauze, vermoedelijk MTHFR-variant, Whoop + Withings BPM Vision.
+
+---
+
+## 1B. Doelgroep — Mannen 45–65 met cardiovasculair risico
+
+Mannen in deze leeftijdsgroep hebben het hoogste cardiovasculaire risico maar de laagste zorgconsumptie — ze gaan pas naar de dokter als er iets mis is. Preventie is abstract. "Je bloeddruk is een beetje hoog" leidt zelden tot gedragsverandering.
+
+Vitalix maakt preventie concreet door het persoonlijk en longitudinaal te maken. Niet "jouw bloeddruk is 138/88 — dat is licht verhoogd voor jouw leeftijd." Maar: "jouw bloeddruk is de afgelopen drie weken gestegen van 132 naar 141 — dat is een trend die aandacht verdient."
+
+**Wat Vitalix specifiek doet voor deze groep:**
+- Bloeddruktrend over tijd, niet één meting — de trend is informatiever dan de absolute waarde
+- HRV als vroege cardiovasculaire stressmarker — daalt aantoonbaar weken voor klinische symptomen
+- hsCRP + homocysteïne als ontstekings- en methylatiemarkers — beiden geassocieerd met cardiovasculair risico en beïnvloedbaar via leefstijl
+- Testosteron + cortisol voor hormonale context — laag testosteron bij mannen >50 beïnvloedt cardiovasculair risico, energie en herstel
+- Interventie-feedback: voeding, slaap, supplementen — meet objectief wat werkt
+
+**Pilotgebruiker 1B:** Peter (59) — onregelmatige hartslag, schildklierhistorie, geen DNA-informatie vaderszijde.
+
+---
+
+## 1C. Doelgroep — Mensen zonder medische familiegeschiedenis
+
+Geadopteerden, mensen met onbekende biologische vader, donorkinderen, emigranten zonder contact. Voor hen is familiegeschiedenis niet een aanvulling op gezondheidsdata — het ontbreekt volledig. De standaard anamnese van de huisarts ("loopt hart- en vaatziekte in de familie?") heeft geen antwoord.
+
+Voor deze groep is longitudinale persoonlijke data niet luxe maar noodzaak. Zij bouwen hun eigen referentie op omdat er geen andere is.
 
 **Productimplicaties:**
-- Intakeprofiel: vraag naar beschikbaarheid familiegeschiedenis — als onbekend, markeer dit als context voor de baseline-interpretatie
-- Dashboard: geen familierisicokleur, wel extra nadruk op persoonlijke trendlijn
-- Messaging: niet "vergelijk met je familie" maar "bouw je eigen referentie op"
+- Intake: familiegeschiedenisveld met expliciete optie "gedeeltelijk/volledig onbekend" — geen verplicht veld
+- Dashboard: geen familierisicokleur of -vergelijking, extra nadruk op persoonlijke trendlijn
+- Messaging: "Bouw je eigen referentie op" — niet "vergelijk met je familie"
+- 23andMe-integratie is voor deze groep geen nice-to-have maar een kernfeature: genetische risicomarkers als gedeeltelijke vervanging van familiegeschiedenis
+- MTHFR (methylatie), COMT (catecholamine-afbraak), APOE (cardiovasculair/Alzheimer-risico) — SNPs die relevant zijn zonder familiecontext
 
-> **PR/marketing haakje (niet voor Sprint 0):** "Voor mensen zonder familiegeschiedenis is je eigen biometrie de enige baseline die je hebt." Grotere groep dan aangenomen — en een emotioneel resonant verhaal.
+**Pilotgebruiker 1C:** Peter (59, geen DNA-informatie vaderszijde).
 
 ---
 
-## 1B. De kern — positionering en narratief
+## 1D. Kernprincipes
 
-### Het centrale inzicht
+**Just the facts** — alleen wat meetbaar en aantoonbaar is. Geen diagnoses, geen speculatie. Als een inzicht niet onderbouwd kan worden met de beschikbare data van die gebruiker, wordt het niet gegenereerd. De AI mag correlaties benoemen, nooit causaal redeneren buiten de data.
 
-Een cardioloog kijkt naar je hart. Een endocrinoloog naar je hormonen. Een neuroloog naar je zenuwstelsel. Een orthomoleculaire arts naar je tekorten. Een oncoloog naar je tumor.
+**Het hele systeem** — HRV daalt, hsCRP stijgt, slaap verslechtert: drie signalen van hetzelfde proces. Geen enkel apparaat ziet dit. De huisarts ziet het bloedresultaat maar niet de wearable-data. Vitalix verbindt de punten — en vraagt altijd meerdere markers als bevestiging voor een inzicht. Één afwijkende waarde is een observatie. Drie gelijktijdige afwijkingen zijn een patroon.
 
-Niemand kijkt naar jou als systeem.
+**Persoonlijke baseline boven populatienorm** — de populatienorm is context, nooit het primaire oordeel. Zie sectie 11 voor de volledige uitwerking.
 
-Vitalix doet precies dat.
+**Hoop als ontwerpmechanisme** — Vitalix toont nooit alleen een probleem. Elke afwijking wordt vergezeld van wat haalbaar is voor deze specifieke persoon, gebaseerd op hun eigen historische data. Niet "je HRV is laag." Maar: "je HRV was 8 weken geleden 47ms — dat is voor jou haalbaar."
 
----
-
-### Wat er nieuw is
-
-De technologie bestaat al jaren. De apparaten zijn betaalbaar. De labs zijn toegankelijk. De wetenschap is publiek beschikbaar.
-
-Wat nieuw is: de samenhang.
-
-```
-Bloedwaarden + wearable-data + microbioom +
-DNA + hormonen + interventie-log
-
-→ Één coherent beeld van jouw biologie
-→ Op basis van jouw persoonlijke baseline
-→ Met de vraag die niemand anders stelt:
-  werkt het?
-```
+**Wat Vitalix niet is:**
+- **Geen medisch apparaat** → geen diagnoses, geen behandeladviezen, geen medicatiewijzigingen. Bij klinische drempelwaarden: altijd doorverwijzen naar de arts.
+- **Geen supplement-winkel** → Vitalix heeft geen commercieel belang bij welk product dan ook. Supplementen worden alleen besproken in de context van meetbare markerveranderingen.
+- **Geen vervanging van de arts** → aanvulling op. De waarde van Vitalix zit in de voorbereiding: naar de arts gaan met 6 maanden longitudinale data in plaats van één meting van 5 minuten geleden.
+- **Geen motivatie-app** → geen streaks, geen badges, geen punten. De enige beloning is inzicht.
 
-Voor een totaalbudget van ongeveer €1.000 heeft een gewone consument toegang tot wat vijf jaar geleden alleen beschikbaar was in exclusieve longevity-klinieken in Zwitserland voor €10.000 per weekend.
-
-Dat is geen incrementele verbetering. Dat is een paradigmaverschuiving.
-
 ---
-
-### De twee sleutelbegrippen
 
-**Just the facts**
-Vitalix communiceert alleen wat meetbaar en aantoonbaar is. Geen aannames, geen overpresentatie van bewijs, geen speculatie. Evidence-level wordt altijd vermeld. Feiten kunnen uitermate interessant zijn — droog hoeven ze niet te zijn.
+## 2. Hardware Stack & Gateway-model
 
-**Het hele systeem**
-Vitalix kijkt niet naar één marker, één orgaan of één klacht. Het kijkt naar het geheel — en naar de verbanden tussen de delen. HRV daalt. hsCRP stijgt. Slaap verslechtert. Dat zijn drie signalen van hetzelfde onderliggende proces. Vitalix verbindt de punten.
+De wearable is de **gateway** naar de rest van de stack. Je kiest een wearable → dat opent de HRV/slaap/herstellaag → labs, DNA en microbioom zijn altijd hetzelfde ongeacht de gateway.
 
----
-
-### Wat Vitalix niet is
+Onboarding begint met: "Welke wearable heb je?" — dat bepaalt de OAuth-flow, niet de features.
 
-```
-Geen medisch apparaat        → geen diagnoses
-Geen supplement-winkel       → geen commercieel belang
-Geen biohacking-tool         → geen optimalisatie-fetish
-Geen vervanging van de arts  → aanvulling op, niet vervanging van
-```
+| Gateway | Prijs | Wat het meet | Gebruiker | Sprint |
+|---------|-------|--------------|----------|--------|
+| **Polar Loop 2** | ~€100 | HRV, slaap, herstel, activiteit | Peter | Sprint 0 (MVP) |
+| **Whoop** | €0 + abo | HRV, slaap, recovery score, strain | Maddy | Sprint 0 (MVP) |
+| Oura Ring | ~€350 | HRV, slaap, temp, readiness | — | Sprint 1 |
+| Garmin | variabel | HRV, slaap, activiteit | — | Sprint 2 |
 
-Vitalix is het eerste platform dat de gewone consument behandelt als een systeem — met dezelfde objectiviteit en longitudinale blik die voorheen alleen voorbehouden was aan topsport en topgeneeskunde.
-
----
-
-## 2. Core User Flows
-
-### Flow 1: Onboarding — account aanmaken en eerste hardware koppelen
-**Trigger:** Nieuwe gebruiker opent Vitalix voor het eerst.
-**Steps:**
-1. Gebruiker maakt account aan via magic link (email)
-2. Gebruiker vult profiel in: naam, geboortedatum, geslacht, relevante geschiedenis (kanker, cardiovasculair, hormoonproblemen)
-3. Gebruiker kiest welke hardware te koppelen — Polar Loop en/of Withings BPM Vision
-4. Per hardware: OAuth 2.0 flow voor beide apparaten
-5. Systeem haalt historische data op (laatste 30 dagen) als background job
-6. Dashboard toont eerste data + baseline-opbouwstatus per marker
-**Result:** Gebruiker ziet zijn eerste metingen op een persoonlijk dashboard. Baseline-opbouw is gestart.
-**Technical notes:**
-- Polar: OAuth 2.0 flow via `/polar/auth` → `/polar/callback` — Polar AccessLink API
-- Withings: OAuth 2.0 flow via `/withings/auth` → `/withings/callback`
-- Background job: historische data ophalen na koppeling (ARQ job)
-- Baseline Calculator start zodra eerste meting binnenkomt
-
----
-
-### Flow 2: Dagelijkse data-sync
-**Trigger:** ARQ scheduled job, elke nacht om 03:00.
-**Steps:**
-1. Voor elke actieve gebruiker: haal nieuwe Withings-metingen op (bloeddruk, hartslag)
-2. Voor elke actieve gebruiker: haal nieuwe Polar Loop-data op (HRV, slaap, herstel, activiteit)
-3. Sla nieuwe metingen op in database
-4. Herbereken persoonlijke baseline per marker indien nieuwe data beschikbaar
-5. Check alert-regels: is er een afwijking van de persoonlijke baseline die een melding rechtvaardigt?
-6. Stuur notificatie (email) als alert-drempel overschreden
-**Result:** Database is actueel, baseline wordt bijgewerkt, gebruiker ontvangt alert bij relevante afwijking.
-**Technical notes:**
-- ARQ background job: `sync_user_data(user_id)`
-- Baseline herberekening: rolling 30-daags gemiddelde per marker, stabiel na minimum aantal metingen (configureerbaar per marker)
-- Alert engine: pas signaleren als meerdere markers tegelijk afwijken (multi-modal bevestiging)
-
----
+| Apparaat | Prijs | Wat het meet |
+|----------|-------|--------------|
+| Withings BPM Vision | €179 | Bloeddruk, hartslag, AFib |
+| Braun ThermoScan 7 IRT6520 | ~€45 | Temperatuur (handmatig) |
+| **Totaal MVP hardware** | **~€324** | |
 
-### Flow 3: Persoonlijk dashboard bekijken
-**Trigger:** Gebruiker opent de app.
-**Steps:**
-1. Dashboard toont laatste meting per marker (bloeddruk, HRV, slaap, temperatuur)
-2. Elke marker toont: huidige waarde + persoonlijke baseline + trend (pijl)
-3. Baseline-opbouwstatus per marker: "X metingen — nog Y nodig voor stabiele baseline"
-4. Actieve alerts (indien aanwezig) bovenaan in beeld
-5. Actieve interventies (indien gestart) zichtbaar met countdown naar terugmeetmoment
-**Result:** Gebruiker heeft in één oogopslag overzicht van zijn biologie + wat er aandacht verdient.
-**Technical notes:**
-- Eén API endpoint: `GET /health/dashboard/{user_id}`
-- Geen real-time data nodig — dagelijkse sync is voldoende
-- Trend berekening: vergelijk 7-daags gemiddelde met 30-daags baseline
-
----
-
-### Flow 4: Interventie starten en terugmeten
-**Trigger:** Gebruiker start een nieuwe interventie (probiotica, supplement, slaapprotocol, etc.)
-**Steps:**
-1. Gebruiker logt interventie in app: type, startdatum, beschrijving
-2. Systeem maakt automatisch een baseline-snapshot van alle actieve markers op T=0
-3. Na 4 weken: app stuurt tussencheck-notificatie — "Eerste weken verstreken, wearable-data toont [X]"
-4. Na 8 weken: app vraagt gebruiker om bloedpanel opnieuw te laten doen
-5. Na 12 weken: volledig vergelijkingsrapport — delta per marker, conclusie per interventie
-**Result:** Gebruiker heeft objectief bewijs of de interventie effect heeft gehad op zijn biologie.
-**Technical notes:**
-- Model: `Intervention` met startdatum, type, baseline_snapshot (JSON), status
-- Background job: check interventies dagelijks op checkpoints (28, 56, 84 dagen)
-- Rapport: delta berekening baseline_snapshot vs. actuele waarden per marker
-
----
-
-### Flow 5: Handmatige data invoeren (bloed, speeksel, urine)
-**Trigger:** Gebruiker heeft lab-resultaten ontvangen (bloedpanel, speekseltest, urinetest).
-**Steps:**
-1. Gebruiker opent "Lab invoeren" scherm
-2. Kiest testtype: bloed / speeksel / urine / ontlasting
-3. Voert waarden in per marker via gestructureerd formulier (marker + waarde + datum)
-4. Systeem slaat op, herberekent baseline voor die markers, checkt alert-regels
-5. Dashboard toont nieuwe waarden direct
-**Result:** Alle gezondheidsdata — ook niet-automatisch — staat in één systeem.
-**Technical notes:**
-- Sprint 0: gestructureerd formulier (handmatige invoer)
-- Sprint 2+: PDF-upload met OCR voor automatisch uitlezen labresultaten
-- Markers: gedefinieerd in een vaste lijst per testtype (zie Data Model)
-
----
-
-## 3. Data Model
-
-### User
-| Field | Type | Notes |
-|-------|------|-------|
-| id | Integer PK | |
-| name | String | |
-| email | String unique | Voor magic link auth |
-| date_of_birth | Date | Voor leeftijdscontext |
-| sex | String | `male` / `female` — bepaalt welke markers relevant zijn |
-| health_profile | JSON | Kankerhistorie, cardiovasculair risico, cyclusinformatie (vrouwen) |
-| withings_access_token | String encrypted | OAuth token |
-| withings_refresh_token | String encrypted | OAuth refresh |
-| polar_access_token | String encrypted | OAuth token |
-| polar_refresh_token | String encrypted | OAuth refresh |
-| polar_user_id | String | Polar's eigen gebruikers-ID |
-| created_at | DateTime | |
-
----
-
-### BloodPressureMeasurement (Withings BPM Vision)
-| Field | Type | Notes |
-|-------|------|-------|
-| id | Integer PK | |
-| user_id | Integer FK → User | |
-| measured_at | DateTime | Tijdstip van meting |
-| systolic | Integer | mmHg |
-| diastolic | Integer | mmHg |
-| heart_rate | Integer | bpm |
-| source | String | `withings` / `manual` |
-
----
-
-### HRVReading (Polar Loop)
-| Field | Type | Notes |
-|-------|------|-------|
-| id | Integer PK | |
-| user_id | Integer FK → User | |
-| date | Date | Dag van meting |
-| rmssd | Float | HRV RMSSD in ms |
-| deep_sleep_minutes | Integer | Minuten diepe slaap |
-| rem_sleep_minutes | Integer | Minuten REM-slaap |
-| light_sleep_minutes | Integer | Minuten lichte slaap |
-| sleep_efficiency | Float | 0-100% |
-| sleep_latency_minutes | Integer | Inslaapduur in minuten |
-| readiness_score | Integer | Polar recovery score 0-100 |
-| source | String | `polar` |
-
----
-
-### TemperatureReading (Braun ThermoScan 7)
-| Field | Type | Notes |
-|-------|------|-------|
-| id | Integer PK | |
-| user_id | Integer FK → User | |
-| measured_at | DateTime | Tijdstip van meting |
-| temperature_celsius | Float | Lichaamstemperatuur in °C (tympanisch) |
-| source | String | `manual` |
-
-> **Hardware:** Braun ThermoScan 7 IRT6520 (~€45) — tympanische meting (trommelvlies), ±0.1°C klinische nauwkeurigheid. Geen API — gebruiker voert waarde handmatig in via Vitalix UI. Aanbevolen meetfrequentie: dagelijks ochtend, zelfde tijdstip, dezelfde persoon doet de meting.
-
----
-
-### LabMarker (handmatig ingevoerde lab-waarden: bloed, speeksel, urine, ontlasting)
-| Field | Type | Notes |
-|-------|------|-------|
-| id | Integer PK | |
-| user_id | Integer FK → User | |
-| measured_at | DateTime | Datum van bloedafname of testdatum |
-| test_type | String | `blood` / `saliva` / `urine` / `stool` |
-| marker_name | String | e.g. `hscrp`, `tsh`, `cortisol_morning`, `glucose_fasting`, `hba1c` |
-| value | Float | Numerieke waarde |
-| unit | String | e.g. `mg/L`, `mIU/L`, `nmol/L` |
-| source | String | `manual` / `pdf_ocr` (toekomstig) |
-
----
-
-### Baseline (persoonlijke referentiewaarden per marker)
-| Field | Type | Notes |
-|-------|------|-------|
-| id | Integer PK | |
-| user_id | Integer FK → User | |
-| marker_name | String | Zelfde als LabMarker.marker_name of wearable-marker |
-| baseline_value | Float | Persoonlijk gemiddelde |
-| std_deviation | Float | Spreiding — voor afwijkingsdetectie |
-| calculated_at | DateTime | Laatste herberekening |
-| data_points | Integer | Aantal metingen gebruikt |
-| is_stable | Boolean | True als voldoende datapunten (drempel per marker) |
-| stability_threshold | Integer | Minimum datapunten voor stabiele baseline (configureerbaar) |
-
----
-
-### Intervention (interventie-feedbackloop)
-| Field | Type | Notes |
-|-------|------|-------|
-| id | Integer PK | |
-| user_id | Integer FK → User | |
-| name | String | e.g. "Ortho-flor probiotica", "Omega-3 suppletie" |
-| intervention_type | String | `probiotic` / `supplement` / `sleep` / `diet` / `hrt` / `other` |
-| started_at | DateTime | Startdatum |
-| baseline_snapshot | JSON | Alle actieve markers op T=0 |
-| status | String | `active` / `completed` / `abandoned` |
-| notes | String | Vrije tekst gebruiker |
-
----
+| Test | Prijs | Frequentie |
+|------|-------|-----------|
+| mijnlabtest.nl bloedpanel | variabel | 5× per jaar |
+| 23andMe Health+Ancestry | €189 | Eenmalig |
+| Medivere Darm Microbioom Zelftest Plus | variabel | 1–2× per jaar |
 
-### Alert
-| Field | Type | Notes |
-|-------|------|-------|
-| id | Integer PK | |
-| user_id | Integer FK → User | |
-| created_at | DateTime | |
-| alert_type | String | `hrv_suppressed` / `bp_elevated` / `marker_trend` / `intervention_checkpoint` |
-| severity | String | `info` / `orange` / `red` |
-| marker_names | JSON | Lijst van markers die de alert triggeren |
-| message | String | Leesbare tekst voor gebruiker |
-| is_read | Boolean | |
+**Sprint 2:** CGM (FreeStyle Libre / LibreView API)
 
 ---
-
-### Relationships
-- User → BloodPressureMeasurement: one-to-many
-- User → HRVReading: one-to-many
-- User → LabMarker: one-to-many
-- User → Baseline: one-to-many (één per marker)
-- User → Intervention: one-to-many
-- User → Alert: one-to-many
 
----
+## 3. UX Model
 
-## 4. External Integrations
+### Centraal principe
 
-| Service | What for | Sync or background job? |
-|---------|----------|------------------------|
-| **Withings Health API** | Bloeddruk + hartslag (BPM Vision) — OAuth koppeling | ARQ background job (nachtelijk) + directe sync na OAuth |
-| **Polar AccessLink API** | HRV, slaap, activiteit, readiness ophalen | ARQ background job (nachtelijk) + directe sync na OAuth |
-| **Resend** | Magic link emails + alert notificaties + interventie-checkpoints | Background job |
+**Open → zie wat er is → voer iets in als dat relevant is → sluit.**
 
-**Toekomstige integraties (niet in Sprint 0):**
-- PDF OCR voor labresultaten (Google Document AI of AWS Textract)
-- Cyclus-tracker koppeling (Natural Cycles, Clue — voor vrouwenprofiel)
-- DNA-data parsing (23andMe / MyHeritage raw export)
-- **CGM integratie (Sprint 2+):** Abbott FreeStyle Libre via LibreView API — continue glucosemeting, 2-weeks sensor (~€50-70). Glucose is de meest actionable biomarker voor metabole gezondheid en insulineresistentie. HbA1c dekt het 3-maands gemiddelde (Sprint 0); CGM voegt real-time pieken toe. Levels.health heeft bewezen dat dit ook voor niet-diabeten relevant is.
+Maximaal 90 seconden per sessie. De app werkt op de achtergrond.
 
 ---
 
-## 5. Pricing Tiers & Feature Flags
+### Scherm 1: Dashboard
 
-> Prijspunten nog niet vastgesteld. Structuur wel.
+Metric cards tonen: laatste waarde + sparkline (7 dagen) + % vs. baseline + trend-pijl.
 
-| Tier | Price | Features included |
-|------|-------|-------------------|
-| Personal | PM | Twee gebruikers (pilot), alle features, geen licentiebeperking |
-| Pro | PM | Wearable integraties, lab invoer, baseline calculator, interventie tracker, alerts |
-| Employer | PM | Multi-user, team dashboard, anonieme aggregatie, white-label |
+Status bovenaan: groen (alles OK) / oranje (één afwijking) / rood (meerdere afwijkingen tegelijk).
 
-**Feature flags:**
-- `wearable_sync` — automatische Withings + Polar synchronisatie
-- `intervention_tracker` — interventie-feedbackloop met checkpoints
-- `lab_ocr` — PDF-upload en automatisch uitlezen labresultaten (toekomstig)
-- `dna_integration` — DNA-data interpretatie en baseline-kalibratie (toekomstig)
-- `team_dashboard` — werkgever/groepsoverzicht (toekomstig)
-- `cycle_sync` — cyclus-tracker koppeling voor vrouwenprofiel (toekomstig)
+Onderaan: **Wist je dat** — dagelijks feit contextgebonden aan de data van die dag.
+Formule: observatie → concrete consequentie → waarom dit voor jou telt. Nooit een feit zonder landing.
 
 ---
-
-## 6. AI Behaviour
 
-### Sprint 0: geen AI
-Sprint 0 gebruikt geen LLM. De intelligentie zit in de baseline-berekening en correlatie-regels — dat is statistiek, geen AI.
+### Metric detail (tik op card)
 
-### Sprint 2+: Insight Summariser
-Wanneer meerdere markers tegelijk afwijken, genereert de app een leesbare samenvatting.
+Drie visualisatielagen:
+1. **Medische vloer/plafond** — wat zegt de literatuur voor jouw leeftijd/geslacht
+2. **Leeftijdsgecorrigeerd percentiel** — waar sta je relatief
+3. **Persoonlijke trajectlijn** — beweeg je de goede kant op
 
-- **Input:** Lijst van afwijkende markers + richting van afwijking + persoonlijke context (leeftijd, geslacht, actieve interventies)
-- **Output:** 2-3 zinnen in het Nederlands die het patroon beschrijven zonder diagnostische claims
-- **Tone:** Informatief, niet alarmerend, niet medisch. "Uw HRV is de afgelopen week gedaald terwijl uw bloeddruk licht gestegen is. Dit patroon kan wijzen op verhoogde stressbelasting."
-- **Constraints:** Mag NOOIT een diagnose stellen. Mag NOOIT een behandeling voorschrijven. Sluit altijd af met doorverwijzing naar arts bij significante afwijking.
-- **Model preference:** Claude Sonnet (via Anthropic) — nuanced, geen overdreven alarmisme
-- **Temperature:** 0.3 — gestructureerde output, weinig variatie
+**Hoop als ontwerpmechanisme:**
+- Onder baseline → "haalbaar voor jou" + concreet gedrag
+- Boven baseline → "jouw plafond" + wat dat betekent
+- Altijd de proximate stap, nooit het verre doel
 
 ---
 
-## 7. Multi-language
+### Scherm 2: Dagelijkse invoer
 
-| Aspect | Approach |
-|--------|----------|
-| UI language | Nederlands — primaire markt NL/BE |
-| AI output language | Nederlands |
-| Email language | Nederlands |
-| Marker namen | Medisch-internationale namen (hsCRP, HRV, TSH) — universeel begrijpelijk in context |
+Drie velden, alles optioneel:
+1. **Energie-slider** 1–5 (uitgeput → scherp) — concreet, niet emotioneel
+2. **Context-knoppen** (multi-select): Alcohol / Laat naar bed / Hard getraind / Stressvolle dag / Voel me niet lekker / Niks
+3. **Temperatuur** (numeriek) + optionele notitie
 
----
+Geen "hoe voel je je". Geen emoji-schaal. Gedragsobservaties, niet gevoelens.
 
-## 8. Wat Vitalix NIET doet
+**Adaptieve follow-up:** alleen als data een anomalie toont die nog geen context heeft.
+Voorbeeld: HRV 18% onder baseline + gebruiker selecteert "Niks" →
+*"Je HRV is lager dan normaal maar je geeft geen aanleiding aan. Had je gisteren meer cafeïne dan normaal?"*
 
-- Vitalix stelt **geen diagnoses**. Nooit. Elke significante afwijking wordt doorverwezen naar een arts.
-- Vitalix schrijft **geen behandelingen voor**. Geen medicijnen, geen medische supplementdoseringen, geen therapeutische adviezen. Suppletierichtlijnen zijn gebaseerd op biomarkerdata en wetenschappelijke evidentie — geen medisch voorschrift.
-- Vitalix is **geen vervanger van medische zorg**. Het is aanvullend op de huisarts, niet concurrerend.
-- Vitalix maakt **geen klinische claims**. "Uw marker wijkt af van uw baseline" — niet "U heeft een ontsteking."
-- Vitalix doet **geen real-time monitoring**. Dagelijkse sync is voldoende — geen 5-minuut alerts.
-- Vitalix beheert **geen labafspraken**. Gebruiker regelt zelf bloedpanel, speeksel- en urinetest via gekoppelde labs.
-- Vitalix biedt **geen dieetplannen of trainingsschema's**. Het signaleert biologische patronen — wat de gebruiker ermee doet is zijn keuze.
-
 ---
-
-## 9. Sprint-fasering
 
-### Sprint 0 — persoonlijk tool (Peter + partner)
-```
-[ ] FastAPI app met SuperStories standaard structuur
-[ ] Magic link auth (twee gebruikers)
-[ ] Withings OAuth koppeling (BPM Vision)
-[ ] Polar Loop OAuth koppeling
-[ ] Nachtelijke ARQ sync job (Withings BPM Vision + Polar)
-[ ] Persoonlijke baseline calculator (rolling average + stabiliteitsstatus)
-[ ] Dashboard: laatste metingen + baseline + trend per marker
-[ ] Handmatige lab-invoer (bloed, speeksel, urine)
-[ ] Interventie-log: starten, baseline snapshot, checkpoints
-[ ] Eenvoudige alerts: afwijking > 1 SD van persoonlijke baseline
-[ ] Seed script: demo data voor Peter en partner
-```
-
-### Sprint 1 — interventie-feedbackloop compleet
-```
-[ ] 4/8/12-weken checkpoint notificaties (email via Resend)
-[ ] Delta-rapport per interventie: voor vs na per marker
-[ ] HRV trend gedurende interventieperiode (wearable continu)
-[ ] Vrouwenprofiel: cyclus-invoeropties voor timing bloedpanel
-```
+### Scherm 3: Vraag stellen
 
-### Sprint 2 — uitbreiding data-lagen
-```
-[ ] PDF-upload labresultaten (OCR)
-[ ] Multi-modale correlatie (HRV + bloeddruk + bloedmarker tegelijk)
-[ ] Stressas: speeksel cortisol dagcurve invoer + patroon visualisatie
-[ ] Microbioom invoer — Medivere Darm Microbioom Zelftest Plus (16S NGS, calprotectine, zonuline, Candida, secretorisch IgA). Handmatige invoer Sprint 2; PDF OCR optioneel later.
-[ ] CGM integratie: Abbott FreeStyle Libre via LibreView API
-```
-
-### Sprint 3 — platform
-```
-[ ] Multi-user onboarding (buiten pilot)
-[ ] DNA-data parsing (23andMe raw export)
-[ ] Werkgeverspakket (team dashboard, anonieme aggregatie)
-[ ] Licentie-systeem (SuperStories distribution framework)
-```
+Vrije tekst → Claude krijgt alle recente data + persoonlijk profiel als context.
+Antwoorden worden opgeslagen als `insights` met decision extraction.
+Geschiedenis van eerdere vragen zichtbaar.
 
 ---
 
-## 10. Launch Checklist (Sprint 0)
+### Scherm 4: Profiel (via ⚙)
 
-```
-[ ] Withings OAuth flow werkt end-to-end op lokale omgeving
-[ ] Polar OAuth koppeling haalt echte data op
-[ ] Nachtelijke sync job draait zonder fouten
-[ ] Baseline calculator levert stabiele waarde na voldoende datapunten
-[ ] Dashboard toont correcte data voor Peter én partner (multi-user isolatie getest)
-[ ] Handmatige lab-invoer slaat op en verschijnt in dashboard
-[ ] Interventie aanmaken + baseline snapshot werkt
-[ ] Magic link auth werkt (email via Resend)
-[ ] Seed script maakt demo data aan voor beide gebruikers
-[ ] .env.example compleet met alle benodigde variabelen
-[ ] PostgreSQL + Alembic migraties draaien lokaal
-```
+- Diagnoses / operaties / medicatie / supplementen
+- Familiegeschiedenisstatus (beschikbaar / gedeeltelijk / volledig onbekend)
+- Reviewer tier (gebruiker / expert)
 
 ---
 
-## 11. Vitalix-specifieke environment variables
+### Navigatie
 
-```bash
-# Withings API
-WITHINGS_CLIENT_ID=
-WITHINGS_CLIENT_SECRET=
-WITHINGS_REDIRECT_URI=http://localhost:8000/withings/callback
-
-# Polar API
-# Geen client credentials nodig — Personal Access Token per gebruiker
-# Token wordt encrypted opgeslagen in de database
-
-# Product
-PRODUCT_ID=vitalix
-APP_VERSION=0.1.0
 ```
-
----
-
-## 12. Vrouwengezondheid — de top 8 onbegrepen condities
-
-> Dit is de strategische context voor het vrouwenprofiel in Vitalix. Geen buildtaak voor Sprint 0 — wel de kennis die bepaalt welke biomarkers, welke vragen in het intake-profiel, en welke interventie-tracking we bouwen.
-
-Het gezondheidssysteem laat vrouwen structureel in de steek. Een 2024-analyse in *PNAS* toont dat vrouwen gemiddeld 30 minuten langer wachten op spoedhulp dan mannen bij identieke pijnscores. 62% van vrouwen voelt zich niet serieus genomen door artsen (Gender Pain Gap Index, 2024). De condities hieronder zijn het bewijs.
-
----
-
-### 12.1 Endometriose
-
-**Prevalentie:** 6–15% van vrouwen in de vruchtbare leeftijd
-**Gemiddelde diagnosevertraging: 7–12 jaar** — een van de grootste systemische faalpatronen in de westerse geneeskunde
-
-Endometriose is een oestrogeenafhankelijke ontstekingsziekte waarbij endometriumweefsel buiten de baarmoeder groeit. Klachten worden structureel afgedaan als "erge menstruatie."
-
-**Wat Vitalix kan meten:**
-- hsCRP, IL-6 → chronische systemische ontsteking zichtbaar
-- Oestradiol:progesteron ratio → hormonale onevenwichtigheid
-- HRV (Polar Loop) → chronische pijn onderdrukt het autonome zenuwstelsel
-- Cortisol dagcurve (speeksel) → stress-pijn wisselwerking
-- Microbioom → verlaagde *Lactobacillus*, verhoogde pathogene anaeroben (Lancet Microbe 2023)
-
-**Vitalix kan endometriose niet diagnosticeren.** Wat het wél doet: zes maanden longitudinale data over ontsteking, hormonen en HRV per cyclusfase — waardoor een gynaecoloog een heel ander gesprek voert.
-
-**Chlamydia-connectie (emerging evidence, klinisch relevant):**
-Onbehandelde *Chlamydia trachomatis* infectie is bij vrouwen in 70–80% van de gevallen asymptomatisch. Jaren onopgemerkt. De gevolgen accumuleren stilletjes:
-- Chlamydia → PID (Pelvic Inflammatory Disease) → bekkenontsteking en adhesies
-- PID heeft een bewezen causaal verband met endometriose (Mendeliaanse randomisatie, 2024)
-- Chlamydia-hitteschok-eiwit (Chsp60) triggert een immuunrespons die mechanistisch overlapt met endometriose-pathologie
-- *Fusobacterium nucleatum* — een bacterie die ook via seksuele overdracht verspreidt — is gevonden in 64,3% van endometrioseweefsels vs. 7,1% van controles
-
-**Klinische observatie (partner, werkt met jonge vrouwen):** Veel vrouwen van 20–35 hebben jaren onbehandelde chlamydia gehad. Er lijkt een patroon te zijn tussen deze voorgeschiedenis en latere endometriose-diagnose. Dit is nog geen wetenschappelijke consensus — het is een practitioner-signaal dat de opkomende literatuur ondersteunt.
-
-**Intake-vraag voor vrouwenprofiel:** seksuele gezondheidsgeschiedenis, inclusief STI-voorgeschiedenis en behandeling.
-
----
-
-### 12.2 Candida overgroei
-
-**Prevalentie:**
-- Vaginale candidiasis: 75% van vrouwen minimaal één keer in hun leven
-- Recidiverend (>4x/jaar): ~9% van vrouwen
-- Darmovergroei (SIFO): niet goed onderzocht; ~26% in patiënten met onverklaarde GI-klachten
-
-**Mainstream positie:** "Systemische candida overgroei" wordt door de reguliere geneeskunde niet erkend als diagnose bij immuuncompetente mensen. Dit is het meest omstreden onderwerp op deze lijst.
-
-**Wat er wél wetenschappelijk staat:**
-- Antibioticagebruik verstoort *Lactobacillus*, faciliteert Candida proliferatie — sterke consensus
-- Oestrogeen bevordert Candida-adhesie in vaginaal weefsel — consistent bewijs
-- SIFO (Small Intestinal Fungal Overgrowth) wordt toenemend erkend in conventionele gastroenterologie
-
-**Wat Vitalix kan meten:**
-- Organische zuurprofiel (urine): D-arabinitol — directe Candida-metaboliet, kwantitatief, traceerbaar
-- Microbioom (ontlasting): Candida aanwezigheid en verhouding tot beschermende flora
-- Interventie-tracking: gaat D-arabinitol omlaag na dieetverandering of probiotica?
-
-**De Vitalix-waarde:** Dit is precies de "meet of het werkt"-functie. Een orthomoleculair arts schrijft een Candida-protocol voor. Vitalix meet na 8 weken of het D-arabinitol-niveau is gedaald. Dat is objectief bewijs wat de arts nooit levert.
-
----
-
-### 12.3 PCOS
-
-**Prevalentie:** 5–15% van vrouwen in de vruchtbare leeftijd — de meest voorkomende endocriene-metabole aandoening in deze groep
-
-Insulineresistentie aanwezig bij 50–80% van PCOS-patiënten — maar zelden getest of behandeld in de huisartsenpraktijk.
-
-**Biomarkers:**
-LH:FSH ratio, AMH, vrij testosteron, SHBG, nuchtere insuline, HOMA-IR, CRP, triglyceriden
-
-**Gut-connectie (sterk emerging):** Consistent microbioom-dysbiose: verlaagde *Lactobacillus*, verhoogde *Escherichia/Shigella*. Darmbacteriën reguleren oestrogeen- en schildklierhormoonmetabolisme.
-
----
-
-### 12.4 Hashimoto / Schildklieraandoeningen
-
-**Prevalentie:** ~1 op 8 vrouwen in hun leven. Vrouwen 2,7x vaker getroffen dan mannen.
-
-**Kritieke onderdiagnose:** TPO-antistoffen kunnen 10–20 jaar verhoogd zijn vóórdat TSH boven de referentiewaarde stijgt. Huisartsen testen alleen TSH. Vrouwen met Hashimoto en "normaal TSH" worden structureel weggestuurd.
-
-**Biomarkers:** TSH, vrij T3, vrij T4, anti-TPO, anti-Tg, selenium, reverse T3
-
-**Selenium-inzicht:** Seleniumsuppletie vermindert TPO-antistoffen meetbaar (meta-analyse 2024) — een interventie die Vitalix objectief kan traceren.
+[🏠 Dashboard]  [+ Invoer]  [💬 Vraag]
+```
 
 ---
-
-### 12.5 IJzertekort
 
-**Prevalentie:** 10–22% van premenopauzale vrouwen. Meest voorkomende nutritionele deficiëntie ter wereld.
+### Gedragsverandering — principes
 
-**Het laboratoriumprobleem:** Labs vlaggen ferritine pas als afwijkend onder 12–15 μg/L. Fysiologisch optimum voor klachtenvrij functioneren: >50 μg/L. Vrouwen met ferritine van 15–40 en significante klachten worden structureel weggestuurd met "uw ijzer is prima."
+- **Identiteit boven prestatie:** "Je meet nu 23 dagen — dit is wanneer patronen zichtbaar worden."
+- **Spiegel, niet coach:** de app toont, stelt vragen — geeft geen opdrachten
+- **Partner-zichtbaarheid:** beide gebruikers zien elkaars readiness — stille accountability
+- **Groeien door te verschijnen:** niet door te presteren
 
-**Biomarkers:** Ferritine (optimum >50), transferrine-saturatie, sTfR, reticulocyt-hemoglobine
-
 ---
 
-### 12.6 Oestrogeendominantie
+## 4. Tech Stack
 
-Geen ICD-10-diagnose — maar het mechanisme onderbouwt: endometriose, PCOS, vleesbomen (70–80% van vrouwen vóór de menopauze), PMDD (3–8%).
+| Component | Keuze |
+|-----------|-------|
+| Backend | FastAPI |
+| Frontend | React 18 + Vite + TypeScript |
+| Styling | TailwindCSS v4 |
+| Database | PostgreSQL |
+| Background jobs | ARQ + Redis |
+| Deployment | Hetzner + Coolify |
+| AI | Anthropic Claude API (met prompt caching) |
 
-**Het estroboloom:** Darmbacteriën reguleren via beta-glucuronidase hoeveel oestrogeen wordt gerecirculeerd. Dysbiose → verhoogd circulerend oestrogeen → oestrogeendominantie. Dit verbindt darmgezondheid direct aan hormoonbalans.
+**Data-soevereiniteit:** alle data op eigen Hetzner-server. Geen SaaS-database. Encryptie at rest en GDPR-flows komen bij externe gebruikers — niet nodig voor Sprint 0.
 
-**Biomarkers:** Oestradiol:progesteron ratio, SHBG, DUTCH-test metabolieten (2-OH / 16-OH estron), cortisol (progesteron en cortisol delen precursors — chronische stress putt progesteron uit)
-
 ---
 
-### 12.7 Auto-immuuncondities
+## 5. Bible Architectuur
 
-**80% van alle auto-immuunziekten treft vrouwen.** Lupus 9:1, reumatoïde artritis 11:1, Hashimoto 7–10:1. Gemiddelde diagnosevertraging bij lupus: 6 jaar.
+### Laag 1 — Identiteit (altijd geladen, gecached)
+**Bestand:** `vitalix_identity.md`
 
-**Mechanisme (NIH 2024):** Het inactieve X-chromosoom wordt gedeeltelijk gereactiveerd in lymfocyten bij vrouwen, wat immuungenen upreguleert. Dit is de ontdekte biologische reden voor de vrouwelijke auto-immuunpredispositie.
+- Rol en grenzen (geen diagnoses, geen medicatieadvies)
+- Veiligheids-gates: bloeddruk >160/100 → altijd arts-melding; AFib → meld en verwijs; nooit diagnosticeren
+- Analyseprincipes: persoonlijke baseline boven populatienorm, multi-marker bevestiging vereist
+- Chain of Thought structuur + Decision Extraction instructie
+- Prompt caching: `cache_control: {"type": "ephemeral"}`
 
-**Biomarkers:** ANA, anti-dsDNA, anti-CCP, ESR, CRP, vitamine D, microbioom
+### Laag 2 — Hardware / domein-kennis (conditioneel)
+**Bestanden:** `hardware/*.md` — geladen op basis van actieve apparaten van de gebruiker.
 
----
+Elk bestand bevat: wat het apparaat meet, hoe de data geïnterpreteerd moet worden, bekende beperkingen, en specifieke drempelwaarden voor dat apparaat.
 
-### 12.8 ME/CVS en Fibromyalgie
+| Bestand | Inhoud |
+|---------|--------|
+| `polar.md` | ANS-charge interpretatie, Nightly Recharge methodologie, verschil rmssd vs ans_charge, normale variatie per leeftijdsgroep |
+| `whoop.md` | Recovery score algoritme, strain vs. recovery balans, hoe Whoop HRV berekent (5-minutenvenster eerste slaapuren) |
+| `withings_bpm.md` | AFib-detectie methodologie, verschil systolisch/diastolisch trend, wanneer doorverwijzen |
+| `mijnlabtest.md` | Welke markers beschikbaar zijn, eenheden, normale verwerkingstijd, hoe meerdere metingen over tijd te interpreteren |
+| `23andme.md` | Welke SNPs relevant zijn (MTHFR C677T/A1298C, COMT Val158Met, APOE), wat ze betekenen en — even belangrijk — wat ze niet betekenen |
+| `medivere_microbioom.md` | Diversiteitsscores, specifieke bacteriestammen die oestrogeenmetabolisme beïnvloeden (estroboloom), calprotectine als ontstekingsmarker |
 
-**Prevalentie:** ME/CVS treft 17 miljoen mensen wereldwijd; vrouwen 1,5–2x vaker. Fibromyalgie: 3:1 vrouw:man.
+Niet-gekoppelde apparaten worden niet geladen. Een gebruiker zonder 23andMe krijgt geen genetische interpretatie.
 
-**Geen gevalideerde biomarker beschikbaar.** Dit is de grootste diagnostische lacune op deze lijst. Diagnose is klinisch en uitsluitend. Vrouwen worden systematisch doorverwezen naar psychiatrie.
+### Laag 3 — Referentiedata (altijd geladen, gecached)
+**Bestand:** `vitalix_reference_data.json`
 
-**Wat Vitalix wél kan bijdragen:** HRV-patroon, cortisolcurve, slaapkwaliteit, inflammatiemarkers en microbioom samen geven een longitudinaal beeld dat de behandelaar iets geeft om mee te werken — ook zonder een gevalideerde single-biomarker.
+Bevat de populatienormen die als secundaire referentielaag dienen (zie sectie 11). Gesegmenteerd op leeftijd, geslacht en relevante gezondheidsstatus.
 
----
+Inhoud:
+- HRV-normaalwaarden per leeftijdsdecennium en geslacht (gebaseerd op gepubliceerde literatuur)
+- Bloeddrukdrempelwaarden (ESC-richtlijnen 2023)
+- Labmarker referentiewaarden per leeftijdscategorie en geslacht
+- Bekende correlaties tussen markers (hsCRP ↑ + HRV ↓ = ontstekingssignaal; cortisol-ritme afwijking + slaapefficiëntie ↓ = HPA-as stress)
+- Interventie-responsdata uit literatuur (wat is een realistische verbetering bij x supplement na y weken)
 
-### Het overkoepelende patroon
+Deze data wordt periodiek bijgewerkt door de Dirigent (Peter). Bij 1.000+ gebruikers wordt dit aangevuld met Vitalix-eigen cohortdata.
 
+### Prompt-structuur
 ```
-Darmgezondheid → Estroboloom → Hormoonbalans
-      ↓                              ↓
-  Ontsteking ←——————————————— Immuunsysteem
-      ↓
-  HRV-suppressie + slaapstoornissen
-      ↓
-  Chronische klachten die de huisarts "niet ziet"
+Block 1 (gecached): vitalix_identity.md + vitalix_reference_data.json
+Block 2 (dynamisch): gebruikersprofiel + geleerde voorkeuren + actieve hardware-blokken + recente metingen
 ```
-
-De darm, het hormoonprofiel, het immuunsysteem en het autonome zenuwstelsel zijn één systeem. Vitalix is het eerste platform dat ze als één systeem monitort — en meet of interventies dat systeem daadwerkelijk verbeteren.
-
-**Gemiddelde diagnosevertraging over deze condities: 2–12 jaar.**
-Vitalix lost niet de diagnose op. Het levert de data waardoor die 2–12 jaar wordt ingekort.
 
 ---
 
-## 13. Vitalix voor vrouwen — marktpositie en strategische context
+## 6. Insight Systeem & Feedback Loop
 
-> Geen buildtaak voor Sprint 0. Wel de strategische lens waarmee elk productbesluit voor het vrouwenprofiel wordt genomen.
+### Insight types
 
-### 13.1 De kernobservatie
+| Type | Voorbeeld | Feedbackhorizon |
+|------|-----------|----------------|
+| `dagadvies` | "Rust vandaag — HRV 18% onder baseline" | +16–24u |
+| `correlatie` | "HRV daalt consistent na late avonden" | +10 dagen |
+| `trend` | "Bloeddruk verbetert structureel" | +6 weken |
+| `anomalie` | "Bloeddruk 142/91 — opvallend hoog voor jou" | volgende meting |
 
-Mannen en vrouwen gebruiken een gezondheidstool om fundamenteel verschillende redenen.
+### Decision Extraction
 
+Elke insight sluit af met een verborgen JSON-blok:
+```json
+[{
+  "category": "readiness",
+  "choice": "Rust adviseren",
+  "alternatives_considered": ["Lichte training OK"],
+  "reasoning": "Multi-marker: HRV laag + rusthartslag verhoogd + slaap 5u40"
+}]
 ```
-Mannen     → biohacking, optimalisatie, presteren
-             "hoe word ik beter?"
-
-Vrouwen    → welzijn, begrip, erkenning
-             "waarom doet mijn lichaam dit niet wat ik wil?"
-```
-
-Vrouwen hebben een lichaam dat maandelijks verandert — beïnvloed door de cyclus, externe hormonen (pil), stress, slaap, en levensfase. En ze worden door het medische systeem structureel niet serieus genomen als ze zeggen dat er iets niet klopt.
-
-**Vitalix voor vrouwen is geen biohacking-tool.**
-Het is het eerste systeem dat hen gelooft — omdat het objectief meet wat zij al wisten.
+Gestript en opgeslagen in `insights.decisions` (JSONB).
 
-> *"Je lichaam stuurde al jaren signalen. Nu leer je ze lezen."*
+### Review module (4 stappen)
 
----
-
-### 13.2 De pil — jaren gemaskeerde biologie
+1. **Verdict** (verplicht, 15 sec): Klopte precies / Grotendeels / Eén ding anders / Klopte niet
+2. **Welke beslissing** (optioneel): klikbare decision cards
+3. **Waarom** (optioneel): alternatief + redenering — het meest waardevolle
+4. **Tip** (optioneel): vrij tekstveld
 
-De hormonale anticonceptiepil onderdrukt de eigen hormoonproductie volledig. Een vrouw op de pil heeft geen eisprong en geen echte menstruatie — alleen een onttrekkingsbloeding. Dit maskeert structureel:
+### Drie feedbacktypen
 
-- PCOS-symptomen (cyclusstoornissen onzichtbaar)
-- Endometriose-progressie (pijn onderdrukt, ziekte groeit door)
-- Hormonale dysregulatie (oestradiol:progesteron ratio niet meetbaar)
-- Vroege Hashimoto-signalen (hormoonprofiel verstoord door suppressie)
+| Type | Prioriteit | Actief wanneer |
+|------|-----------|---------------|
+| `preference` | Laag | ≥3 onafhankelijke inputs |
+| `factual_correction` | Hoog | Meteen — alert admin |
+| `context_dependent` | Medium | ≥3 vergelijkbare inputs |
 
-Als een vrouw stopt met de pil — vaak omdat ze zwanger wil worden — komen de onderliggende condities in volle kracht naar boven. Post-pil amenorroe en post-pil PCOS zijn reële klinische fenomenen. De huisarts zegt: "geef je lichaam even de tijd." Intussen zijn de onderliggende condities soms jaren ongezien geprogresseerd.
-
-**Vitalix is bij uitstek het platform dat dit zichtbaar maakt zodra ze stopt** — door direct te beginnen met het meten van haar eigen hormonale profiel, cyclus en inflammatiemarkers.
-
----
+### Reviewer tiers
 
-### 13.3 De onvruchtbaarheidsketen
+| Tier | Wie |
+|------|-----|
+| `user` | Peter / partner |
+| `expert` | Personal trainer |
+| `medical` | Huisarts (toekomst) |
 
-De partner van de oprichter werkt met jonge vrouwen en ziet een consistent patroon:
+### Intelligence loop
 
 ```
-Onbehandelde chlamydia (asymptomatisch, soms jaren)
-→ PID (pelvic inflammatory disease)
-→ Tubaire adhesies en beschadiging
-→ Verminderde tubaire doorgankelijkheid
-→ Onvruchtbaarheid of ectopische zwangerschap
+Insight + Decisions → Review → Learned Preferences → Prompt Block 2 → betere volgende Insight
 ```
 
-Parallel lopen de hormonale routes:
-- Endometriose → verminderde eicelkwaliteit, implantatieproblemen
-- PCOS → anovulatie → onvruchtbaarheid
-- Hashimoto → verhoogd miskraamrisico
-- IJzertekort → verstoorde implantatie
+Chain of Thought stap 0: "GELEERDE VOORKEUREN: pas keuzes aan, verwijs er expliciet naar."
 
-**Waar Vitalix waarde heeft in dit traject:**
-- Inflammatiemarkers monitoren die op onderliggende disfunctie wijzen
-- Hormoonpatronen tracken die op PCOS of oestrogeendominantie wijzen
-- AMH (anti-Mülleriaans hormoon) opnemen in het bloedpanel als maat voor ovariële reserve
-- Interventies objectief meten — verbetert het hormoonprofiel na behandeling?
-- Longitudinale data leveren waarmee een gynaecoloog eerder en beter handelt
+### Wanneer wordt een inzicht gegenereerd?
 
-**Waar Vitalix niet bij kan:**
-- Tubaire schade zien (echografie of laparoscopie vereist)
-- Diagnose stellen
-- Medische behandeling vervangen
+Inzichten worden **trigger-based** gegenereerd — niet op schema. Dit houdt de AI-kosten laag en voorkomt ruis.
 
----
+| Trigger | Drempel | Inzicht-type |
+|---------|---------|-------------|
+| Marker > 1.5× std boven/onder baseline | Eén meting | `anomalie` |
+| Marker > 1× std voor 3+ achtereenvolgende dagen | Patroon | `trend` |
+| Twee of meer markers tegelijk afwijkend | Multi-marker | `correlatie` |
+| Dagelijkse invoer bevat context zonder wearable-verklaring | Adaptief | `dagadvies` |
+| Interventie-checkpoint (4/8/12 weken) | Tijd-gebaseerd | `trend` |
 
-### 13.4 Waarom Vitalix voor vrouwen groter kan zijn dan voor mannen
+Bij geen afwijkingen: geen inzicht. De app is stil als alles binnen normaal valt — dat is ook informatie.
 
-De condities beschreven in Sectie 12 — endometriose, PCOS, Hashimoto, ijzertekort, candida overgroei, oestrogeendominantie, auto-immuun, ME/CVS — hebben allemaal drie dingen gemeen:
+### Dirigent / Gebruiker model
 
-1. Ze treffen overwegend vrouwen
-2. Ze worden structureel te laat ontdekt (2–12 jaar vertraging)
-3. Ze zijn meetbaar via de biomarkers die Vitalix monitort
+Dit onderscheid is cruciaal voor de kwaliteit van het systeem op lange termijn.
 
-De reguliere geneeskunde faalt hier systematisch. Vitalix vult precies die leemte — niet als medisch apparaat, maar als het eerste platform dat vrouwen longitudinale, objectieve data geeft over hun eigen biologie.
+**De Dirigent** (Peter, of later een beheerder) is de enige die de bibles aanpast. Hij beslist welke informatie in `vitalix_identity.md` staat, welke hardware-bestanden worden onderhouden, en welke referentiedata geldig is. Dit is bewuste kwaliteitscontrole — als elke gebruiker de bible kon aanpassen, degradeert de kwaliteit snel.
 
-**De markt:** Elke vrouw die ooit te horen heeft gekregen "uw waarden zijn normaal" terwijl ze zich niet normaal voelde. Dat is geen niche.
+**De Gebruiker** beïnvloedt het systeem via feedback, niet via directe configuratie. Een gebruiker die "klopte niet" aanklikt bij een inzicht levert waardevolle data op — maar past de bible niet zelf aan. De Dirigent beoordeelt of die feedback een structurele aanpassing rechtvaardigt.
 
----
+**Waarom dit belangrijk is bij schaal:** bij 10.000 gebruikers zijn er altijd mensen die het systeem willen "verbeteren" op basis van hun eigen gezondheidsovertuigingen. Die individuele input kan waardevol zijn als feedback, maar niet als directe bijdrage aan de gedeelde kennislaag. De Dirigent filtert dat.
 
 ---
-
-## 14. Supplementenmodule — data-gedreven suppletierichtlijnen
-
-> Geen buildtaak voor Sprint 0. Wel de architectuur waarmee de module later wordt gebouwd. De interventie-feedbackloop (Flow 4) is de technische basis.
-
-### 14.1 Kernprincipe
 
-Vitalix adviseert geen supplementen op basis van symptomen of algemene aanbevelingen. Elk suppletieadvies is gekoppeld aan drie vereisten:
+## 7. Data Model
 
+### users
 ```
-1. Jouw biomarker wijkt af van jouw persoonlijke baseline
-   (niet van een populatiegemiddelde)
-
-2. Er is wetenschappelijk bewijs voor suppletie bij deze afwijking
-   (evidence-level gedifferentieerd: sterk / matig / opkomend)
-
-3. Er is een meetmoment gepland om te verificeren of het werkt
-   (8-12 weken — bloedwaarden of wearable-trend)
+id, email, password_hash, display_name, date_of_birth, sex
+withings_access_token, withings_refresh_token
+polar_access_token, polar_user_id
+family_history: ENUM(available, partial, unknown)
+reviewer_tier: ENUM(user, expert, medical)
+created_at
 ```
-
-Zonder alle drie: geen advies.
-
----
 
-### 14.2 De supplementenbijbel — kennisarchitectuur
-
-De module werkt met een gestructureerde kennisbasis per supplement:
-
+### hrv_readings (Polar)
 ```
-supplement/
-├── naam: Vitamine D3
-├── biomarker_trigger: 25-OH vitamine D < 50 nmol/L
-├── evidence_level: sterk (meerdere RCTs, meta-analyses)
-├── bronnen: [PubMed IDs]
-├── richtlijn_dosering: 2000-4000 IE/dag bij deficiëntie
-├── suppletievorm: D3 (cholecalciferol) — niet D2
-├── cofactoren: magnesium, vitamine K2 (MK-7)
-├── terugmeetmarker: 25-OH vitamine D bloedwaarde
-├── terugmeetmoment: 12 weken
-└── interacties: bloedverdunners (verhoogd effect)
+id, user_id, date
+rmssd (ms), ans_charge (0-100)
+deep_sleep_minutes, rem_sleep_minutes, light_sleep_minutes
+sleep_efficiency, sleep_latency_minutes, sleep_score
+source: "polar"
 ```
-
----
-
-### 14.3 Kernlijst — biomarker-gekoppelde supplementen
 
-| Supplement | Trigger | Evidence | Terugmeetmarker |
-|---|---|---|---|
-| **Vitamine D3** | 25-OH vit D < 50 nmol/L | Sterk | 25-OH vit D bloedwaarde |
-| **Magnesium bisglycinaat** | Mg < 0.80 mmol/L + slechte slaap | Matig-sterk | Mg bloedwaarde + slaapscore Polar |
-| **Omega-3 (EPA/DHA)** | hsCRP verhoogd + lage inname | Sterk | hsCRP na 12 weken |
-| **Vitamine B12** | B12 < 300 pmol/L | Sterk | B12 bloedwaarde |
-| **IJzer (bisglycinaat)** | Ferritine < 30 µg/L | Sterk | Ferritine + Hb |
-| **Zink** | Zn laag + immuunsignalen | Matig | Zn bloedwaarde |
-| **CoQ10** | Ouder > 50 + vermoeidheid + statinegebruik | Matig | HRV-trend Polar |
-| **Probiotica** | Microbioom deficiëntie specifieke stam | Opkomend | Microbioomtest herhalen |
-| **Indool-3-carbinol** | Oestrogeendominantie (vrouwen) | Opkomend | Oestradiol:progesteron ratio |
-| **Ashwagandha** | Cortisol dagcurve verstoord + HRV laag | Matig | Cortisol herhaling + HRV-trend |
-
----
-
-### 14.4 Wat Vitalix anders doet dan de supplementenmarkt
-
+### blood_pressure_measurements (Withings)
 ```
-Supplementenmarkt:          Vitalix:
-────────────────────        ──────────────────────────────
-Generiek advies             Jouw biomarker als trigger
-Symptoomgebaseerd           Datagedreven
-Commercieel belang          Geen affiliate, geen merk
-Geen follow-up              Meetmoment ingebouwd
-Vorm irrelevant             Vorm specifiek (D3 niet D2,
-                            bisglycinaat niet oxide)
-Geen interacties            Interacties gedocumenteerd
+id, user_id, measured_at
+systolic (mmHg), diastolic (mmHg), heart_rate (bpm)
+source: "withings" | "manual"
 ```
-
----
-
-### 14.5 Suppletievorm — waarom dit ertoe doet
 
-De markt verkoopt supplementen op naam. Vitalix adviseert op vorm:
-
+### lab_markers (handmatig)
 ```
-Magnesium oxide      → slechte absorptie, laxerend effect
-Magnesium bisglycinaat → hoge biologische beschikbaarheid, slaapondersteunend
-
-Vitamine D2 (ergocalciferol) → mindere omzetting
-Vitamine D3 (cholecalciferol) → superieure opname en werkzaamheid
-
-IJzer sulfaat        → maagklachten, slechte tolerantie
-IJzer bisglycinaat   → hoge absorptie, goed verdragen
+id, user_id, measured_at
+test_type: blood | saliva | urine | stool
+marker_name, value, unit
+source: "manual" | "pdf_ocr"
 ```
 
-Dit is precies de kennis die de orthomoleculaire arts heeft — maar die de huisarts én de supplementenwinkel niet geven.
+**Key markers:** hrv_rmssd, ans_charge, blood_pressure_systolic/diastolic, sleep_score, temperature, testosterone, cortisol, tsh, hba1c, glucose_fasting, hscrp, vitamin_d, ferritin, microbiome_diversity, calprotectin, snp_cardiovascular_risk
 
----
-
-### 14.6 De feedbackloop
-
-Elk suppletieadvies activeert automatisch Flow 4 (Interventie starten):
-
+### daily_inputs
 ```
-Dag 0:    Vitalix signaleert afwijking
-          → Suppletieadvies gegenereerd
-          → Baseline-snapshot gemaakt van alle relevante markers
-
-Dag 28:   Tussencheck via wearable-data
-          "HRV-trend afgelopen 4 weken: +8% — positief signaal"
-
-Dag 56:   Bloedpanel-herinnering
-          "Tijd om vitamine D opnieuw te meten"
-
-Dag 84:   Volledig rapport
-          Werkte het? Ja / Nee / Gedeeltelijk
-          → Advies bijgesteld of bevestigd
+id, user_id, input_date
+energy_level (1-5)
+context_flags (JSON): ["alcohol", "late_bed", "hard_training", "stressful", "sick"]
+note (text, optioneel)
 ```
-
-Dit is wat de orthomoleculaire arts nooit kan bieden: objectieve, longitudinale verificatie of de interventie biologisch effect heeft gehad.
-
----
-
-### 14.7 Vrouwen-specifieke supplementen
-
-Voor het vrouwenprofiel (cyclus, hormonen, endometriose, PCOS):
-
-| Supplement | Indicatie | Trigger |
-|---|---|---|
-| **Vitamine B6** | PMS, oestrogeenmetabolisme | Progesterondeficiëntie + PMS-klachten |
-| **Zink** | PCOS, androgeenbalans | Verhoogd testosteron + microbioom |
-| **N-acetylcysteïne (NAC)** | PCOS, insulineresistentie | HOMA-IR verhoogd |
-| **Indool-3-carbinol / DIM** | Oestrogeendominantie, endometriose | Oestradiol:progesteron ratio |
-| **Omega-3** | Endometriose, prostaglandinen | hsCRP + pijnpatroon cyclus |
-| **Magnesium** | Menstruatiepijn, slaap, PMS | Mg laag + slaapscore + cyclussignalen |
-
----
-
-## 15. De Vitalix Concierge — architectuur en twee modi
-
-### 15.1 Wat de concierge is
-
-De Vitalix concierge is een AI-assistent die gezondheids- vragen beantwoordt op basis van twee bronnen: een wetenschappelijke kennisbank én de persoonlijke biomarkerdata van de gebruiker. Hij is geen chatbot. Hij is een redenerende laag bovenop gevalideerde wetenschap en persoonlijke data.
-
-De concierge werkt in twee modi — afhankelijk van of de gebruiker een abonnement heeft.
 
----
-
-### 15.2 Vrije modus (geen abonnement vereist)
-
+### baselines
 ```
-Gebruiker stelt vraag
-→ Concierge zoekt relevante passages in kennisbank
-→ Beantwoordt op basis van wetenschap
-→ Geen persoonlijke data beschikbaar
-→ Natuurlijke CTA aan het einde:
-  "Wil je weten of dit bij jou speelt?
-   Meet het. → Vitalix abonnement"
+id, user_id, marker_name
+baseline_value, std_deviation
+data_points, is_stable, stability_threshold
+calculated_at
 ```
-
-**Doel:** Vertrouwen opbouwen vóór de verkoopconversatie. De concierge geeft echte waarde — niet een demo, niet een sales pitch.
-
----
-
-### 15.3 Betaalde modus (abonnement actief)
 
+### interventions
 ```
-Gebruiker stelt vraag
-→ Concierge laadt gebruikersprofiel:
-  ├── Laatste biomarkerwaarden
-  ├── Wearable trends (Polar Loop, 30/90 dagen)
-  ├── Actieve supplementen + startdatums
-  ├── Lopende interventies
-  └── Gespreksgeschiedenis (persistent)
-→ Zoekt relevante passages in kennisbank
-→ Redeneert over persoonlijke data + wetenschap
-→ Geeft gepersonaliseerd antwoord met meetbaar advies
+id, user_id, name, intervention_type
+started_at, baseline_snapshot (JSON)
+status: active | completed | abandoned
 ```
-
-**Voorbeeld:**
-> "Waarom slaap ik slechter de laatste twee weken?"
->
-> "Je diepe slaap is gedaald van gemiddeld 94 naar 67 minuten sinds 14 maart. Dit correleerde met een HRV-daling van 12% op dezelfde datum. Jouw laatste magnesiumwaarde was 0.74 mmol/L — aan de lage kant van jouw persoonlijke baseline van 0.81. Overweeg de dosering te verhogen naar magnesiumbisglycinaat 400mg voor het slapen en meet over 8 weken opnieuw."
-
----
 
-### 15.4 Geheugen per gebruiker
-
-De concierge heeft geen sessiegeheugen — hij heeft permanent geheugen per gebruiker.
-
+### insights
 ```
-Opgeslagen in PostgreSQL per gebruiker:
-├── Volledige gespreksgeschiedenis
-├── Actueel biomarkerprofiel
-├── Supplement- en interventie-log
-└── Wearable trends (rolling)
-
-Bij elke nieuwe vraag laadt de concierge:
-├── Laatste 10 berichten van die gebruiker
-├── Actueel gezondheidsoverzicht
-└── Relevante passages uit de wetenschappelijke bijbel
-    (via pgvector similarity search)
+id, user_id, insight_type
+content (text), thinking (text)
+decisions (JSONB)
+feedback_due_at, reviewed (boolean)
+created_at
 ```
-
-Elke keer dat een gebruiker de concierge opent, kent hij de volledige context — zonder dat de gebruiker opnieuw hoeft uit te leggen wie hij is of wat zijn situatie is.
-
----
 
-### 15.5 De wetenschappelijke bijbel
-
-De kennisbank is geen LLM-geheugen. Het is een gecureerde database van wetenschappelijk onderbouwde informatie per conditie, per biomarker en per supplement — met evidence-levels gedifferentieerd:
-
+### insight_reviews
 ```
-Niveau 1: Sterke consensus
-          Meerdere gerandomiseerde studies, meta-analyses
-Niveau 2: Goed onderbouwd, emerging
-          Kleinere studies, mechanistisch plausibel
-Niveau 3: Practitioner signal
-          Klinische observaties, expert input
-          (zoals: partner ziet verband chlamydia-endometriose)
+id, insight_id, user_id, reviewer_tier
+verdict: exact | mostly | partial | wrong
+created_at
 ```
-
-De concierge communiceert altijd het evidence-level van zijn antwoord. Geen aannames, geen overpresentatie van bewijs.
-
----
 
-### 15.6 Technische implementatie
-
+### decision_reviews
 ```
-app/ai.py               → LLM abstractielaag (al aanwezig)
-app/routers/
-  concierge.py          → gratis endpoint (geen auth vereist)
-  chat.py               → betaald endpoint (auth + biomarkerdata)
-PostgreSQL + pgvector   → kennisbank + gespreksgeschiedenis
-app/jobs/
-  knowledge_sync.py     → kennisbank bijwerken (nieuw bewijs)
+id, review_id, decision_index
+original_choice, alternative, reasoning
+correction_type: preference | factual_correction | context_dependent
 ```
-
----
-
-## 16. Redactionele filosofie — Just the Facts
-
-### 16.1 De kern
-
-Vitalix communiceert op één manier: feitelijk, helder, zonder aannames. Feiten kunnen uitermate interessant zijn — droog hoeft dat niet te betekenen. Maar speculatie, overpresentatie van bewijs en conspiracy-denken hebben geen plaats.
-
-> **"Just the facts"** — dit is zowel een payoff als een werkprincipe voor alle informatie die Vitalix verstrekt.
-
----
-
-### 16.2 De EU supplementen-paradox
-
-Een voorbeeld van waarom feitelijke informatie krachtig is — en waarom Vitalix een unieke positie inneemt.
-
-**De regelgeving:**
-EU-verordening EC 1924/2006 bepaalt dat supplementfabrikanten alleen gezondheidsclaims mogen maken die zijn goedgekeurd in de Europese gezondheidsclaimsdatabase. Claims gebaseerd op wetenschappelijk onderzoek dat niet aan de EU is voorgelegd voor goedkeuring — mogen niet op een verpakking staan.
-
-**Het gevolg:**
-Een probiotica-fabrikant mag niet schrijven "helpt bij candida overgroei" — ook al bestaat daarvoor wetenschappelijk bewijs. Een magnesiumfabrikant mag niet schrijven "ondersteunt diepe slaap bij tekort" — ook al laten meerdere studies dat zien.
-
-**Waarom dit bestaat:**
-De EU wil consumenten beschermen tegen misleidende gezondheidsclaims. De goedkeuringsprocedure is bedoeld als kwaliteitsfilter. Dat is een legitiem doel.
-
-**Wat het onbedoeld veroorzaakt:**
-Het goedkeuringsproces is duur en traag. Kleine fabrikanten en academische onderzoekers kunnen het proces niet altijd doorlopen. Het resultaat: wetenschappelijk gevalideerde informatie bereikt de consument niet via het productlabel.
-
-**Wat Vitalix anders doet:**
-Vitalix verkoopt geen supplementen. Vitalix analyseert data en verstrekt persoonlijke inzichten op basis van biomarkers. Dat valt in een fundamenteel andere juridische categorie — geen gezondheidsclaim op een product, maar een persoonlijk data-inzicht.
 
+### learned_preferences
 ```
-Supplementlabel (verboden):
-"Dit product helpt bij candida overgroei"
-
-Vitalix (toegestaan):
-"Jouw microbioomtest toont een candida-overgroei.
- Wetenschappelijk onderzoek (niveau 2) suggereert
- dat Lactobacillus rhamnosus GG hier effectief bij
- kan zijn. Na 8 weken meten we opnieuw."
+id, user_id, category, context (500), preference
+source_type, source_review_id
+frequency (int), active (bool)
 ```
 
-Vitalix kan zeggen wat het etiket niet mag zeggen — niet omdat we regels omzeilen, maar omdat we in een andere categorie opereren.
-
 ---
 
-### 16.3 Just the Facts — werkprincipes voor de concierge
+## 8. Routes
 
-```
-✅ Altijd evidence-level vermelden
-✅ Onderscheid maken tussen bewezen en plausibel
-✅ Persoonlijke data als vertrekpunt, niet als conclusie
-✅ Tijdlijn communiceren (vitamine D werkt na 8-12 weken,
-   niet na 3 dagen)
-✅ Zeggen wat we niet weten
-✅ Doorverwijzen naar arts waar relevant
-
-❌ Geen diagnoses
-❌ Geen claims zonder databasis
-❌ Geen aannames over oorzaak-gevolg zonder bewijs
-❌ Geen conspiracy-narratieven over regulering
-❌ Geen supplement-aanbevelingen zonder tekort aangetoond
-```
+| Route | Methode | Functie |
+|-------|---------|---------|
+| `/` | GET | Dashboard (Jinja2) |
+| `/input` | GET/POST | Dagelijkse invoer |
+| `/ask` | GET/POST | Vraag stellen |
+| `/profile` | GET/POST | Profiel |
+| `/polar/auth` | GET | Polar OAuth start |
+| `/polar/callback` | GET | Polar OAuth callback |
+| `/polar/status/{user_id}` | GET | Koppelstatus |
+| `/withings/auth` | GET | Withings OAuth start |
+| `/withings/callback` | GET | Withings OAuth callback |
+| `/health/dashboard/{user_id}` | GET | Dashboard data (JSON) |
+| `/health/users/{user_id}/lab` | POST/GET | Lab invoer |
+| `/health/users/{user_id}/interventions` | POST/GET | Interventies |
+| `/health/users/{user_id}/alerts` | GET | Alerts |
 
 ---
-
-## 17. DNA-onderzoek — disclaimer en ethisch kader
-
-### 17.1 Waarom een disclaimer verplicht is
 
-DNA-onderzoek onderscheidt zich fundamenteel van andere data in Vitalix. Bloedwaarden veranderen. Wearable-data is van gisteren. DNA is permanent — en de informatie erin kan confronterend, onomkeerbaar en verreikend zijn.
+## 9. Sprint Plan
 
-Vitalix vereist actieve informed consent voordat een gebruiker DNA-data koppelt of uploadt. Geen opt-out checkbox. Een bewust doorlopen stap.
+### Sprint 0 — MVP (nu)
+- [x] FastAPI structuur + PostgreSQL schema
+- [x] Polar AccessLink client (OAuth + HRV/slaap/activiteit)
+- [x] Withings OAuth + data sync
+- [x] Baseline calculator
+- [x] Dashboard JSON endpoint
+- [x] Lab invoer + interventies
+- [x] Polar router (OAuth auth + callback)
+- [x] DailyInput model
+- [x] React + Vite + TailwindCSS frontend scaffold
+- [x] Dashboard UI (MetricCards, HRVChart, BloodPressureChart, AlertBanner)
+- [x] EnergyInput component (5-punt schaal + context flags)
+- [x] Dagelijkse invoer UI
+- [x] ARQ sync jobs (Withings + Polar + Whoop)
+- [x] .env.example + config
+- [x] scripts/seed.py (Peter + Maya + Maddy)
+- [x] Magic link authenticatie (auth.py)
+- [x] Whoop integratie (OAuth + HRV/slaap sync)
+- [ ] Eerste deployment op Hetzner
 
----
-
-### 17.2 Wat DNA-onderzoek kan onthullen
+### Sprint 1 — Intelligence
+- [ ] Claude API + prompt caching
+- [ ] vitalix_identity.md + vitalix_reference_data.json
+- [ ] Insight generatie met decision extraction
+- [ ] Vraag stellen → insight opslaan
+- [ ] Review module (4 stappen)
+- [ ] Learned preferences → prompt injectie
+- [ ] Adaptieve follow-up bij anomalie
+- [ ] Wist-je-dat feit (contextgebonden)
+- [ ] Hoop-visualisatie (baseline + haalbaar + plafond)
+- [ ] Oura gateway (Sprint 1 alternatief)
 
-```
-Erfelijke kankerrisico's
-├── BRCA1/BRCA2 → sterk verhoogd risico op borst- en
-│                  eierstokkanker
-├── Lynch syndroom → verhoogd risico darmkanker
-└── Andere tumorsuprressor-varianten
-
-Neurologische risico's
-├── APOE4 → verhoogd risico op Alzheimer
-│            homozygoot APOE4/APOE4: significant verhoogd
-└── Nog geen behandeling beschikbaar
-
-Cardiovasculaire risico's
-├── Familiaire hypercholesterolemie
-└── Hartritme-gerelateerde varianten
-
-Farmacogenetica
-├── Hoe je lichaam medicijnen metaboliseert
-├── Relevant bij kankerbehandeling, antidepressiva,
-│   bloedverdunners
-└── Kan behandeladvies van arts veranderen
-```
+### Sprint 2 — Verdieping
+- [ ] CGM (FreeStyle Libre)
+- [ ] PDF-upload labresultaten (OCR)
+- [ ] Partner-zichtbaarheid
+- [ ] Expert reviewer (personal trainer)
+- [ ] Interventie-rapport (delta T=0 vs T=84 dagen)
+- [ ] Garmin gateway
 
 ---
-
-### 17.3 Wat de gebruiker moet begrijpen vóór DNA-koppeling
 
-**1. DNA-informatie raakt ook je familie**
-Een genetische variant die jij ontdekt, geldt mogelijk ook voor je ouders, broers, zussen en kinderen. Je neemt niet alleen een beslissing voor jezelf.
+## 10. Wat dit NIET is
 
-**2. Weten is niet hetzelfde als lotsbestemming**
-Een verhoogd genetisch risico betekent niet dat je de ziekte krijgt. Het betekent dat je risicoprofiel anders is dan gemiddeld. Leefstijl, omgeving en toeval spelen een grote rol.
+Deze grenzen zijn geen juridische disclaimers — het zijn ontwerpkeuzes die bepalen wat Vitalix wel en niet bouwt.
 
-**3. Sommige informatie heeft geen behandeling**
-APOE4 en Alzheimer is het meest bekende voorbeeld. Je kunt de informatie krijgen — maar er is op dit moment geen bewezen interventie die het risico elimineert. Wil je dat weten?
+**Geen ratingsysteem.** Er zijn geen scores, geen ranglijsten, geen "gezondheidsleeftijd" of "biologische leeftijd" getallen. Die zijn altijd simplificaties die meer misleiden dan informeren. Vitalix toont trends en afwijkingen — geen eindoordeel.
 
-**4. Psychologische impact**
-Onderzoek toont aan dat confronterende genetische uitslagen significante psychologische impact kunnen hebben — angst, rouw, veranderd zelfbeeld. Dit is niet iets om licht over te gaan.
+**Geen diagnose-machine.** Vitalix herkent patronen en benoemt afwijkingen. Het stelt nooit een diagnose. "Jouw hsCRP is consistent verhoogd en je HRV daalt — dit kan wijzen op een ontstekingsproces" is een observatie. "Je hebt een ontstekingsziekte" is een diagnose. Dat verschil wordt in elke AI-output gehandhaafd.
 
----
-
-### 17.4 Hoe Vitalix hiermee omgaat
+**Geen vervanging van de arts.** De waarde zit in voorbereiding en longitudinaliteit. Een gebruiker die naar de huisarts gaat met 6 maanden HRV-data, bloeddruktrends en labwaarden heeft een betere afspraak dan iemand die aangeeft dat ze "zich al een tijdje moe voelt." Vitalix maakt de arts effectiever, niet overbodig.
 
-**Gefaseerde onthulling:**
-Vitalix toont standaard alleen de DNA-markers die direct relevant zijn voor de biomarkers die al gemeten worden — vitamine D-metabolisme, omega-3 verwerking, ontstekingsrespons, schildklierfunctie.
-
-Hoog-impact genetische informatie (BRCA, APOE4, Lynch) wordt niet automatisch getoond. De gebruiker kiest actief of hij deze informatie wil zien.
-
-```
-Standaard zichtbaar:     Nutriëntenmetabolisme (MTHFR,
-                         VDR, FADS1/2, COMT)
-                         Farmacogenetica (CYP450-varianten)
-                         Inflammatierespons (IL-6, TNF-α)
-
-Actieve keuze vereist:   Erfelijke kankerrisico's
-                         APOE4 / Alzheimer-risico
-                         Andere hoog-impact varianten
-```
+**Geen publieke app in Sprint 0.** Vitalix begint als privétool voor maximaal drie mensen op een eigen server. Geen registratie, geen onboarding flow, geen publieke URL. Dit is bewust: de eerste versie moet kloppen voor mensen die je kent, voor je hem uitrolt naar mensen die je niet kent.
 
-**Aanbeveling genetisch counselor:**
-Bij hoog-impact bevindingen raadt Vitalix altijd aan een gecertificeerd genetisch counselor te raadplegen vóór verdere actie. Vitalix interpreteert geen klinische genetische diagnoses.
+**Geen motivatie-app.** Geen dagelijkse push-notificaties, geen streaks, geen "je hebt 7 dagen op rij gemeten!" badges. De enige reden om de app te openen is als er iets te zien is. Stilte is ook een boodschap.
 
-**Data-soevereiniteit:**
-DNA-data wordt nooit gedeeld, nooit gebruikt voor onderzoek zonder expliciete toestemming, en kan op elk moment volledig verwijderd worden uit het systeem.
+**Geen black box.** Elk inzicht vermeldt welke markers het hebben getriggerd en wat de redenering is. De gebruiker hoeft het niet te accepteren — hij kan het betwisten via de review module. Transparantie is geen feature, het is een architectuurprincipe.
 
 ---
-
-### 17.5 De disclaimer — tekst voor gebruikersinterface
 
-> **Voordat je doorgaat**
->
-> DNA-onderzoek kan informatie onthullen die confronterend is — over erfelijke ziekterisico's, neurologische aandoeningen of informatie die ook relevant is voor je familieleden.
->
-> Vitalix toont standaard alleen DNA-markers die direct verband houden met je gemeten biomarkers. Hoog-impact informatie (zoals erfelijke kankerrisico's of Alzheimer-risico) toon je alleen als je daar bewust voor kiest.
->
-> Weten is niet hetzelfde als lotsbestemming. Maar sommige informatie kan niet worden "ont-weten." Neem de tijd voor deze keuze.
->
-> Bij confronterende bevindingen raden wij altijd aan een gecertificeerd genetisch counselor te raadplegen.
->
-> [Ik begrijp dit en wil doorgaan] [Ik sla DNA-koppeling voor nu over]
+*PRD versie 2.0 — 2026-04-01*
+*Samengesteld op basis van gesprekken Peter van Rhoon + Claude*
 
 ---
-
-## 18. UX-principe — Zero Friction
-
-> Dit is geen feature. Het is een ontwerpfilosofie die elk scherm, elke interactie en elke databron bepaalt.
-
-### 18.1 De kern
 
-De gebruiker wil niet nadenken over het platform. De gebruiker wil leven — en achteraf begrijpen wat zijn biologie deed.
+## 11. Positionering & Vertrouwensprincipes
 
-```
-Goed:    Data komt vanzelf binnen
-         Inzicht verschijnt wanneer het relevant is
-         Vragen stellen via gesprek, niet via formulieren
-
-Fout:    Dagelijkse invoerschermen
-         Herinneringen om data in te voeren
-         Formulieren met velden
-         Dashboards die aandacht eisen
-```
-
-### 18.2 Wat automatisch binnenkomt
-
-```
-Polar Loop           → HRV, slaap, hartslag, activiteit,
-                       SpO2 — nachtelijke sync
-                       Gebruiker doet niets
-
-Withings BPM Vision    → Bloeddruk + ECG
-                       Automatisch gesync'd na elke meting
-                       Gebruiker doet niets
-```
-
-### 18.3 Wat via de concierge binnenkomt
-
-Alles wat niet automatisch meetbaar is, gaat via gesprek. Geen formulieren.
-
-```
-Bloedtest ontvangen:
-Gebruiker:  "Bloedtest binnen. Vitamine D 38,
-             hsCRP 2.1, ferritine 67"
-Concierge:  Parseert automatisch, logt waarden,
-            koppelt aan persoonlijke baseline
-
-Supplement gestart:
-Gebruiker:  "Ben begonnen met Omega-3 vandaag,
-             2 gram per dag"
-Concierge:  Logt interventie met startdatum,
-            zet automatisch herinnering voor
-            follow-up meting over 12 weken
-
-Interventie gestart:
-Gebruiker:  "Begin vandaag met Systema
-             breath hold training"
-Concierge:  Logt startdatum, koppelt aan
-            HRV-trend in Polar Loop data
-```
-
-### 18.4 Wat nooit handmatig ingevoerd hoeft te worden
-
-```
-Ademfrequentie       → Skip — HRV vertelt hetzelfde verhaal
-Dagelijks humeur     → Skip — HRV + slaap zijn objectiever
-Activiteiten-log     → Skip — Polar Loop detecteert automatisch
-Stressscore          → Skip — pseudowetenschap, zie Section 16
-```
+### De kern van de propositie
 
-### 18.5 De ontwerpregels
+Vitalix doet geen diagnostische claims. Het systeem herkent afwijkingen van de **persoonlijke baseline** en biedt contextuele interpretatie. De gebruiker wordt altijd aangesproken als intelligent volwassene.
 
-```
-Regel 1:  Als iets automatisch kan — dan automatisch.
-          Geen handmatige invoer als er een API bestaat.
-
-Regel 2:  Als iets handmatig moet — dan via gesprek.
-          Geen formulieren. Geen velden. Gewoon zeggen wat er is.
-
-Regel 3:  Het platform spreekt de gebruiker aan.
-          Niet andersom. Vitalix signaleert wanneer er
-          iets te zien is. De gebruiker hoeft niet
-          dagelijks in te loggen.
-
-Regel 4:  Één apparaat, altijd om.
-          Polar Loop werkt dag én nacht, op pols of biceps.
-          Geen ring die je afzet tijdens training.
-          Geen horloge dat je oplaadt terwijl je slaapt.
-
-Regel 5:  Minder data, beter geselecteerd is meer waard
-          dan veel data die niemand leest.
-```
-
-### 18.6 De belofte aan de gebruiker
+**Nooit:** "Dit is wat er mis is."
+**Altijd:** "Dit patroon wijkt af van jouw normaal — het is de moeite waard om dit te bespreken met je arts als het aanhoudt."
 
-```
-"Draag de Loop. Meet bloeddruk eens per week.
- Doe eens per kwartaal een bloedpanel.
- Vertel de concierge wat je start of stopt.
-
- Vitalix doet de rest."
-```
+Dit is niet alleen een juridische keuze. Het is eerlijker, en voor de doelgroep geloofwaardiger dan claims die zij toch niet kunnen controleren.
 
 ---
-
-## 19. Zeldzame aandoeningen en kanker — aanvullende waarde
 
-> Geen buildtaak voor Sprint 0. Wel een strategische richting voor fase 2+.
+### De twee referentielagen
 
-### 19.1 Het probleem bij zeldzame kanker
+Vitalix gebruikt altijd twee lagen — in die volgorde van prioriteit:
 
-```
-Oncoloog bij zeldzame tumor:
-→ Ziet misschien 2-3 gevallen per jaar
-→ Behandelrichtlijnen gebaseerd op kleine studies
-→ Kwartaalcontrole: bloed eens per 3 maanden
-→ Scan eens per 6 maanden
-→ Patiënt staat er grotendeels alleen voor
-   tussen de controles in
-```
-
-Standaard oncologie werkt met populatiegemiddelden. Bij zeldzame kanker is er nauwelijks een populatie om van te middelen.
-
-### 19.2 Wat Vitalix biedt dat de oncologie niet heeft
-
-```
-Continue biomarkermonitoring:
-├── Tumormarkers (CEA, PSA, CA-125 afhankelijk
-│   van kankertype) — kwartaalbloedpanel
-├── Inflammatiepanel (hsCRP, NLR, IL-6)
-│   — proxy voor tumoractiviteit
-├── HRV als systemische gezondheidsindex
-│   — daalt bij onderliggende ziekte
-├── Slaapkwaliteit — daalt vroeg bij recidief
-└── Vermoeidheidspatroon — Polar Loop registreert
-    afwijkingen van persoonlijke baseline
-
-Interventie-tracking:
-→ Reageert immunotherapie op inflammatiemarkers?
-→ Daalt hsCRP na chemokuur?
-→ Herstelt HRV na behandeling?
-→ Wanneer is de persoonlijke baseline hersteld?
-
-Longitudinale data voor de arts:
-→ 6 maanden continu data die de oncoloog
-   normaal nooit heeft
-→ Patronen zichtbaar die in kwartaalcontroles
-   onzichtbaar blijven
-→ Patiënt komt met feiten, niet met gevoel
-```
-
-### 19.3 Waarom dit voor artsen waardevol is
-
-Een oncoloog die een patiënt met een zeldzame tumor ziet, heeft normaal:
-- Bloed eens per 3 maanden
-- Scan eens per 6 maanden
-- Wat de patiënt zichzelf herinnert
-
-Een Vitalix-gebruiker brengt mee:
-- Dagelijkse HRV afgelopen 6 maanden
-- Wekelijkse bloeddruk
-- Slaapkwaliteit gecorreleerd aan behandelperiodes
-- Eigen interventie-log met meetbare uitkomsten
-- Tijdlijn van wanneer de biologie veranderde
+| Laag | Wat het zegt | Primair |
+|------|-------------|---------|
+| **Persoonlijke baseline** | "Jouw HRV de afgelopen 30 dagen is gemiddeld 42ms. Vandaag: 31ms — 26% onder jouw normaal." | ✅ Ja |
+| **Populatienorm** | "Voor mannen 55–65 is 25–55ms het normale bereik. Jij zit binnen dat bereik." | Nee — context |
 
-Dat is informatie die de arts nergens anders vandaan krijgt. En bij zeldzame kanker — waar de arts net zo weinig weet als de patiënt — is elke objectieve datapunt waardevol.
+Populatienorm is altijd secundair. Het antwoordt op: "Ben ik überhaupt gezond?" Persoonlijke baseline antwoordt op: "Verandert er iets in mij?"
 
-### 19.4 Wat Vitalix niet doet
+De huisarts vergelijkt je met de populatie. Vitalix vergelijkt je met jezelf. Dat is het verschil.
 
-```
-Vitalix diagnosticeert niet.
-Vitalix vervangt geen oncoloog.
-Vitalix geeft geen behandeladvies.
-
-Vitalix meet. En bij kanker is meten —
-zelfs zonder de perfecte interpretatie —
-fundamenteel beter dan niet meten.
-```
-
-### 19.5 De research-dimensie
-
-Geanonimiseerde, longitudinale data van zeldzame kankerpatiënten die continu monitoren is wetenschappelijk waardevol. Niet als diagnostisch instrument — maar als observationele dataset die onderzoekers patronen laat zien die in kleine klinische studies onzichtbaar blijven.
-
-Dit is ook WBSO-grondslag: technische onzekerheid in het detecteren van biomarkerpatronen bij zeldzame aandoeningen via multi-modale data-integratie.
+**In de UI:** elke metric card toont beide lagen. Persoonlijke baseline groot en centraal. Populatienorm als kleinere contextregel eronder: *"Normaalwaarde voor jouw leeftijd: 25–55ms."*
 
 ---
-
-## 20. Vitalix als intelligente trainingscoach
-
-> Geen buildtaak voor Sprint 0. Wel een kernpropositie die het platform onderscheidt van elke wearable-app, personal trainer-app en supplement-tool op de markt.
-
-### 20.1 De coach die jou 24/7 kent
-
-Een personal trainer ziet je 1 tot 3 uur per week. Hij raadt wat je nodig hebt. Hij geeft generiek advies op basis van gemiddelden.
-
-Vitalix ziet je 24/7. Het meet wat je nodig hebt. Het geeft advies op basis van jouw biologie op dit specifieke moment.
 
-```
-Menselijke coach:
-→ 3 uur per week observatie
-→ Advies op basis van indruk
-→ Geen objectieve data tussen sessies
-
-Vitalix:
-→ 24/7 continue monitoring
-→ Advies op basis van gemeten waarden
-→ Persoonlijke baseline als referentie
-→ Crosskoppeling tussen training,
-   herstel, voeding, supplementen en slaap
-```
-
-### 20.2 Trainingsprogramma als context
-
-Een gebruiker voert eenmalig in:
-- Type training (kracht, martial arts, cardio, mobilitiet)
-- Weekschema (wanneer, hoe lang, welke intensiteit)
-- Trainingszones (op basis van hartslagdrempels)
-- Doelen (herstel, prestatie, gezondheid, afvallen)
-
-Vanaf dat moment weet Vitalix altijd:
-- Wat je vandaag hebt gedaan
-- Wat er morgen gepland staat
-- Wat je biologie zegt over de combinatie van die twee
-
-### 20.3 Contextuele coaching — voorbeelden
-
-```
-Voorbeeld 1 — hersteladvies:
-"Je bent gisteren 47 minuten in zone 4
- geweest terwijl je HRV 18% onder je
- persoonlijke baseline lag.
- Dat verklaart je vermoeidheid vandaag.
- Morgen staat krachttraining gepland —
- overweeg dat te verschuiven naar
- overmorgen."
-
-Voorbeeld 2 — fascia en herstel:
-"Na Systema-training duurt jouw
- fascia-herstel gemiddeld 38 uur.
- Dat zie ik aan je HRV-patroon de dag
- erna. Anderen hebben 24 uur nodig.
- Jij niet. Jouw schema houdt hier
- geen rekening mee."
-
-Voorbeeld 3 — circadiaan ritme:
-"Je cortisol-piek zit consistent om
- 07:30. Je traint nu om 19:00.
- Jouw HRV-data suggereert dat
- ochtendtraining voor jou 23% meer
- herstelcapaciteit oplevert."
-
-Voorbeeld 4 — supplement-koppeling:
-"Je Omega-3 index is 4.8% — optimaal
- is 8%+. Je traint 4x per week.
- Lage Omega-3 remt spierherstel en
- verhoogt inflammatie na inspanning.
- Je hsCRP bevestigt dit patroon."
-
-Voorbeeld 5 — ademhaling en zones:
-"Je gemiddelde ademfrequentie in rust
- is 14/min. Bij zone 3+ training switch
- je naar mondademhaling — dat zie ik
- aan je HRV-fluctuatie. Overweeg
- Oxygen Advantage neusademhaling
- protocol te introduceren."
-```
-
-### 20.4 Kennisgebieden van de coach
+### Wat wearables niet kunnen — en Vitalix wel
 
-De concierge heeft diepgaande wetenschappelijke kennis over:
+Wearables (Whoop, Polar, Oura) leren ook. Maar hun leren is:
+- **Opgesloten** — je ziet de score, niet de redenering
+- **Eendimensionaal** — alleen hun eigen data, geen labs, geen cyclus, geen interventiehistorie
+- **Niet-transparant** — je kunt niet navragen waarom je recovery 62% is
 
-```
-Trainingszones
-├── Zone 1-5 definities en fysiologie
-├── Persoonlijke drempelberekening
-├── Wanneer welke zone — op basis van
-│   HRV, doelen en hersteltoestand
-└── MAF-methode (Phil Maffetone)
-
-Fascia
-├── Herstelprotocollen na verschillende
-│   trainingstypes
-├── Mobiliteit vs. kracht timing
-└── Hydratatie en fasciagezondheid
-
-Ademhaling
-├── Oxygen Advantage protocol
-├── CO2-tolerantie opbouwen
-├── Neusademhaling tijdens training
-├── Buteyko-methode basis
-└── Ademhaling en HRV-connectie
-
-Voedingssupplementen
-├── Alleen aanbevolen bij gemeten tekort
-├── Timing van supplementen rondom training
-├── Interacties tussen supplementen
-└── Doseringen op basis van bloedwaarden
-
-Herstel
-├── Actief vs. passief herstel
-├── Slaap als primaire herstelinterventie
-├── Koudeblootstelling en HRV
-└── Stressmanagement en cortisol
-```
-
-### 20.5 Wat de coach niet doet
-
-```
-Geen generieke trainingsschema's geven
-Geen advies zonder data-onderbouwing
-Geen claims over prestatieverbetering
-Geen vervanging van medische begeleiding
-bij blessures of aandoeningen
-```
-
-### 20.6 De personal trainer als partner
-
-De intelligente coach maakt personal trainers niet overbodig — het maakt hen beter.
+Vitalix maakt het leren **zichtbaar en uitbreidbaar:**
+- Je ziet welke markers een inzicht sturen
+- Je kunt context toevoegen die de score verklaart
+- Je kunt een interventie markeren op dag 0 en meten op dag 84
 
-Een personal trainer die Vitalix gebruikt voor zijn klanten heeft toegang tot:
-- Hoe de klant herstelt tussen sessies
-- Of de intensiteit aansluit bij de biologische capaciteit
-- Of supplementen en voeding het trainingseffect ondersteunen
-- Objectieve data om het programma op aan te passen
-
-Dit is de ambassadeursrol van de personal trainer: niet vervangen door Vitalix, maar versterkt door Vitalix.
-
 ---
-
-## 21. PT-validatielaag — menselijke controle op AI-aanbevelingen
 
-> Geen buildtaak voor Sprint 0. Architectuur voor fase 1 (3-5 PT-piloten).
+### De inzicht-formule (vast, voor elke output)
 
-### 21.1 Het principe
+> *"Jouw [marker] ligt [X%] [boven/onder] jouw persoonlijke baseline van de afgelopen [periode]. Dit kan samenhangen met [context]. Populatienorm voor [profiel]: [range]. Als dit patroon aanhoudt is het de moeite waard dit te bespreken met je arts."*
 
-Vitalix genereert aanbevelingen op basis van data en wetenschappelijke kennisbank. Maar een algoritme mist context die een ervaren personal trainer wél heeft: hoe beweegt deze persoon, wat is zijn mentale staat, wat zegt zijn lichaamstaal tijdens training?
+Nooit een inzicht zonder:
+1. Vergelijking met persoonlijke baseline (verplicht)
+2. Populatienorm als context (verplicht)
+3. Mogelijke verklaring (als context beschikbaar)
+4. Volgende stap (altijd concreet en dichtbij)
 
-De PT-validatielaag voegt die menselijke laag toe.
-
-### 21.2 Hoe het werkt
-
-```
-Vitalix genereert aanbeveling
-→ "Jouw HRV is 18% onder baseline.
-   Overweeg lichte training vandaag."
-
-PT ziet de aanbeveling in zijn dashboard
-→ Opties: Goedkeuren / Aanpassen / Verwerpen
-→ Bij aanpassing of verwerping: korte toelichting
-   "Klant heeft gisteren goed geslapen, mentaal
-    fit, ik ga voor matige intensiteit"
-
-Systeem logt de feedback:
-→ Welke aanbevelingen worden consistent
-  goedgekeurd bij welk profiel?
-→ Welke worden aangepast? Waarom?
-→ Het systeem leert — elke PT-validatie
-  is trainingsdata
-```
-
-### 21.3 Wat dit oplevert
-
-```
-Voor de gebruiker:
-→ AI-advies met menselijke controlelaag
-→ Vertrouwen: een expert heeft meegekeken
-
-Voor de PT:
-→ Objectieve data over herstel en biologische
-  capaciteit van de klant
-→ Betere sessies, minder blessures
-→ Differentiatie: "ik werk met data"
-
-Voor het platform:
-→ Kwaliteitscontrole op aanbevelingen
-→ Lerende dataset: wat werkt bij welk profiel?
-→ Vertrouwenssignaal voor nieuwe gebruikers
-```
-
-### 21.4 PT-onboarding model
-
-```
-Fase 0:  3-5 PT's gratis toegang
-         In ruil voor: aanbevelingen beoordelen
-         + eerlijke feedback
-
-Fase 1:  €29/maand per PT (tool access)
-         + €15/maand per gekoppelde klant
-
-Fase 2:  White label optie
-         PT biedt "DataTraining by [naam]" aan
-         Vitalix draait op de achtergrond
-```
-
 ---
-
-## 22. Swarm intelligence — het lerende platform
-
-> Geen buildtaak voor Sprint 0. Strategische architectuur voor fase 2+ (100+ gebruikers).
-
-### 22.1 De drie niveaus van intelligentie
-
-```
-Niveau 1: Persoonlijke intelligentie (Sprint 0)
-→ Jouw data vs jouw eigen baseline
-→ Jij bent de enige referentie
-→ "Jouw hsCRP is 40% boven jouw norm"
-
-Niveau 2: Expert intelligentie (fase 1)
-→ Wetenschappelijke bijbel (PubMed, Cochrane)
-→ PT-validatielaag
-→ Menselijke kennis als kalibratie
-
-Niveau 3: Swarm intelligentie (fase 2+)
-→ Geanonimiseerde patronen over alle gebruikers
-→ "Vrouwen 35-45 met dit cortisol-patroon die
-   trainingsbelasting verminderden zagen HRV
-   verbeteren binnen 3 weken"
-→ Het platform wordt slimmer met elke gebruiker
-```
-
-### 22.2 Het vliegwiel
 
-```
-Meer gebruikers
-→ meer interventie-data
-→ betere patroonherkenning
-→ betere aanbevelingen
-→ meer gebruikers
-```
-
-Elke nieuwe gebruiker maakt het platform beter voor alle gebruikers. Dit is een moat die geen concurrent eenvoudig kan kopiëren.
-
-### 22.3 Zeldzame aandoeningen — hier wordt swarm intelligence goud
-
-```
-Normale situatie:
-Arts ziet 2 patiënten per jaar
-met zeldzame tumor →
-onvoldoende data om patronen te zien
-
-Vitalix met 50 gebruikers
-met dezelfde zeldzame aandoening:
-→ Patronen zichtbaar die nergens
-  anders bestaan
-→ Wetenschappelijk waardevolle dataset
-→ Research partnerships mogelijk met
-  UMC's, RIVM, zeldzame ziekten fondsen
-```
-
-### 22.4 Privacy-oplossing: federated learning
-
-```
-Probleem:  GDPR — gezondheidsdata mag niet
-           gebruikt worden zonder expliciete
-           toestemming
-
-Oplossing: Federated learning
-→ Het model leert van patronen zonder
-  individuele data te zien
-→ Gebruiker deelt "wat werkte"
-  niet "wie ik ben"
-→ Opt-in met expliciete consent
-→ Europese privacy by design
-```
-
-### 22.5 WBSO-grondslag
+### Website-copy (homepage)
 
-De technische onzekerheid van het bouwen van een multi-modaal swarm intelligence systeem dat:
-1. Privacy preserveert via federated learning
-2. Leert van heterogene data (verschillende wearables, labs, DNA)
-3. Omgaat met zeldzame aandoeningen (kleine n, grote impact)
-4. Kalibreert voor genetische variatie
+> "Wij vergelijken je niet met een gemiddelde. Wij vergelijken je met jezelf — gisteren, vorige maand, voor en na een interventie. Als iets afwijkt van jouw normaal, laten we dat zien. Wat het betekent, bepaal jij — samen met je arts."
 
-Dit is echte technische onzekerheid. Dit is de kern van de WBSO-aanvraag.
 
 ---
-
-## 23. Klachtendagboek en inzicht-protocol
-
-> Geen buildtaak voor Sprint 0. Architectuur voor fase 1.
-
-### 23.1 Het principe
-
-Vitalix diagnosticeert niet. Vitalix correleert. Het verschil is fundamenteel — juridisch, ethisch, en praktisch.
-
-```
-Diagnose     → "Jij hebt endometriose"
-               Dat doet Vitalix NIET
-
-Correlatie   → "Jouw klacht correleert met
-               deze data — dit is het patroon"
-               Dat doet Vitalix WEL
-```
-
-### 23.2 Frictionloze klachteninvoer
-
-```
-Via concierge: "Ik voel me moe en heb hoofdpijn"
-→ Één zin, geen formulier
-→ Timestamp automatisch
-→ Gekoppeld aan wearable-data van dat moment
-   en de voorliggende 72 uur
-```
-
-### 23.3 Het inzicht-spectrum
-
-```
-Niveau 1 — Altijd veilig:
-"Jouw hsCRP is 3.2 — 40% boven
- jouw persoonlijke baseline"
-→ Pure data, geen interpretatie
-
-Niveau 2 — Veilig met context:
-"Dit patroon — verhoogde hsCRP + HRV-daling
- + vermoeidheidsmelding — is in meerdere studies
- geassocieerd met laaggradige chronische ontsteking"
-→ Correlatie + wetenschappelijke bron
-
-Niveau 3 — Probabilistisch maar haalbaar:
-"Dit patroon is consistent met wat we zien bij
- schildklierdisfunctie. Niet bewezen — maar het
- patroon rechtvaardigt een TSH-test"
-→ Actiegericht, niet alarmerend
-
-Niveau 4 — Nooit:
-"Jij hebt hypothyreoïdie"
-→ Diagnose → verboden terrein
-```
 
-### 23.4 De taalregel
+## 12. Schaalmodel & Netwerkeffect
 
-```
-❌ "Jouw vermoeidheid wordt veroorzaakt door
-    lage vitamine D"
-
-✅ "Op dagen dat jij vermoeidheid meldt,
-    is jouw HRV gemiddeld 22% lager dan
-    jouw persoonlijke baseline. Jouw laatste
-    vitamine D was 38 nmol/L — onder jouw
-    streefwaarde. Verband niet bewezen,
-    patroon wel zichtbaar."
-```
+### Het kernargument schaalt mee
 
-Just the facts — ook in de klachtentaal.
+Het onderscheidende argument van Vitalix — persoonlijke baseline primair, populatienorm secundair — wordt bij schaal **sterker**, niet zwakker. De architectuur is daar vanaf Sprint 0 op ingericht.
 
-### 23.5 Export voor arts of PT
+---
 
-Elke gebruiker kan een klachtenrapport exporteren:
-- Klacht + datum + bijbehorende biomarkers
-- Klacht + datum + HRV/slaap/temperatuur trend
-- Tijdlijn die de arts of PT anders nooit zou hebben
+### Baseline-berekening schaalt gratis
 
-Een patiënt die binnenkomt met 6 maanden longitudinale data wordt anders behandeld dan iemand die alleen klachten beschrijft.
+Baselines zijn per gebruiker een statistische berekening (rolling mean + standaarddeviatie). PostgreSQL verwerkt dit in milliseconden voor 10.000 gebruikers. Geen infrastructuurwijziging nodig. De code staat er al.
 
 ---
 
-## 24. Business model referenties
+### Eigen populatienormen als proprietary asset
 
-> Referentieplatforms die bewijzen dat de markt bestaat en wat de bereidheid tot betalen is.
+Nu: referentiewaarden uit medische literatuur.
+Bij 10.000 gebruikers: Vitalix-populatiedata — gesegmenteerd op leeftijd, geslacht, gezondhedsprofiel, wearable, interventiehistorie.
 
-### 24.1 Levels Health (VS)
+> *"Vrouwen 45–55 op endocriene therapie met jouw profiel hebben in Vitalix gemiddeld een HRV van 34ms."*
 
-**Wat het is:** Metabole gezondheidsmonitoring via CGM (continue glucosemeting) + bloedpanels.
+Dat staat nergens in de literatuur. Dat is een proprietary dataset die geen wearable kan bouwen — omdat zij de labdata niet hebben.
 
-**Wat ze meten:** 100+ biomarkers — metabolisme, cardiovasculair, schildklier, hormonen, immuun.
+---
 
-**Pricing:**
-```
-Classic:   $24/maand  → glucose monitoring only
-Core:      $41/maand  → 28+ markers
-Complete:  $167/maand → 100+ markers + clinician support
-```
+### AI-kosten zijn geen businessprobleem
 
-**Regulatory positioning:** Expliciet wellness platform, niet medisch apparaat. Disclaimer: "intended only for maintaining and encouraging a healthy lifestyle." Dit ondanks het meten van klinische biomarkers als ApoB, Lp(a), TSH en cortisol.
+Inzichten worden trigger-based gegenereerd — alleen wanneer een marker afwijkt van de persoonlijke baseline. Niet voor alle gebruikers elke dag.
 
-**Wat Vitalix anders doet:**
-```
-Levels heeft:               Vitalix heeft extra:
-CGM (real-time glucose) ✅  Wearable HRV/slaap ✅
-Bloedpanel ✅               Bloeddruk (Withings) ✅
-                            Microbioom ✅
-                            DNA-kalibratie ✅
-                            Speeksel/cortisol ✅
-                            Vrouwencyclus sync ✅
-                            Interventie-feedbackloop ✅
-                            Multi-modale correlatie ✅
-                            Europese privacy ✅
-```
+| Aanname | Waarde |
+|---------|--------|
+| Dagelijkse triggers (20% van gebruikers) | 2.000 calls |
+| Kosten per call (Claude Haiku + prompt caching) | ~€0,0005 |
+| Dagelijkse AI-kosten bij 10.000 gebruikers | €1 |
+| Jaarlijkse AI-kosten | €365 |
 
-**Validatiesignaal:** Amerikaanse consument betaalt $167/maand voor uitgebreide biomarkermonitoring. Europese markt: vergelijkbare bereidheid.
+Bij een abonnement van €30/maand × 10.000 gebruikers = €3,6M ARR tegenover €365 AI-kosten. Geen businessprobleem.
 
 ---
 
-### 24.2 BlueHealth (NL)
+### Het netwerkeffect — wat geen wearable kan bieden
 
-**Wat het is:** Eenmalige 360-graden gezondheidsscan in Amsterdam. 60 minuten. Directe resultaten.
+Bij schaal ontstaat cohortintelligentie. Mensen met vergelijkbare profielen, dezelfde interventies, vergelijkbare labwaarden — hun gecombineerde data produceert inzichten die in geen enkele klinische studie bestaan.
 
-**Wat ze meten:**
-- ECG + carotis-echo (halsslagader)
-- 3D bodyscan (32 camera's)
-- Bloedwerk + metabole screening
-- Consult met arts
+> *"Mensen met jouw profiel — vrouw, 45–55, verhoogd homocysteïne, laag ferritine, perimenopauze — die 5-MTHF methylfolaat startten zagen gemiddeld na 8 weken een daling van 22% in homocysteïne. Jij bent nu in week 6."*
 
-**Pricing:** €269 (early access)
+Whoop heeft dit niet. Polar heeft dit niet. De literatuur heeft dit niet op dit detailniveau. Dit is Vitalix-data — opgebouwd uit gebruikers die hun interventies consequent bijhouden.
 
-**Wat het is — en wat het niet is:**
-```
-Sterk:    3D bodyscan uniek
-          Lage instapprijs
-          Arts aanwezig = vertrouwen
-
-Beperking: Momentopname — geen baseline over tijd
-           Geen wearable-integratie
-           Geen interventie-tracking
-           Geen "meet of het werkt"
-```
+Dit is een echte network effect: meer gebruikers → betere cohorten → rijkere interpretaties → hogere retentie → meer gebruikers.
 
-**Relatie met Vitalix:** Complementair, niet competitief.
-```
-BlueHealth → de diepe scan, eenmalig
-             "waar sta ik nu?"
-
-Vitalix    → continu monitoren
-             "wat doet mijn lichaam elke dag?"
-             "werkt mijn interventie?"
-```
+---
 
-Potentiële samenwerking: BlueHealth-klant doet de 360 scan → data gaat naar Vitalix als nulmeting → Vitalix monitort de progressie continu.
+### Wat bij schaal extra moet worden gebouwd
 
-**Validatiesignaal:** Nederlandse consument betaalt €269 voor preventieve gezondheidsscan. Markt voor preventieve gezondheidsdata bestaat in NL.
+Deze drie dingen zijn bewust uitgesteld — ze zijn niet nodig voor Sprint 0 met twee pilotgebruikers op een eigen server. Maar ze zijn geen afterthought: ze moeten gebouwd zijn vóórdat je de eerste externe gebruiker toelaat.
 
 ---
 
-## 25. Bedrijfsmodel en publiek belang
+#### 1. Medische veiligheidsprotocollen
 
-> Strategische architectuur. Geen buildtaak. Wel de lens waarmee alle commerciële beslissingen worden genomen.
+Bij twee gebruikers die je persoonlijk kent is het risico beheersbaar. Bij 10.000 anonieme gebruikers tref je statistisch gezien mensen in acute situaties — een hypertensieve crisis, een HRV-patroon dat wijst op ernstige overtraining of ziekte, een labwaarde die directe medische aandacht vereist.
 
-### 25.1 De kernspanning
+**Wat dit concreet betekent:**
 
-Vitalix raakt de meest intieme data die mensen hebben: biologie, kankerhistorie, hormonen, DNA, mentale patronen.
+De veiligheids-gates die nu al in `vitalix_identity.md` staan (bloeddruk >160/100 → altijd arts-melding; AFib → meld en verwijs) worden bij schaal codified in de alert-engine — niet alleen in de AI-prompt. Het systeem handelt zelfstandig, zonder dat de AI er tussenin hoeft.
 
-Een winstmaximalisatie-model creëert perverse prikkels:
+Daarnaast: een medisch adviseur (huisarts of specialist) die de drempelwaarden mede-ondertekent. Niet als decoratie op de website, maar als iemand die de escalatielogica heeft gereviewed en daarmee juridisch mede-verantwoordelijk is. Dat verlaagt het risico voor Vitalix en verhoogt de geloofwaardigheid bij gebruikers én investeerders.
 
-```
-Meer engagement → meer data → meer waarde
-→ prikkel om mensen aan het platform te houden,
-  niet om ze gezonder te maken
-
-Data verkopen aan verzekeraars of farmaceuten
-→ korte termijn winst
-→ vernietiging van vertrouwen
-
-Exit naar grote speler
-→ platform verdwijnt of wordt uitgekleed
-→ gebruikersdata in handen van onbekende partij
-```
+**Wanneer:** vóór de eerste externe gebruiker. Niet erna.
 
-Een publiek belang-model keert dit om.
+---
 
-### 25.2 De beschikbare structuren
+#### 2. GDPR-infrastructuur
 
-**B-Corp certificering**
-```
-Opereer als normale BV
-Voldoe aan meetbare impact-criteria
-Transparantieverplichtingen
-Stakeholder governance
-
-Voordeel:  Direct toepasbaar, internationaal
-           herkenbaar, geen structuurwijziging
-Nadeel:    Geen juridische bescherming
-           tegen overname of koerswijziging
-```
+Nu staat alle data van Peter en Maya op een Hetzner-server die Peter zelf beheert. Dat is juridisch simpel — hij is tegelijk verwerkingsverantwoordelijke en betrokkene.
 
-**Steward Ownership / Doelstichting**
-```
-BV met certificaten bij STAK
-(Stichting Administratiekantoor)
-
-Economisch eigendom: investeerders/oprichter
-Zeggenschap: stichting met publiek doel
-Effect: bedrijf KAN niet verkocht worden
-        zonder toestemming van de stichting
-
-Voorbeelden: Bosch (Robert Bosch Stiftung)
-             Zeiss (Ernst Abbe Stiftung)
-             Patagonia (Holdfast Collective)
-```
+Zodra Maddy instapt — en zeker zodra er onbekende gebruikers bijkomen — verandert de juridische realiteit volledig.
 
-**Data Coöperatie**
-```
-Gebruikers zijn mede-eigenaar van hun data
-én van het platform
+**Wat er dan moet zijn:**
 
-Gebruiker betaalt lidmaatschap
-Gebruiker heeft stemrecht over datagebruik
-Winst gaat terug naar leden of naar onderzoek
+- **Verwerkersovereenkomsten** met Polar, Whoop en Withings. Die bedrijven verwerken gezondheidsdata namens jou. Dat vereist een DPA (Data Processing Agreement). Polar en Withings hebben standaard DPA's — die moet je activeren.
+- **Expliciete consent bij onboarding** — artikel 9 AVG maakt gezondheidsdata bijzondere persoonsgegevens. Verwerking vereist uitdrukkelijke toestemming, specifiek per doel.
+- **Recht op inzage en verwijdering** — een gebruiker moet op elk moment al zijn data kunnen downloaden en laten verwijderen. Dat is nu niet gebouwd.
+- **Bewaartermijnen** — hoe lang bewaar je HRV-data als iemand zijn account opzegt? Dat moet vastgelegd zijn in een privacybeleid.
+- **Datalekprocedure** — bij een datalek moet je binnen 72 uur melden bij de Autoriteit Persoonsgegevens.
 
-Voorbeeld: Midata.coop (Zwitserland)
-```
+**Wanneer:** vóór externe gebruikers. De technische bouwblokken (delete endpoint, export endpoint) komen in Sprint 2. Het juridische document (privacybeleid + verwerkersregister) kan eerder.
 
-### 25.3 Waarom dit voor Vitalix strategisch sterk is
+---
 
-**Vertrouwen als architectuur:**
+#### 3. Segmentatie in de Bible
 
-```
-"Waarom zou ik mijn DNA-data,
- kankerhistorie en hormoonprofiel
- delen met een startup?"
-
-Bij steward ownership:
-→ "Omdat we juridisch niet verkocht kunnen
-    worden aan een verzekeraar.
-    Omdat onze stichting als enige zeggenschap
-    heeft. Omdat jouw data nooit een
-    commercieel product wordt."
-```
+De huidige `vitalix_identity.md` is één bestand met één set analyseprincipes. Dat werkt voor Peter en Maya. Bij schaal wordt de diversiteit van gezondheidsprofielen zo groot dat één bible bot wordt.
 
-Dat is geen marketingbelofte. Dat is juridische structuur.
+**Het probleem:**
 
-**Onderzoekspartnerships:**
-RIVM, UMC's en academische instellingen willen samenwerken met platforms met een publiek belang-structuur — niet met profit-maximizing startups.
+Een vrouw van 48 post-oncologie op aromatase-remmers heeft een volledig ander interpretatiekader nodig dan een man van 60 met cardiovasculair risico. Dezelfde HRV-daling betekent iets anders. Dezelfde cortisol-waarde ook. Een generieke bible maakt fouten — niet per se gevaarlijke, maar onderpresterende.
 
-**Subsidies en fondsen:**
-```
-NWO onderzoekssubsidies
-ZonMw (gezondheidsonderzoek NL)
-EU Horizon programma's
-Gemeentelijk/provinciaal gezondheidsbeleid
-```
+**De oplossing — al ingezet met het gateway-model:**
 
-### 25.4 Het data commons model
+De hardware-laag in de Bible-architectuur (Laag 2) is al conditioneel: `polar.md`, `whoop.md`, `withings_bpm.md` worden geladen op basis van de actieve apparaten van de gebruiker. Hetzelfde principe geldt voor gezondheidsprofielen.
 
 ```
-Geanonimiseerde, geconsenseerde Vitalix-data
-wordt een publiek gezondheidscommons
-
-Beschikbaar voor:
-→ Academisch onderzoek
-→ RIVM volksgezondheidsbeleid
-→ Zeldzame aandoeningen research
-→ Farmaceuten (tegen vergoeding die
-  terugvloeit naar het platform en gebruikers)
-
-Gebruiker kiest:
-→ Opt-in voor bijdrage aan commons
-→ Ontvangt korting of donatie aan
-  gezondheidsdoel als tegenprestatie
+profiel_post_oncologie_er_positief.md
+profiel_perimenopauze.md  
+profiel_cardiovasculair_man.md
+profiel_onbekende_familiegeschiedenis.md
 ```
 
-Niet een health app. Een publieke gezondheidsinfrastructuur met een consumenteninterface.
-
-### 25.5 De bouwvolgorde
-
-```
-Nu:         Bouw als normale BV
-            Leg intentie vast in communicatie
-            "Jouw data is nooit ons product"
-
-Bij 100+    B-Corp certificering
-gebruikers:
-
-Bij schaal: Steward ownership structuur
-            Zeggenschap naar doelstichting
-            Data commons lanceren
-```
+Elk profiel voegt een extra interpretatielaag toe aan Block 2 van de prompt. De identiteitslaag (veiligheids-gates, basisprincipes) blijft universeel in Block 1.
 
-Patagonia begon als gewoon bedrijf. De structuurwijziging kwam decennia later. Eerst waarde bouwen — dan eigendom transfereren naar de structuur die de intentie juridisch borgt.
+**Wanneer:** Sprint 3. De architectuur staat er al — het is invulwerk op het moment dat je de tweede doelgroep serieus bedient. Maddy's profiel (`post_oncologie_er_positief.md`) is de eerste kandidaat.
 
 ---
 
 ---
-
-## 26. Encryptie en data-soevereiniteit
-
-### 26.1 Principe
-
-Vitalix draait op eigen infrastructuur (Hetzner/Coolify). Geen gratis SaaS-database met derde-partij-eigendomsclausules. Jij beheert de server — dat is de kern van data-soevereiniteit.
-
-### 26.2 Wat relevant is vanaf dag 1
-
-- **Eigen server**: data staat nooit bij een partij met eigen commerciële belangen (geen Firebase, geen Supabase cloud free tier)
-- **Toegangsbeveiliging**: magic link auth — geen wachtwoord opgeslagen, geen sessietokens in logs
-- **Clean data model**: elke meting als aparte rij met `(user_id, measured_at, marker_name, value)` — querybaar, exporteerbaar, verwijderbaar per gebruiker. Geen blobs, geen gemixte datatypes. Dit maakt een toekomstige deletion workflow triviaal.
 
-### 26.3 Wat kan wachten tot externe gebruikers
+### De pitch
 
-- Encryptie at rest (database-niveau)
-- GDPR deletion flows + audit logs
-- Data processing agreements met labs
-- Gebruikersfacing privacy-dashboard
+**In één zin:**
+> *"Wearables vergelijken je met miljoenen andere mensen. Vitalix vergelijkt je met jezelf — en met de mensen die het meest op jou lijken."*
 
-> **Praktische richtlijn:** zolang de enige gebruikers Peter en zijn partner zijn, is een password-protected server met eigen database voldoende. De investering in zware encryptie-infrastructuur doe je op het moment dat je de eerste externe gebruiker toevoegt — niet eerder.
+**Voor investeerders:**
+> Vitalix bouwt het enige longitudinale gezondheidsplatform dat wearable-data, bloedwaarden en interventie-uitkomsten verbindt op persoonlijk niveau. Het netwerkeffect zit niet in gebruikersaantallen maar in de diepte van de data per gebruiker — en de cohortintelligentie die daaruit ontstaat.
 
 ---
 
-*SuperStories BV — Vitalix PRD — v0.1 — 28 maart 2026*
-*Sprint 0: persoonlijk tool voor twee pilotgebruikers. Bouw alleen wat hier staat.*
+*PRD versie 2.1 — 2026-04-02*
+*Sectie 11 en 12 toegevoegd: Positionering & Vertrouwensprincipes, Schaalmodel & Netwerkeffect*

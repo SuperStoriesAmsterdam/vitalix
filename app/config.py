@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     # App
     app_secret_key: str
     app_base_url: str = "http://localhost:8000"
+    environment: str = "development"   # development | production
     product_id: str = "vitalix"
     app_version: str = "0.1.0"
 
@@ -35,6 +36,15 @@ class Settings(BaseSettings):
     polar_client_id: str = ""
     polar_client_secret: str = ""
     polar_redirect_uri: str = "http://localhost:8000/polar/callback"
+
+    # Whoop (Developer API v1)
+    whoop_client_id: str = ""
+    whoop_client_secret: str = ""
+    whoop_redirect_uri: str = "http://localhost:8000/whoop/callback"
+
+    # AI (Anthropic Claude)
+    anthropic_api_key: str = ""
+    ai_model: str = "claude-opus-4-5"
 
     class Config:
         env_file = ".env"

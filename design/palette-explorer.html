@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitalix — Palette Explorer v5</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1c1c1c;
+      font-family: 'Inter', sans-serif;
+      padding: 48px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page-title { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+    .page-note { font-size: 13px; color: #444; margin-bottom: 40px; }
+
+    .routes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .route { border-radius: 16px; overflow: hidden; }
+    .route-label {
+      padding: 14px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .route-label h2 { font-size: 13px; font-weight: 700; }
+    .route-label p { font-size: 11px; opacity: .5; margin-top: 2px; }
+    .verdict { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 3px 9px; border-radius: 100px; }
+
+    /* ─── ROUTE A: Light Editorial ─── */
+    .route-a .route-label { background: #FAFAF8; color: #1c1a18; border-bottom: 1px solid #E8E8E4; }
+    .route-a .a-hero {
+      background: #FAFAF8;
+      padding: 36px 28px 28px;
+    }
+    .route-a .a-eyebrow {
+      font-size: 10px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: #E05835; margin-bottom: 16px;
+    }
+    .route-a .a-h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px; font-weight: 400; color: #1c1a18;
+      line-height: 1.2; margin-bottom: 10px; letter-spacing: -0.01em;
+    }
+    .route-a .a-h1 em { font-style: italic; color: #E05835; }
+    .route-a .a-sub { font-size: 12px; color: #888; line-height: 1.65; margin-bottom: 20px; max-width: 260px; }
+    .route-a .a-btn { display: inline-block; background: #1c1a18; color: #fff; padding: 10px 20px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+
+    .route-a .a-dark {
+      background: #1c1a18;
+      padding: 24px 28px;
+    }
+    .route-a .a-dark p { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.65; }
+    .route-a .a-dark em { font-style: normal; color: #E05835; font-weight: 500; }
+
+    .route-a .a-cards {
+      background: #FAFAF8;
+      padding: 18px 20px 22px;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
+    }
+    .route-a .a-card { background: #fff; border: 1px solid #EDEDE9; border-radius: 8px; padding: 12px 14px; }
+    .route-a .a-card-title { font-size: 11px; font-weight: 600; color: #1c1a18; margin-bottom: 3px; }
+    .route-a .a-card-src { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #E05835; margin-top: 8px; }
+
+    .route-a .a-swatches { display: flex; height: 8px; }
+    .route-a .a-swatches div { flex: 1; }
+
+    /* ─── ROUTE B: Dark First ─── */
+    .route-b .route-label { background: #0F5F72; color: #fff; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .route-b .b-hero {
+      background: #0F5F72;
+      padding: 36px 28px 28px;
+    }
+    .route-b .b-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: #FF6520; margin-bottom: 16px;
+    }
+    .route-b .b-h1 {
+      font-size: 28px; font-weight: 700; color: #fff;
+      line-height: 1.1; margin-bottom: 10px; letter-spacing: -0.03em;
+    }
+    .route-b .b-h1 em { font-style: normal; color: #FF6520; }
+    .route-b .b-sub { font-size: 12px; color: rgba(255,255,255,.45); line-height: 1.65; margin-bottom: 20px; max-width: 260px; }
+    .route-b .b-btn { display: inline-block; background: #FF6520; color: #fff; padding: 10px 20px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+
+    .route-b .b-stats {
+      background: rgba(255,255,255,.05);
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background-color: rgba(255,255,255,.06);
+    }
+    .route-b .b-stat { background: #0F5F72; padding: 16px 18px; }
+    .route-b .b-stat-num { font-size: 22px; font-weight: 700; color: #FF6520; display: block; letter-spacing: -0.03em; }
+    .route-b .b-stat-lbl { font-size: 10px; color: rgba(255,255,255,.35); margin-top: 4px; }
+
+    .route-b .b-cards {
+      background: #F6F6F6;
+      padding: 18px 20px 22px;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
+    }
+    .route-b .b-card { background: #fff; border: 1px solid #E8E8E8; border-radius: 8px; padding: 12px 14px; }
+    .route-b .b-card-title { font-size: 11px; font-weight: 600; color: #1c1a18; margin-bottom: 3px; }
+    .route-b .b-card-src { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #FF6520; margin-top: 8px; }
+
+    .route-b .b-swatches { display: flex; height: 8px; }
+    .route-b .b-swatches div { flex: 1; }
+
+    /* ─── ROUTE C: Human & Layered ─── */
+    .route-c .route-label { background: #fff; color: #1c1a18; border-bottom: 1px solid #EBEBEB; }
+    .route-c .c-hero {
+      background: #fff;
+      padding: 36px 28px 28px;
+    }
+    .route-c .c-eyebrow {
+      font-size: 10px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase;
+      background: rgba(122,120,200,.1); color: #7A78C8;
+      display: inline-block; padding: 4px 10px; border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .route-c .c-h1 {
+      font-size: 28px; font-weight: 700; color: #1c1a18;
+      line-height: 1.1; margin-bottom: 10px; letter-spacing: -0.03em;
+    }
+    .route-c .c-h1 em { font-style: normal; color: #D96B4A; }
+    .route-c .c-sub { font-size: 12px; color: #888; line-height: 1.65; margin-bottom: 20px; max-width: 260px; }
+    .route-c .c-ctas { display: flex; gap: 8px; }
+    .route-c .c-btn-primary { display: inline-block; background: #D96B4A; color: #fff; padding: 10px 18px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+    .route-c .c-btn-outline { display: inline-block; border: 1.5px solid #E0E0E0; color: #1c1a18; padding: 10px 18px; border-radius: 6px; font-size: 11px; font-weight: 500; }
+
+    .route-c .c-band {
+      background: #0F5F72;
+      padding: 22px 28px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center;
+    }
+    .route-c .c-band-quote { font-size: 13px; font-weight: 500; color: #fff; line-height: 1.6; }
+    .route-c .c-band-quote em { font-style: normal; color: #9A98E0; }
+    .route-c .c-band-tags { display: flex; flex-direction: column; gap: 6px; }
+    .route-c .c-tag { background: rgba(122,120,200,.15); color: #9A98E0; border-radius: 6px; padding: 7px 12px; font-size: 10px; font-weight: 600; }
+
+    .route-c .c-cards {
+      background: #F8F8FA;
+      padding: 18px 20px 22px;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
+    }
+    .route-c .c-card { background: #fff; border: 1px solid #EAEAEE; border-radius: 8px; padding: 12px 14px; }
+    .route-c .c-card-title { font-size: 11px; font-weight: 600; color: #1c1a18; margin-bottom: 3px; }
+    .route-c .c-card-src-coral { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #D96B4A; margin-top: 8px; }
+    .route-c .c-card-src-peri { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #7A78C8; margin-top: 8px; }
+
+    .route-c .c-swatches { display: flex; height: 8px; }
+    .route-c .c-swatches div { flex: 1; }
+
+    /* LEGEND STRIP */
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 20px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 10px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    /* BOTTOM — tagline options */
+    .taglines {
+      margin-top: 40px;
+      background: #252525;
+      border-radius: 14px;
+      padding: 36px 40px;
+    }
+    .taglines h3 { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #555; margin-bottom: 24px; }
+    .tagline-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+    .tagline-card { background: #0F5F72; border-radius: 10px; padding: 22px 24px; }
+    .tagline-card .t-top { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; letter-spacing: -0.01em; }
+    .tagline-card .t-bottom { font-size: 16px; font-weight: 400; color: rgba(255,255,255,.45); margin-bottom: 12px; letter-spacing: -0.01em; }
+    .tagline-card .t-why { font-size: 11px; color: rgba(255,255,255,.3); line-height: 1.5; }
+    .tagline-card.preferred { border: 1.5px solid #E05835; }
+    .tagline-card.preferred .t-bottom { color: #E05835; }
+    .preferred-badge { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #E05835; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="page-title">Vitalix — Palette Explorer v4</div>
+<div class="page-note">A = light editorial · B = night blue + orange · C = vivid blue + orange (same structure as B, brighter base)</div>
+
+<div class="routes">
+
+  <!-- ── A: LIGHT EDITORIAL ── -->
+  <div class="route route-a">
+    <div class="route-label">
+      <div>
+        <h2>A — Light Editorial</h2>
+        <p>Warm white base · Serif display · Dark sections · Coral accent</p>
+      </div>
+      <div class="verdict" style="background:rgba(224,88,53,.12); color:#E05835;">Refined</div>
+    </div>
+    <div class="a-hero">
+      <div class="a-eyebrow">Be the best version of yourself. Factually.</div>
+      <h3 class="a-h1">Your body knows.<br><em>Now you can too.</em></h3>
+      <p class="a-sub">Just the facts. Vitalix connects your wearables, lab results, and DNA into one picture of your health.</p>
+      <span class="a-btn">Early Access</span>
+    </div>
+    <div class="a-dark">
+      <p>A cardiologist looks at your heart. An endocrinologist looks at your hormones. <em>Nobody looks at you as a system.</em> Vitalix does exactly that.</p>
+    </div>
+    <div class="a-cards">
+      <div class="a-card">
+        <div class="a-card-title">HRV</div>
+        <div style="font-size:10px; color:#aaa;">Continuous sleep tracking</div>
+        <div class="a-card-src">Polar Loop</div>
+      </div>
+      <div class="a-card">
+        <div class="a-card-title">Blood Pressure</div>
+        <div style="font-size:10px; color:#aaa;">Triple-averaged</div>
+        <div class="a-card-src">BPM Vision</div>
+      </div>
+      <div class="a-card">
+        <div class="a-card-title">DNA Markers</div>
+        <div style="font-size:10px; color:#aaa;">Genetic risk</div>
+        <div class="a-card-src">Dante Labs</div>
+      </div>
+    </div>
+    <div class="a-swatches">
+      <div style="background:#FAFAF8;"></div>
+      <div style="background:#E05835;"></div>
+      <div style="background:#3B7DD8;"></div>
+      <div style="background:#1c1a18;"></div>
+      <div style="background:#0F5F72;"></div>
+    </div>
+    <div class="legend" style="background:#FAFAF8;">
+      <div class="legend-item"><div class="legend-dot" style="background:#FAFAF8; border:1px solid #ddd;"></div><span style="color:#888;">Warm white</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#E05835;"></div><span style="color:#888;">Coral #E05835</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1c1a18;"></div><span style="color:#888;">Near black</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#0F5F72;"></div><span style="color:#888;">Night blue</span></div>
+    </div>
+  </div>
+
+  <!-- ── B: DARK FIRST ── -->
+  <div class="route route-b">
+    <div class="route-label">
+      <div>
+        <h2>B — Dark First</h2>
+        <p>Night blue hero · Orange cuts through · Light data cards below</p>
+      </div>
+      <div class="verdict" style="background:rgba(240,112,48,.15); color:#FF6520;">Bold</div>
+    </div>
+    <div class="b-hero">
+      <div class="b-eyebrow">Be the best version of yourself. Factually.</div>
+      <h3 class="b-h1">Your body knows.<br><em>Now you can too.</em></h3>
+      <p class="b-sub">Just the facts. Vitalix connects your wearables, lab results, and DNA into one picture of your health.</p>
+      <span class="b-btn">Early Access</span>
+    </div>
+    <div class="b-stats">
+      <div class="b-stat"><span class="b-stat-num">24/7</span><div class="b-stat-lbl">Continuous monitoring</div></div>
+      <div class="b-stat"><span class="b-stat-num">9+</span><div class="b-stat-lbl">Data streams</div></div>
+      <div class="b-stat"><span class="b-stat-num">0×</span><div class="b-stat-lbl">Data sold</div></div>
+    </div>
+    <div class="b-cards">
+      <div class="b-card">
+        <div class="b-card-title">HRV</div>
+        <div style="font-size:10px; color:#aaa;">Continuous sleep tracking</div>
+        <div class="b-card-src">Polar Loop</div>
+      </div>
+      <div class="b-card">
+        <div class="b-card-title">Blood Pressure</div>
+        <div style="font-size:10px; color:#aaa;">Triple-averaged</div>
+        <div class="b-card-src">BPM Vision</div>
+      </div>
+      <div class="b-card">
+        <div class="b-card-title">DNA Markers</div>
+        <div style="font-size:10px; color:#aaa;">Genetic risk</div>
+        <div class="b-card-src" style="color:#3B7DD8;">Dante Labs</div>
+      </div>
+    </div>
+    <div class="b-swatches">
+      <div style="background:#0F5F72;"></div>
+      <div style="background:#FF6520;"></div>
+      <div style="background:#3B7DD8;"></div>
+      <div style="background:#F6F6F6;"></div>
+      <div style="background:#ffffff;"></div>
+    </div>
+    <div class="legend" style="background:#0F5F72;">
+      <div class="legend-item"><div class="legend-dot" style="background:#0F5F72; border:1px solid #333;"></div><span style="color:#555;">Night blue</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FF6520;"></div><span style="color:#555;">Orange #FF6520</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3B7DD8;"></div><span style="color:#555;">Blue #3B7DD8</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F6F6F6; border:1px solid #333;"></div><span style="color:#555;">Light grey</span></div>
+    </div>
+  </div>
+
+  <!-- ── C: BRIGHT BLUE FIRST ── -->
+  <div class="route route-b" style="--hero-bg:#1A50D4;">
+    <div class="route-label" style="background:#1A50D4; border-bottom-color:rgba(255,255,255,.1);">
+      <div>
+        <h2 style="color:#fff;">C — Bright Blue First</h2>
+        <p style="color:rgba(255,255,255,.4);">Vivid blue hero · Orange accent · Light data cards</p>
+      </div>
+      <div class="verdict" style="background:rgba(240,112,48,.2); color:#FF6520;">Electric</div>
+    </div>
+    <div class="b-hero" style="background:#1A50D4;">
+      <div class="b-eyebrow">Be the best version of yourself. Factually.</div>
+      <h3 class="b-h1">Your body knows.<br><em>Now you can too.</em></h3>
+      <p class="b-sub">Just the facts. Vitalix connects your wearables, lab results, and DNA into one picture of your health.</p>
+      <span class="b-btn">Early Access</span>
+    </div>
+    <div class="b-stats" style="background-color:rgba(0,0,0,.15);">
+      <div class="b-stat" style="background:#1A50D4;"><span class="b-stat-num">24/7</span><div class="b-stat-lbl">Continuous monitoring</div></div>
+      <div class="b-stat" style="background:#1A50D4;"><span class="b-stat-num">9+</span><div class="b-stat-lbl">Data streams</div></div>
+      <div class="b-stat" style="background:#1A50D4;"><span class="b-stat-num">0×</span><div class="b-stat-lbl">Data sold</div></div>
+    </div>
+    <div class="b-cards">
+      <div class="b-card">
+        <div class="b-card-title">HRV</div>
+        <div style="font-size:10px; color:#aaa;">Continuous sleep tracking</div>
+        <div class="b-card-src">Polar Loop</div>
+      </div>
+      <div class="b-card">
+        <div class="b-card-title">Blood Pressure</div>
+        <div style="font-size:10px; color:#aaa;">Triple-averaged</div>
+        <div class="b-card-src">BPM Vision</div>
+      </div>
+      <div class="b-card">
+        <div class="b-card-title">DNA Markers</div>
+        <div style="font-size:10px; color:#aaa;">Genetic risk</div>
+        <div class="b-card-src" style="color:#1A50D4;">Dante Labs</div>
+      </div>
+    </div>
+    <div class="b-swatches">
+      <div style="background:#1A50D4;"></div>
+      <div style="background:#FF6520;"></div>
+      <div style="background:#3B7DD8;"></div>
+      <div style="background:#F6F6F6;"></div>
+      <div style="background:#ffffff;"></div>
+    </div>
+    <div class="legend" style="background:#1A50D4;">
+      <div class="legend-item"><div class="legend-dot" style="background:#1A50D4; border:1px solid rgba(255,255,255,.2);"></div><span style="color:#5580c8;">Vivid blue #1A50D4</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FF6520;"></div><span style="color:#5580c8;">Orange #FF6520</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F6F6F6; border:1px solid #333;"></div><span style="color:#5580c8;">Light grey</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TAGLINE OPTIONS -->
+<div class="taglines">
+  <h3>Tagline — confirmed direction</h3>
+  <div class="tagline-grid">
+    <div class="tagline-card preferred">
+      <div class="preferred-badge">→ Confirmed ✓</div>
+      <div class="t-top">Be the best version of yourself.</div>
+      <div class="t-bottom">Factually.</div>
+      <div class="t-why">One word breaks the cliché completely. Unexpected, precise, has edge. Connects directly to "Just the facts." Nobody else in this space can claim it.</div>
+    </div>
+    <div class="tagline-card">
+      <div class="t-top">Be the best version of yourself.</div>
+      <div class="t-bottom">Your body already knows how.</div>
+      <div class="t-why">Connects to the hero tagline "Your body knows." Slightly softer, more poetic.</div>
+    </div>
+    <div class="tagline-card">
+      <div class="t-top">Be the best version of yourself.</div>
+      <div class="t-bottom">Read the data first.</div>
+      <div class="t-why">Actionable, direct. Removes the inspirational-poster quality by grounding it in a concrete step.</div>
+    </div>
+    <div class="tagline-card">
+      <div class="t-top">Be the best version of yourself.</div>
+      <div class="t-bottom">Based on facts, not assumptions.</div>
+      <div class="t-why">Connects to "Just the facts." Slightly longer but the contrast lands well.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
