@@ -53,6 +53,29 @@ def get_users(db: Session = Depends(get_db)):
     return db.query(User).all()
 
 
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    date_of_birth: Optional[str] = None  # YYYY-MM-DD
+    sex: Optional[str] = None
+
+
+@router.patch("/users/{user_id}", response_model=UserResponse)
+def update_user(user_id: int, data: UserUpdate, db: Session = Depends(get_db)):
+    """Pas naam, geboortedatum of geslacht aan van een gebruiker."""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Gebruiker niet gevonden.")
+    if data.name is not None:
+        user.name = data.name
+    if data.sex is not None:
+        user.sex = data.sex
+    if data.date_of_birth is not None:
+        user.date_of_birth = date.fromisoformat(data.date_of_birth)
+    db.commit()
+    db.refresh(user)
+    return user
+
+
 @router.get("/users/{user_id}", response_model=UserResponse)
 def get_user(user_id: int, db: Session = Depends(get_db)):
     """Geeft één gebruiker terug op basis van ID."""

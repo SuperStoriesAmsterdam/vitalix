@@ -83,6 +83,9 @@ export default function Dashboard({ userId }: DashboardProps) {
   const today = format(new Date(), "EEEE d MMMM", { locale: nl })
   const capitalizedToday = today.charAt(0).toUpperCase() + today.slice(1)
 
+  const hour = new Date().getHours()
+  const greeting = hour < 12 ? 'Goedemorgen' : hour < 18 ? 'Goedemiddag' : 'Goedenavond'
+
   const {
     data: dashboard,
     isLoading: dashLoading,
@@ -182,8 +185,8 @@ export default function Dashboard({ userId }: DashboardProps) {
           }}
         >
           {dashLoading
-            ? 'Goedemorgen'
-            : `Goedemorgen, ${dashboard?.user_name ?? 'daar'}`}
+            ? greeting
+            : `${greeting}, ${dashboard?.user_name ?? 'daar'}`}
         </h1>
         <p style={{ fontSize: 14, color: '#7A7570', marginTop: 4, fontFamily: 'Inter, system-ui, sans-serif' }}>
           {capitalizedToday}
