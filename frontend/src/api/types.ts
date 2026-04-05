@@ -81,6 +81,15 @@ export interface Intervention {
   notes: string | null
 }
 
+export interface Insight {
+  id: number
+  created_at: string
+  insight_type: string
+  question: string | null
+  content: string
+  is_read: boolean
+}
+
 export interface DailyInputCreate {
   energy_level: number
   context_flags: string[]

@@ -41,6 +41,12 @@ const AlertsIcon = () => (
   </svg>
 )
 
+const AskIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  </svg>
+)
+
 const SettingsIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="3" />
@@ -67,6 +73,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'trends', label: 'Trends', icon: <TrendsIcon /> },
   { id: 'lab', label: 'Lab', icon: <LabIcon /> },
   { id: 'alerts', label: 'Alertes', icon: <AlertsIcon /> },
+  { id: 'ask', label: 'Vraag stellen', icon: <AskIcon /> },
   { id: 'instellingen', label: 'Profiel', icon: <SettingsIcon /> },
 ]
 

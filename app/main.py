@@ -13,7 +13,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from app.database import engine, Base
-from app.routers import withings, health, polar, whoop
+from app.routers import withings, health, polar, whoop, insights
 from app.auth import router as auth_router
 from app.errors import api_exception_handler
 from app.config import settings
@@ -41,6 +41,7 @@ app.include_router(withings.router, prefix="/withings", tags=["Withings"])
 app.include_router(polar.router, prefix="/polar", tags=["Polar"])
 app.include_router(health.router, prefix="/api", tags=["Health"])
 app.include_router(whoop.router, prefix="/whoop", tags=["Whoop"])
+app.include_router(insights.router, prefix="/insights", tags=["Insights"])
 
 # ── React frontend ─────────────────────────────────────────────────────────────
 # Productie: FastAPI serveert de gebouwde React app als statische bestanden.

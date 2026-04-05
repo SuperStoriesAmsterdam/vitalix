@@ -54,6 +54,7 @@ class User(Base):
     interventions = relationship("Intervention", back_populates="user")
     alerts = relationship("Alert", back_populates="user")
     daily_inputs = relationship("DailyInput", back_populates="user")
+    insights = relationship("Insight", back_populates="user")
 
 
 class BloodPressureMeasurement(Base):
@@ -195,6 +196,26 @@ class DailyInput(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="daily_inputs")
+
+
+class Insight(Base):
+    """
+    Gegenereerde inzichten door Claude op basis van gebruikersdata.
+    Kan worden aangemaakt via gebruikersvraag of automatisch via trigger.
+    """
+    __tablename__ = "insights"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+    insight_type = Column(String, nullable=False)   # 'question', 'anomaly', 'trend', 'daily'
+    question = Column(Text, nullable=True)           # de vraag van de gebruiker (als type=question)
+    content = Column(Text, nullable=False)           # Claude's antwoord
+    thinking = Column(Text, nullable=True)           # Claude's redenering (optioneel)
+    marker_names = Column(JSON, nullable=True)       # welke markers zijn gebruikt
+    is_read = Column(Boolean, default=False)
+
+    user = relationship("User", back_populates="insights")
 
 
 class MagicLinkToken(Base):

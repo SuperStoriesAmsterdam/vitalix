@@ -6,7 +6,7 @@ import api from './client'
 import type {
   DashboardResponse, HRVReading, BloodPressureReading,
   LabMarker, Alert, Intervention, DailyInputCreate, Baseline,
-  User, HealthProfile
+  User, HealthProfile, Insight
 } from './types'
 
 // ── Gebruiker ──────────────────────────────────────────────────────────────────
@@ -65,3 +65,11 @@ export const fetchInterventions = (userId: number) =>
 
 export const createDailyInput = (userId: number, data: DailyInputCreate) =>
   api.post(`/api/users/${userId}/daily-input`, data).then(r => r.data)
+
+// ── Insights (Claude Q&A) ─────────────────────────────────────────────────────
+
+export const askClaude = (userId: number, question: string) =>
+  api.post<Insight>('/insights/ask', { user_id: userId, question }).then(r => r.data)
+
+export const fetchInsights = (userId: number) =>
+  api.get<Insight[]>(`/insights/user/${userId}`).then(r => r.data)
