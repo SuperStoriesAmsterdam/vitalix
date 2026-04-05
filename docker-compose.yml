@@ -40,10 +40,11 @@ services:
       POSTGRES_USER: vitalix
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U vitalix"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      test: ["CMD-SHELL", "pg_isready -U vitalix -d vitalix"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
     restart: unless-stopped
 
   redis:
