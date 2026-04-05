@@ -216,6 +216,9 @@ async def get_sleep(
                     "Accept": "application/json",
                 },
             )
+            if response.status_code == 404:
+                logger.info(f"Polar slaap niet beschikbaar voor gebruiker {polar_user_id} (device ondersteunt dit niet)")
+                return []
             response.raise_for_status()
             data = response.json()
     except httpx.TimeoutException:
