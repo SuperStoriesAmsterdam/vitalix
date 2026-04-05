@@ -48,6 +48,13 @@ const SettingsIcon = () => (
   </svg>
 )
 
+const ApiIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="16 18 22 12 16 6" />
+    <polyline points="8 6 2 12 8 18" />
+  </svg>
+)
+
 const UserIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -129,6 +136,29 @@ export default function Layout({ children, activePage = 'dashboard', onNavigate,
             )
           })}
         </nav>
+
+        {/* API docs link */}
+        <div style={{ padding: '0 12px 8px' }}>
+          <a
+            href="/docs"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '8px 12px',
+              borderRadius: 8,
+              fontSize: 13,
+              color: '#7A7570',
+              textDecoration: 'none',
+              fontFamily: 'Inter, system-ui, sans-serif',
+            }}
+          >
+            <ApiIcon />
+            API docs
+          </a>
+        </div>
 
         {/* User info at bottom */}
         <div
