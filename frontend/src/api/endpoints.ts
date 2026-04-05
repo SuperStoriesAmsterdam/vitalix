@@ -5,8 +5,20 @@
 import api from './client'
 import type {
   DashboardResponse, HRVReading, BloodPressureReading,
-  LabMarker, Alert, Intervention, DailyInputCreate, Baseline
+  LabMarker, Alert, Intervention, DailyInputCreate, Baseline,
+  User, HealthProfile
 } from './types'
+
+// ── Gebruiker ──────────────────────────────────────────────────────────────────
+
+export const fetchUser = (userId: number) =>
+  api.get<User>(`/api/users/${userId}`).then(r => r.data)
+
+export const updateUser = (userId: number, data: { name?: string; date_of_birth?: string; sex?: string }) =>
+  api.patch<User>(`/api/users/${userId}`, data).then(r => r.data)
+
+export const updateProfile = (userId: number, data: HealthProfile) =>
+  api.patch<User>(`/api/users/${userId}/profile`, data).then(r => r.data)
 
 // ── Dashboard ──────────────────────────────────────────────────────────────────
 

@@ -59,6 +59,37 @@ class UserUpdate(BaseModel):
     sex: Optional[str] = None
 
 
+class ProfileUpdate(BaseModel):
+    """Gezondheidscontext van de gebruiker: familiegeschiedenis, diagnoses, medicijnen, supplementen."""
+    family_history_status: Optional[str] = None   # 'available', 'partial', 'unknown'
+    diagnoses: Optional[List[str]] = None
+    medications: Optional[List[str]] = None
+    supplements: Optional[List[str]] = None
+
+
+@router.patch("/users/{user_id}/profile", response_model=UserResponse)
+def update_profile(user_id: int, data: ProfileUpdate, db: Session = Depends(get_db)):
+    """Sla of update de gezondheidscontext van de gebruiker."""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Gebruiker niet gevonden.")
+
+    current = dict(user.health_profile) if user.health_profile else {}
+    if data.family_history_status is not None:
+        current["family_history_status"] = data.family_history_status
+    if data.diagnoses is not None:
+        current["diagnoses"] = data.diagnoses
+    if data.medications is not None:
+        current["medications"] = data.medications
+    if data.supplements is not None:
+        current["supplements"] = data.supplements
+
+    user.health_profile = current
+    db.commit()
+    db.refresh(user)
+    return user
+
+
 @router.patch("/users/{user_id}", response_model=UserResponse)
 def update_user(user_id: int, data: UserUpdate, db: Session = Depends(get_db)):
     """Pas naam, geboortedatum of geslacht aan van een gebruiker."""

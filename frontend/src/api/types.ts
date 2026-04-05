@@ -87,3 +87,20 @@ export interface DailyInputCreate {
   note?: string
   input_date: string
 }
+
+export interface HealthProfile {
+  family_history_status?: 'available' | 'partial' | 'unknown'
+  diagnoses?: string[]
+  medications?: string[]
+  supplements?: string[]
+}
+
+export interface User {
+  id: number
+  name: string
+  email: string
+  date_of_birth: string | null
+  sex: string | null
+  health_profile: HealthProfile | null
+  created_at: string
+}

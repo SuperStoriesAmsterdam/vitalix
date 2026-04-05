@@ -59,6 +59,7 @@ class UserResponse(BaseModel):
     email: str
     date_of_birth: Optional[date]
     sex: Optional[str]
+    health_profile: Optional[dict] = None
     created_at: datetime
 
     class Config:

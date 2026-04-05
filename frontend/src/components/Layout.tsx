@@ -67,7 +67,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'trends', label: 'Trends', icon: <TrendsIcon /> },
   { id: 'lab', label: 'Lab', icon: <LabIcon /> },
   { id: 'alerts', label: 'Alertes', icon: <AlertsIcon /> },
-  { id: 'instellingen', label: 'Instellingen', icon: <SettingsIcon /> },
+  { id: 'instellingen', label: 'Profiel', icon: <SettingsIcon /> },
 ]
 
 export default function Layout({ children, activePage = 'dashboard', onNavigate, userName = 'Gebruiker' }: LayoutProps) {
@@ -140,7 +140,7 @@ export default function Layout({ children, activePage = 'dashboard', onNavigate,
         {/* API docs link */}
         <div style={{ padding: '0 12px 8px' }}>
           <a
-            href="/docs"
+            href="/api/docs"
             target="_blank"
             rel="noopener noreferrer"
             style={{

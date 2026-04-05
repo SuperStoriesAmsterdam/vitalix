@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
+import Profile from './pages/Profile'
 import './index.css'
 
 const queryClient = new QueryClient({
@@ -13,11 +15,16 @@ const queryClient = new QueryClient({
   },
 })
 
+const USER_ID = 1
+
 export default function App() {
+  const [page, setPage] = useState('dashboard')
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout>
-        <Dashboard userId={1} />
+      <Layout activePage={page} onNavigate={setPage}>
+        {page === 'dashboard' && <Dashboard userId={USER_ID} />}
+        {page === 'instellingen' && <Profile userId={USER_ID} />}
       </Layout>
     </QueryClientProvider>
   )
