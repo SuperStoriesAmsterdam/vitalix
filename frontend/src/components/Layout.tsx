@@ -75,6 +75,14 @@ const UserIcon = () => (
   </svg>
 )
 
+const ManualIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 16v-4" />
+    <path d="M12 8h.01" />
+  </svg>
+)
+
 const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: <DashboardIcon /> },
   { id: 'trends', label: 'Trends', icon: <TrendsIcon /> },
@@ -82,6 +90,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'alerts', label: 'Alertes', icon: <AlertsIcon /> },
   { id: 'ask', label: 'Vraag stellen', icon: <AskIcon /> },
   { id: 'guide', label: 'Gids', icon: <GuideIcon /> },
+  { id: 'manual', label: 'Manual', icon: <ManualIcon /> },
   { id: 'instellingen', label: 'Profiel', icon: <SettingsIcon /> },
 ]
 
