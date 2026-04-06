@@ -23,6 +23,7 @@ STABILITY_THRESHOLDS = {
     "diastolic": 10,
     "hrv_rmssd": 14,
     "deep_sleep_minutes": 14,
+    "ans_charge": 14,   # Polar ANS-herstel of Whoop recovery score — beide dagelijks
     "default": 10,
 }
 
@@ -115,6 +116,12 @@ def _get_values_for_marker(
             HRVReading.user_id == user_id
         ).order_by(HRVReading.date).all()
         return [row.deep_sleep_minutes for row in rows if row.deep_sleep_minutes is not None]
+
+    if marker_name == "ans_charge":
+        rows = db.query(HRVReading.ans_charge).filter(
+            HRVReading.user_id == user_id
+        ).order_by(HRVReading.date).all()
+        return [row.ans_charge for row in rows if row.ans_charge is not None]
 
     # Lab markers (bloed, speeksel, urine)
     rows = db.query(LabMarker.value).filter(
