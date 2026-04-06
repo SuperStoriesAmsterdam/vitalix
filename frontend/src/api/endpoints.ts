@@ -9,6 +9,17 @@ import type {
   User, HealthProfile, Insight, InsightFolder
 } from './types'
 
+// ── Authenticatie ─────────────────────────────────────────────────────────────
+
+export const getMe = () =>
+  api.get<User>('/api/me').then(r => r.data)
+
+export const requestMagicLink = (email: string) =>
+  api.post('/auth/login', { email }).then(r => r.data)
+
+export const logout = () =>
+  api.get('/auth/logout').then(r => r.data)
+
 // ── Gebruiker ──────────────────────────────────────────────────────────────────
 
 export const fetchUser = (userId: number) =>

@@ -23,10 +23,19 @@ from app.schemas import (
     BaselineResponse
 )
 from app.baseline import recalculate_baseline_for_user
+from app.auth import get_current_user
 from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+
+
+# ── Authenticatie ──────────────────────────────────────────────────────────────
+
+@router.get("/me", response_model=UserResponse)
+def get_me(current_user: User = Depends(get_current_user)):
+    """Geeft de ingelogde gebruiker terug op basis van de sessie-cookie."""
+    return current_user
 
 
 # ── Gebruikers ─────────────────────────────────────────────────────────────────
