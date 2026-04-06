@@ -572,6 +572,41 @@ Vitalix maakt het leren **zichtbaar en uitbreidbaar:**
 
 ---
 
+### Het verschil met wearable-ecosystemen — concreet
+
+Whoop zegt: *"Get a complete picture of your health."*
+Dat is hun propositie. Ze breiden uit richting ECG, bloeddruk, AFib — steeds meer data in één apparaat.
+
+Maar het blijft **hun** plaatje. Hun algoritme bepaalt je recovery score. Je ziet het getal, niet de redenering. Je kunt niet vragen: *"Waarom is mijn recovery vandaag 58%? Is dat door mijn slaap, mijn cortisol, of mijn bloeddruk van gisteravond?"* En als je dat al vraagt aan de Whoop-app, weet die niets van je TSH, niets van je homocysteïne, niets van het probiotica-kuur die je drie weken geleden begon.
+
+**Vitalix doet iets fundamenteel anders:**
+
+Wearable-data is de *input*, niet het *eindproduct*. De Whoop (of Polar, of Oura) levert de HRV, slaap en hersteldata. Vitalix combineert dat met:
+- Bloedwaarden (TSH, hsCRP, testosteron, vitamine D, ferritine)
+- Cortisolprofiel
+- Microbioomdata
+- Dagelijkse context (alcohol, stress, ziekte)
+- Medicijnen en supplementen
+- Familiegeschiedenis
+- Actieve interventies
+
+En vergelijkt alles met **jouw eigen baseline** — niet met een populatiegemiddelde.
+
+Dan kun je vragen stellen. Niet aan een algoritme dat een getal uitspuugt, maar aan een systeem dat jouw volledige gezondheidspicture kent en zijn redenering laat zien.
+
+**Het onderscheid in één zin:**
+> Wearables vergelijken je met miljoenen andere mensen. Vitalix vergelijkt je met jezelf — en met de versie van jou die het beste functioneert.
+
+---
+
+### Communicatieprincipe: de wearable is de ingang, niet het doel
+
+In alle externe communicatie over Vitalix geldt: de wearable wordt nooit gepresenteerd als het product. Het is de sensor. Het product is het patroonherkenning + de persoonlijke context + de mogelijkheid om vragen te stellen aan een systeem dat alles weet.
+
+Dit voorkomt dat Vitalix wordt gezien als "een app bij je Whoop" — het is andersom. Vitalix gebruikt de Whoop (of Polar, of Oura) als databron. De intelligentie zit in Vitalix.
+
+---
+
 ### De inzicht-formule (vast, voor elke output)
 
 > *"Jouw [marker] ligt [X%] [boven/onder] jouw persoonlijke baseline van de afgelopen [periode]. Dit kan samenhangen met [context]. Populatienorm voor [profiel]: [range]. Als dit patroon aanhoudt is het de moeite waard dit te bespreken met je arts."*
