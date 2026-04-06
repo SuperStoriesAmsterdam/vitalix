@@ -755,3 +755,125 @@ Elk profiel voegt een extra interpretatielaag toe aan Block 2 van de prompt. De 
 
 *PRD versie 2.1 — 2026-04-02*
 *Sectie 11 en 12 toegevoegd: Positionering & Vertrouwensprincipes, Schaalmodel & Netwerkeffect*
+
+---
+
+## 13. Market Research & Competitive Landscape
+
+*Onderzoek uitgevoerd april 2026. Bronnen: developer documentatie, company websites, GitHub, PubMed, app stores.*
+
+### Het gat in de markt
+
+De markt biedt momenteel twee typen tools:
+
+1. **Raw data dashboards** — aggregeren wearable- en labdata maar bieden geen interpretatie. Voorbeelden: Apple Health, Heads Up Health.
+2. **Generieke AI health coaches** — beantwoorden gezondheidsvragen maar hebben geen toegang tot persoonlijke data van de gebruiker. Voorbeelden: ChatGPT, diverse wellness chatbots.
+
+**Vitalix zit precies in het gat tussen deze twee categorieën.** Geen enkele tool combineert momenteel multi-source persoonlijke gezondheidsdata met een AI-laag die specifiek over die data redeneert.
+
+---
+
+### Concurrentieanalyse
+
+#### Heads Up Health *(dichtstbijzijnde concurrent)*
+- Amerikaans platform dat wearables, labs en doktersdata aggregeert
+- Geen AI-interpretatielaag
+- Gepositioneerd als data-kluis, niet als insights-engine
+- Geen opgeslagen Q&A, geen anomalie-detectie op persoonlijke baseline
+- **Waarom ze dit niet snel bouwen:** hun doelgroep is breed (patiënten + artsen), een AI-laag brengt liability-risico's die ze met hun positionering niet willen aangaan. Ze bouwen voor de massa — Vitalix is scherp en specifiek.
+
+#### Whoop MCP Servers (5+ op GitHub, 2024–2025)
+- Open source projecten waarmee Claude Whoop-data conversationeel kan bevragen
+- Technisch vergelijkbaar met Vitalix's Ask-functie
+- **Alleen Whoop-data** — geen lab, geen multi-wearable ondersteuning
+- Geen interface, geen history, geen mappen — ruwe developer tools
+- Voorbeelden: nissand/whoop-mcp-server-claude, yuridivonis/whoop-mcp-server
+
+#### ald0405/whoop-data (GitHub)
+- Python project: AI-agents voor conversationeel health coaching vanuit Whoop-data
+- Bevat een eenvoudig dashboard
+- **Alleen Whoop, geen labs, geen eindgebruikersinterface**
+
+#### Terra API / Thryve / Validic *(B2B middleware)*
+- Aggregeren meerdere wearables via één unified API
+- Verkopen aan developers en enterprises, niet aan individuen
+- Geen consumer interface, geen AI, geen labdata
+- Dit zijn infrastructuurlagen — Vitalix zou ze theoretisch kunnen gebruiken als datasource
+
+#### Apple Health / Google Fit
+- Consumer aggregators ingebouwd in het OS
+- Geen labdata, geen AI, geen persoonlijke baselines
+- Apple Health heeft **geen web API** — data is opgesloten op de iPhone, alleen bereikbaar via een native iOS app
+
+#### Fitbit Web API *(deprecated)*
+- **Wordt afgesloten september 2026** na overname door Google
+- Migreert naar Google Health API (restrictiever)
+- Geen zinvolle integratie target meer
+
+#### Garmin Connect
+- Sterke hardware, slechte API
+- Niet actief geïnvesteerd door Garmin (hardware-first bedrijf)
+- Geen betekenisvolle developer community
+
+---
+
+### Wearable API Landschap
+
+| Device | API kwaliteit | Data beschikbaar | Noten |
+|--------|--------------|-----------------|-------|
+| **Whoop** | ✅ Uitstekend | HRV, recovery, sleep, strain, resting HR | OAuth2, actief developer ecosysteem, subscription businessmodel |
+| **Polar** | ✅ Goed | HRV, slaapfases, ANS-herstel, slaapscore | OAuth2, werkt maar niet actief geïnvesteerd |
+| **Withings** | ✅ Goed | Bloeddruk, resting HR, gewicht | OAuth2, betrouwbaar |
+| **Garmin** | ⚠️ Slecht | Activiteit, HR | Niet onderhouden |
+| **Fitbit** | ⚠️ Deprecated | HR, slaap | Sluit sept 2026 |
+| **Apple Watch** | ❌ Geen web API | — | HealthKit only, vereist native iOS app |
+
+**Waarom Whoop als enige serieus investeert in de API:** Whoop's businessmodel is subscription-gebaseerd (niet hardware). Een sterk developer ecosysteem verhoogt platformwaarde en verlaagt churn. Ze denken als een softwarebedrijf. Polar en Garmin verkopen hardware — de API is een bijproduct, geen prioriteit.
+
+---
+
+### Wie gebruikt de Whoop API (validatie van het ecosysteem)
+
+De kracht van Whoop's developer ecosysteem valideert de markt:
+
+- **Terra API** — unified wearable data pipeline, bedient app developers
+- **Thryve (Duitsland)** — normaliseert Whoop + 500 devices voor coaching en corporate wellness apps
+- **Validic** — enterprise digital health platform, integreert Whoop voor klinisch gebruik
+- **Strava / TrainingPeaks** — Whoop strain en recovery synct naar trainingslogboeken
+- **Pliability** — recovery-driven mobiliteitsaanbevelingen op basis van Whoop score
+- **5+ Claude MCP servers** — natural language queries over Whoop data (GitHub, 2024–2025)
+- **Academisch onderzoek** — Monash University (gefinancierd door Wu Tsai Human Performance Alliance), University of Arizona — gebruiken Whoop in gepubliceerde studies
+
+---
+
+### Labdata Landschap (Nederland)
+
+| Service | Format | Machine-readable? |
+|---------|--------|-------------------|
+| mijnlabtest.nl | PDF only (portal, 1 maand) | Nee — OCR nodig |
+| Medivere | PDF / online viewer | Nee — OCR nodig |
+| labtest.nl | PDF only (portal, 1 maand) | Nee — OCR nodig |
+| **bloedwaardentest.nl** | PDF + **CSV download** | **Ja** |
+| **Huisarts labs via MedMij/FHIR** | **FHIR R4 JSON/XML** | **Ja — gestructureerd** |
+
+**Sprint 2 aanpak:** PDF upload + OCR via Claude voor mijnlabtest/Medivere/labtest.nl, plus directe CSV import voor bloedwaardentest.nl.
+
+**Sprint 3+:** MedMij/FHIR integratie voor huisarts-labs. Dekt ~97% van Nederlandse huisartsen, gebruikt HL7 FHIR R4. Vereist formeel certificeringstraject.
+
+---
+
+### Strategische conclusie
+
+Vitalix bezet een verdedigbare positie die geen enkele huidige tool vult:
+
+> *"Het enige persoonlijke gezondheidsplatform dat multi-source wearable- en labdata combineert met een AI-laag die redeneert vanuit de individuele baseline van de gebruiker."*
+
+De marktopportuniteit wordt gevalideerd door:
+- Actief Whoop developer ecosysteem (enterprise bedrijven bouwen op dezelfde API)
+- MedMij/FHIR infrastructuur al aanwezig in Nederland voor gestructureerde gezondheidsdata
+- Groeiende consumenteninteresse in quantified self / longevity tracking
+- Geen directe concurrent die alle drie de lagen combineert: multi-source data + labs + AI-redenering
+
+---
+
+*Sectie 13 toegevoegd: Market Research & Competitive Landscape — april 2026*
