@@ -253,6 +253,101 @@ export default function Manual() {
         </div>
       </Section>
 
+      {/* ── RECOMMENDED SUPPLIERS ── */}
+      <Section title="Recommended test suppliers">
+
+        {/* Blood */}
+        <div style={{ ...CARD, marginBottom: 6 }}>
+          <p style={{ fontSize: 12, fontWeight: 700, color: '#7A7570', fontFamily: FONT, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 14px' }}>
+            Blood tests
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            <SupplierRow
+              name="mijnlabtest.nl"
+              url="https://www.mijnlabtest.nl"
+              country="🇳🇱"
+              description="Wide range of blood panels. Results as PDF within ~6 days. Recommended for hsCRP, TSH, Vitamin D, Ferritin, Homocysteine, Testosterone, HbA1c."
+            />
+            <SupplierRow
+              name="bloedwaardentest.nl"
+              url="https://www.bloedwaardentest.nl"
+              country="🇳🇱"
+              description="Same markers as mijnlabtest, but also offers CSV export — making it easier to import results directly into Vitalix."
+            />
+            <SupplierRow
+              name="labtest.nl"
+              url="https://www.labtest.nl"
+              country="🇳🇱"
+              description="Eurofins-affiliated lab. Solid panels, PDF results. Good alternative if mijnlabtest is out of stock for specific markers."
+            />
+          </div>
+        </div>
+
+        {/* Saliva / Cortisol */}
+        <div style={{ ...CARD, marginBottom: 6 }}>
+          <p style={{ fontSize: 12, fontWeight: 700, color: '#7A7570', fontFamily: FONT, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 14px' }}>
+            Saliva — cortisol profile
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            <SupplierRow
+              name="Dutch Health Store"
+              url="https://www.dutchhealthstore.com"
+              country="🇳🇱"
+              description="Cortisol day curve (4-point saliva test). Good option for mapping your morning-to-evening cortisol rhythm."
+            />
+            <SupplierRow
+              name="Medivere"
+              url="https://www.medivere.nl"
+              country="🇳🇱"
+              description="Offers cortisol saliva tests and a wide range of hormone panels. Results via secure online portal."
+            />
+          </div>
+        </div>
+
+        {/* Stool / Microbiome */}
+        <div style={{ ...CARD, marginBottom: 6 }}>
+          <p style={{ fontSize: 12, fontWeight: 700, color: '#7A7570', fontFamily: FONT, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 14px' }}>
+            Stool — microbiome
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            <SupplierRow
+              name="Medivere — Darm Microbioom Zelftest Plus"
+              url="https://www.medivere.nl"
+              country="🇳🇱"
+              description="Comprehensive microbiome analysis including diversity score, calprotectin (gut inflammation), and estrobolome markers relevant for hormonal health."
+            />
+          </div>
+        </div>
+
+        {/* Hardware */}
+        <div style={CARD}>
+          <p style={{ fontSize: 12, fontWeight: 700, color: '#7A7570', fontFamily: FONT, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 14px' }}>
+            Hardware
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            <SupplierRow
+              name="Polar Loop"
+              url="https://www.polar.com/nl/polar-loop"
+              country="🇫🇮"
+              description="Wearable for 24/7 HRV, sleep stages, ANS recovery, and sleep score. The daily baseline of Vitalix. Wear continuously including at night."
+            />
+            <SupplierRow
+              name="Whoop"
+              url="https://www.whoop.com"
+              country="🇺🇸"
+              description="Subscription-based wearable (€199/yr for ONE tier). HRV, recovery score, sleep, strain. Strong API — recommended if you want a second data point alongside Polar."
+            />
+            <SupplierRow
+              name="Withings BPM Vision"
+              url="https://www.withings.com/nl/en/bpm-vision"
+              country="🇫🇷"
+              description="Upper arm blood pressure monitor. Syncs automatically to Vitalix. Measure 2–3× per week, same time each day, before coffee, seated after 5 minutes rest."
+            />
+          </div>
+        </div>
+
+      </Section>
+
       {/* ── WHAT VITALIX IS NOT ── */}
       <Section title="What Vitalix is not">
         <div style={CARD}>
@@ -274,6 +369,42 @@ export default function Manual() {
       </Section>
 
     </div>
+  )
+}
+
+function SupplierRow({ name, url, country, description }: {
+  name: string; url: string; country: string; description: string
+}) {
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: 'flex', gap: 14, alignItems: 'flex-start',
+        padding: '12px 0',
+        borderBottom: '1px solid #F0F0F0',
+        textDecoration: 'none',
+        cursor: 'pointer',
+      }}
+    >
+      <span style={{ fontSize: 18, flexShrink: 0, marginTop: 1 }}>{country}</span>
+      <div style={{ flex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+          <span style={{
+            fontSize: 14, fontWeight: 600, color: '#0F5F72', fontFamily: FONT,
+          }}>
+            {name}
+          </span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0F5F72" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.6, flexShrink: 0 }}>
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+        </div>
+        <p style={{ ...MUTED, fontSize: 13, margin: 0 }}>{description}</p>
+      </div>
+    </a>
   )
 }
 
