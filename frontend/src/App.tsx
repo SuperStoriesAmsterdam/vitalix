@@ -7,6 +7,7 @@ import Trends from './pages/Trends'
 import Lab from './pages/Lab'
 import Alertes from './pages/Alertes'
 import Ask from './pages/Ask'
+import Guide from './pages/Guide'
 import './index.css'
 
 const queryClient = new QueryClient({
@@ -32,6 +33,7 @@ export default function App() {
         {page === 'lab' && <Lab userId={USER_ID} />}
         {page === 'alerts' && <Alertes userId={USER_ID} />}
         {page === 'ask' && <Ask userId={USER_ID} />}
+        {page === 'guide' && <Guide />}
         {page === 'instellingen' && <Profile userId={USER_ID} />}
       </Layout>
     </QueryClientProvider>
