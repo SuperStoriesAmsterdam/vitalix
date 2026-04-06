@@ -81,13 +81,22 @@ export interface Intervention {
   notes: string | null
 }
 
+export interface InsightFolder {
+  id: number
+  name: string
+  created_at: string
+  insight_count: number
+}
+
 export interface Insight {
   id: number
   created_at: string
   insight_type: string
   question: string | null
+  title: string | null
   content: string
   is_read: boolean
+  folder_id: number | null
 }
 
 export interface DailyInputCreate {

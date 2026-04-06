@@ -55,6 +55,7 @@ class User(Base):
     alerts = relationship("Alert", back_populates="user")
     daily_inputs = relationship("DailyInput", back_populates="user")
     insights = relationship("Insight", back_populates="user")
+    insight_folders = relationship("InsightFolder", back_populates="user")
 
 
 class BloodPressureMeasurement(Base):
@@ -210,12 +211,31 @@ class Insight(Base):
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
     insight_type = Column(String, nullable=False)   # 'question', 'anomaly', 'trend', 'daily'
     question = Column(Text, nullable=True)           # de vraag van de gebruiker (als type=question)
+    title = Column(String, nullable=True)            # bewerkbare titel, standaard eerste 60 tekens van vraag
     content = Column(Text, nullable=False)           # Claude's antwoord
     thinking = Column(Text, nullable=True)           # Claude's redenering (optioneel)
     marker_names = Column(JSON, nullable=True)       # welke markers zijn gebruikt
     is_read = Column(Boolean, default=False)
+    folder_id = Column(Integer, ForeignKey("insight_folders.id"), nullable=True, index=True)
 
     user = relationship("User", back_populates="insights")
+    folder = relationship("InsightFolder", back_populates="insights")
+
+
+class InsightFolder(Base):
+    """
+    Map voor het organiseren van inzichten/vragen per thema.
+    Gebruiker maakt zelf mappen aan en benoemt ze.
+    """
+    __tablename__ = "insight_folders"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    name = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User", back_populates="insight_folders")
+    insights = relationship("Insight", back_populates="folder")
 
 
 class MagicLinkToken(Base):
