@@ -593,7 +593,8 @@ function FolderRow({
 
 export default function Ask({ userId }: AskProps) {
   // Filter state: null = alle vragen, 0 = geen map, N = folder id
-  const [activeFilter, setActiveFilter] = useState<number | null>(null)
+  // Default = 0 (geen map) zodat vragen in een map verdwijnen uit de hoofdweergave
+  const [activeFilter, setActiveFilter] = useState<number | null>(0)
   const [showNewQuestion, setShowNewQuestion] = useState(false)
   const [addingFolder, setAddingFolder] = useState(false)
   const [newFolderName, setNewFolderName] = useState('')
