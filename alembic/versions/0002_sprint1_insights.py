@@ -8,7 +8,11 @@ Voegt toe:
   - insight_folders tabel (persoonlijke mappenstructuur voor Claude Q&A)
   - insights tabel (opgeslagen vragen + antwoorden + AI-inzichten)
 
-Idempotent: veilig om meerdere keren uit te voeren via IF NOT EXISTS.
+Idempotent: veilig om meerdere keren uit te voeren.
+Handelt drie situaties af:
+  A) Tabellen bestaan niet → aanmaken
+  B) Tabellen bestaan (via create_all) zonder folder_id/title → kolommen toevoegen
+  C) Tabellen bestaan al volledig → niets doen
 """
 from alembic import op
 
@@ -19,7 +23,7 @@ depends_on = None
 
 
 def upgrade() -> None:
-    # insight_folders
+    # ── insight_folders ────────────────────────────────────────────────────────
     op.execute("""
         CREATE TABLE IF NOT EXISTS insight_folders (
             id SERIAL NOT NULL,
@@ -32,7 +36,7 @@ def upgrade() -> None:
     op.execute("CREATE INDEX IF NOT EXISTS ix_insight_folders_id ON insight_folders(id)")
     op.execute("CREATE INDEX IF NOT EXISTS ix_insight_folders_user_id ON insight_folders(user_id)")
 
-    # insights
+    # ── insights — maak tabel aan als die niet bestaat ─────────────────────────
     op.execute("""
         CREATE TABLE IF NOT EXISTS insights (
             id SERIAL NOT NULL,
@@ -49,6 +53,15 @@ def upgrade() -> None:
             PRIMARY KEY (id)
         )
     """)
+
+    # ── kolommen toevoegen als ze missen (tabel bestond al via create_all) ─────
+    op.execute("""
+        ALTER TABLE insights
+            ADD COLUMN IF NOT EXISTS title VARCHAR,
+            ADD COLUMN IF NOT EXISTS folder_id INTEGER REFERENCES insight_folders(id)
+    """)
+
+    # ── indexes ────────────────────────────────────────────────────────────────
     op.execute("CREATE INDEX IF NOT EXISTS ix_insights_id ON insights(id)")
     op.execute("CREATE INDEX IF NOT EXISTS ix_insights_user_id ON insights(user_id)")
     op.execute("CREATE INDEX IF NOT EXISTS ix_insights_created_at ON insights(created_at)")
