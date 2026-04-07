@@ -286,20 +286,20 @@ export default function Manual() {
         {/* Saliva / Cortisol */}
         <div style={{ ...CARD, marginBottom: 6 }}>
           <p style={{ fontSize: 12, fontWeight: 700, color: '#7A7570', fontFamily: FONT, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 14px' }}>
-            Saliva — cortisol profile
+            Saliva — cortisol &amp; stress profile
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             <SupplierRow
-              name="Dutch Health Store"
-              url="https://www.dutchhealthstore.com"
+              name="Medivere — Stressprofiel Plus (€169)"
+              url="https://medivere.nl/Stressprofiel-plus--Medivere--1-st"
               country="🇳🇱"
-              description="Cortisol day curve (4-point saliva test). Good option for mapping your morning-to-evening cortisol rhythm."
+              description="Most complete cortisol package: 7 saliva samples throughout the day (5 values) + DHEA morning and evening. Maps your full cortisol day curve and adrenal reserve. Recommended over the basic cortisol test."
             />
             <SupplierRow
-              name="Medivere"
-              url="https://www.medivere.nl"
+              name="Medivere — Cortisol Awakening Response (€95)"
+              url="https://medivere.nl/products/cortisol-awakening-response-car"
               country="🇳🇱"
-              description="Offers cortisol saliva tests and a wide range of hormone panels. Results via secure online portal."
+              description="5 saliva samples in the first hour after waking. Specifically measures HPA axis adrenal activity. Use this if you want to focus on morning cortisol rhythm only."
             />
           </div>
         </div>
@@ -307,14 +307,20 @@ export default function Manual() {
         {/* Stool / Microbiome */}
         <div style={{ ...CARD, marginBottom: 6 }}>
           <p style={{ fontSize: 12, fontWeight: 700, color: '#7A7570', fontFamily: FONT, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 14px' }}>
-            Stool — microbiome
+            Stool — microbiome &amp; gut health
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             <SupplierRow
-              name="Medivere — Darm Microbioom Zelftest Plus"
-              url="https://www.medivere.nl"
+              name="Medivere — Darm Microbioom Zelftest Plus (€359.95)"
+              url="https://medivere.nl/Darm-Microbioom-Plus-ontlastingtest"
               country="🇳🇱"
-              description="Comprehensive microbiome analysis including diversity score, calprotectin (gut inflammation), and estrobolome markers relevant for hormonal health."
+              description="The recommended gut test for Vitalix users. Includes: microbiome diversity (16S NGS sequencing), zonulin (intestinal permeability / leaky gut), secretory IgA (gut immunity), calprotectin (gut inflammation), candida species detection, estrobolome markers, parasite PCR panel."
+            />
+            <SupplierRow
+              name="Medivere — Darm Microbioom Zelftest Premium (€429.95)"
+              url="https://medivere.nl/Darm-Microbioom-ontlastingstest-Premium"
+              country="🇳🇱"
+              description="Same as Plus with extended parasite PCR and deeper molecular analysis. Relevant if you have a history of parasitic infection or travel to high-risk regions."
             />
           </div>
         </div>
