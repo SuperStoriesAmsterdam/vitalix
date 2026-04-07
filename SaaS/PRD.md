@@ -877,3 +877,100 @@ De marktopportuniteit wordt gevalideerd door:
 ---
 
 *Sectie 13 toegevoegd: Market Research & Competitive Landscape — april 2026*
+
+---
+
+## 14. Patroonherkenning & Medische Positionering
+
+### De kernthese
+
+Vitalix is geen diagnostisch hulpmiddel. Vitalix is een **informatieaggregator** die patronen herkent die individuele artsen structureel missen — niet omdat artsen onbekwaam zijn, maar omdat geen enkele arts hsCRP, HRV, AMH, slaapkwaliteit en hormoonwaarden tegelijk over zes maanden ziet.
+
+Het gemiddelde diagnostische traject voor endometriose duurt 7–10 jaar. Dat is geen medisch falen. Dat is een informatieprobleem.
+
+### Wat Vitalix kan zeggen — en wat niet
+
+**Niet:** "Je hebt mogelijk endometriose."
+**Wel:** "Je vertoont een combinatie van chronische ontstekingsmarkers, verstoorde HRV en hormonale signalen die consistent zijn met een onderliggende inflammatoire aandoening. Dit is de moeite waard om te bespreken met je gynaecoloog."
+
+Dit onderscheid is zowel juridisch als medisch-ethisch essentieel. "Dit patroon verdient aandacht van een arts" is waardevol én legaal. Een ziektediagnose stellen is dat niet.
+
+### Juridisch kader: MDR (Medical Device Regulation)
+
+Zodra software een patroon herkent dat leidt tot een klinische beslissing, valt het onder de Europese MDR (EU 2017/745) als medisch hulpmiddel. Vitalix bevindt zich bewust op de grens:
+
+- **Buiten MDR:** informatie aggregeren, trends tonen, vragen beantwoorden op basis van gebruikersdata
+- **Binnen MDR-risico:** automatisch een specifieke aandoening suggereren op basis van een markerpatroon
+
+**Strategie:** formulering blijft altijd op het niveau van "patroon dat aandacht verdient" + doorverwijzing naar arts. Geen ziektenamen in automatische alerts. Wel in antwoorden op expliciete gebruikersvragen (Claude beantwoordt vragen, diagnosticeert niet).
+
+### Welke patronen Vitalix kan herkennen (toekomstige capability)
+
+Dit is geen Sprint 1 of 2 functionaliteit — het is de richting voor Sprint 4+. De architectuur (Bible-systeem, persoonlijke baseline, multi-marker data) is er al op gebouwd.
+
+Voorbeelden van herkenbare patronen:
+
+| Patroon | Mogelijke context | Markers nodig |
+|---------|-------------------|---------------|
+| Chronische inflammatie + lage HRV + verstoorde slaap + laag AMH | Inflammatoire gynaecologische aandoening | hsCRP, HRV, AMH, slaapscore |
+| Laag nuchter insuline + stijgende HbA1c + dalende HRV | Vroege insulineresistentie | Insuline, HbA1c, HRV |
+| Normale TSH + anti-TPO positief + lage HRV + vermoeidheid | Vroeg Hashimoto's | TSH, anti-TPO, HRV |
+| Lage DHEA-S + lage testosteron + lage HRV + slechte slaap | Andropauze / bijnieruitputting | DHEA-S, testosteron, HRV, slaap |
+| Laag sIgA + hoog zonuline + lage diversiteitsscore + verhoogd hsCRP | Leaky gut / dysbiose | sIgA, zonuline, microbioom, hsCRP |
+
+### Investeerderspositie
+
+Dit is het netwerkeffect van Vitalix dat geen individuele arts kan repliceren: hoe meer gebruikers, hoe beter de patroonherkenning. Een cohort van 500 vrouwen met endometriose-gerelateerde markerpatronen is medisch waardevoller dan een individuele casus.
+
+> *"Vitalix bouwt het enige longitudinale gezondheidsplatform dat individuele markers verbindt tot patronen die clinici structureel missen — en dat doet op een schaal die individuele artspraktijken nooit kunnen bereiken."*
+
+---
+
+## 15. Uitgebreide Markersets — Gaps en Toevoegingen
+
+### Markers die nu ontbreken maar diagnostische blindevlekken creëren
+
+#### Cardiovasculair
+| Marker | Waarom | Beschikbaar bij |
+|--------|--------|-----------------|
+| **ApoB** | Betere predictor van CV-risico dan LDL. Iemand met "normaal cholesterol" maar hoog ApoB loopt echt risico. | mijnlabtest.nl (Pick & Mix €20) |
+| **Lp(a)** | Genetisch CV-risico bij ~20% bevolking. Niet beïnvloedbaar maar cruciaal om te weten. LDL mist dit volledig. | Gespecialiseerde labs, huisarts |
+
+#### Metabolisme
+| Marker | Waarom | Beschikbaar bij |
+|--------|--------|-----------------|
+| **Nuchter insuline + HOMA-IR** | Signaleert insulineresistentie jaren vóór HbA1c het toont. Het vroegste metabole signaal. | Huisarts of gespecialiseerde labs |
+| **Urinezuur** | Indicator metabool syndroom, gicht-risico, fructose-metabolisme. | mijnlabtest.nl (Pick & Mix) |
+
+#### Schildklier / auto-immuun
+| Marker | Waarom | Beschikbaar bij |
+|--------|--------|-----------------|
+| **Anti-TPO antilichamen** | Vroeg Hashimoto's — kan jarenlang aanwezig zijn bij normale TSH. | mijnlabtest.nl, huisarts |
+| **FT3 + FT4** | TSH alleen is onvoldoende bij verdenking Hashimoto's of behandeling. | mijnlabtest.nl (Schildklier profiel €65) |
+
+#### Veroudering / bijnieren
+| Marker | Waarom | Beschikbaar bij |
+|--------|--------|-----------------|
+| **DHEA-S** | Bijnierfunctie en verouderingsmarker. Daalt na 40e, correleert met herstelcapaciteit en energie. Relevant voor 45+ doelgroep. | Medivere, gespecialiseerde labs |
+
+#### Inflammatie / omega
+| Marker | Waarom | Beschikbaar bij |
+|--------|--------|-----------------|
+| **Omega-3 index (EPA/DHA)** | Lage omega-3 verlaagt HRV, verhoogt inflammatie, verslechtert slaap. Verklaart chronisch lage HRV zonder andere aanwijzing. | mijnlabtest.nl (standalone €79) |
+
+#### Darmgezondheid (uitbreiding op microbioom)
+| Marker | Waarom | Beschikbaar bij |
+|--------|--------|-----------------|
+| **Zonuline** | Directe maat voor intestinale permeabiliteit (leaky gut). Verhoogd bij auto-immuun, inflammatie, mentale klachten via darm-hersen-as. | Medivere, Dutch Health Store |
+| **sIgA (secretoir IgA)** | Primaire immuunverdediging in de darm. Laag sIgA = verzwakte darmimmuniteit. Cortisol (stress) onderdrukt sIgA direct — de link tussen stress en darmproblemen zit hier. | Medivere microbioom test (al deels gedekt) |
+| **IgG candida antilichamen** | Chronische candida-blootstelling. Relevant bij aanhoudende vermoeidheid, hersenmist, spijsverteringsklachten zonder duidelijke oorzaak. Gespecialiseerde functionele geneeskunde. | Dutch Health Store, Medivere |
+
+### De darm-brein-as als onderbenut signaal
+
+sIgA, zonuline en het microbioom raken direct aan mentale gezondheid via de darm-hersen-as. Een gebruiker met chronisch lage sIgA + verstoord microbioom + lage HRV heeft een herkenbaar patroon dat wijst op stress-geïnduceerde darmpermeabiliteit — iets wat in reguliere zorg zelden als samenhangend geheel wordt gezien.
+
+Dit is precies het type patroon waarbij Vitalix meerwaarde biedt boven individuele labresultaten.
+
+---
+
+*Secties 14 en 15 toegevoegd: Patroonherkenning & Medische Positionering, Uitgebreide Markersets — april 2026*
