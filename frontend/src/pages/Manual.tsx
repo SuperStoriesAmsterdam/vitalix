@@ -272,7 +272,13 @@ export default function Manual() {
               name="bloedwaardentest.nl"
               url="https://www.bloedwaardentest.nl"
               country="🇳🇱"
-              description="Same markers as mijnlabtest, but also offers CSV export — making it easier to import results directly into Vitalix."
+              description="Same markers as mijnlabtest, but also offers CSV export — making it easier to import results directly into Vitalix. Also offers Candida IgG antibodies (blood test) — not available at mijnlabtest."
+            />
+            <SupplierRow
+              name="bloedwaardentest.nl — Candida Albicans IgG"
+              url="https://www.bloedwaardentest.nl/candida-albicans-igg.html"
+              country="🇳🇱"
+              description="Specific blood test for chronic Candida exposure via IgG antibodies. Relevant if you suspect systemic candida alongside gut symptoms. Order separately or combine with your regular blood panel."
             />
             <SupplierRow
               name="labtest.nl"
